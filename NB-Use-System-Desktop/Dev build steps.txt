@@ -1,0 +1,11 @@
+Broad steps at
+http://wiki.netbeans.org/DevFaqSignNbm
+
+in a command prompt
+traverse to the Module directory
+Run this command
+keytool -genkey -storepass lordofgods -alias Rudhra -keystore nbproject/private/keystore
+
+Provide the inputs asked.
+
+Follow steps in the Netbeans wiki http://wiki.netbeans.org/DevFaqSignNbm
