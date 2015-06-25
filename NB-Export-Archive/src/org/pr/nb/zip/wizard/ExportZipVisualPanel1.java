@@ -8,8 +8,10 @@ package org.pr.nb.zip.wizard;
 import java.io.File;
 import javax.swing.JFileChooser;
 import javax.swing.JPanel;
+import javax.swing.event.ChangeListener;
 import org.openide.filesystems.FileObject;
 import org.openide.filesystems.FileUtil;
+import org.openide.util.ChangeSupport;
 import org.openide.util.NbBundle.Messages;
 import org.pr.nb.zip.UserSelections;
 
@@ -17,6 +19,7 @@ import org.pr.nb.zip.UserSelections;
     "ExportZipVisualPanel1_NAME=Destination details",
     "ExportZipVisualPanel1.locationLabel.text=Location",
     "ExportZipVisualPanel1.fileNameLabel.text=File Name",
+    "ExportZipVisualPanel1.browseButton.text=...",
     "ExportZipVisualPanel1.jfilechooser.approvebutton.text=Select"
 })
 public final class ExportZipVisualPanel1 extends JPanel implements ComponentMessagingInterface {
@@ -26,11 +29,20 @@ public final class ExportZipVisualPanel1 extends JPanel implements ComponentMess
      */
     public ExportZipVisualPanel1() {
         initComponents();
+        support = new ChangeSupport(this);
     }
 
     @Override
     public String getName() {
         return Bundle.ExportZipVisualPanel1_NAME();
+    }
+
+    public void addChangeListener(ChangeListener l) {
+        support.addChangeListener(l);
+    }
+
+    public void removeChangeListener(ChangeListener l) {
+        support.removeChangeListener(l);
     }
 
     /**
@@ -53,11 +65,7 @@ public final class ExportZipVisualPanel1 extends JPanel implements ComponentMess
         jLabel2.setLabelFor(destinationDirectoryTextField);
         org.openide.awt.Mnemonics.setLocalizedText(jLabel2, Bundle.ExportZipVisualPanel1_locationLabel_text());
 
-        destinationDirectoryTextField.setText(org.openide.util.NbBundle.getMessage(ExportZipVisualPanel1.class, "ExportZipVisualPanel1.destinationDirectoryTextField.text")); // NOI18N
-
-        org.openide.awt.Mnemonics.setLocalizedText(extensionLabel, org.openide.util.NbBundle.getMessage(ExportZipVisualPanel1.class, "ExportZipVisualPanel1.extensionLabel.text")); // NOI18N
-
-        org.openide.awt.Mnemonics.setLocalizedText(browseButton, org.openide.util.NbBundle.getMessage(ExportZipVisualPanel1.class, "ExportZipVisualPanel1.browseButton.text")); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(browseButton, Bundle.ExportZipVisualPanel1_browseButton_text());
         browseButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 browseButtonActionPerformed(evt);
@@ -74,17 +82,19 @@ public final class ExportZipVisualPanel1 extends JPanel implements ComponentMess
                     .addComponent(jLabel1)
                     .addComponent(jLabel2))
                 .addGap(36, 36, 36)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(destinationFileNameTextField)
-                    .addComponent(destinationDirectoryTextField))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(destinationFileNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(destinationDirectoryTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 342, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(extensionLabel)
                     .addComponent(browseButton))
-                .addContainerGap(15, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {browseButton, extensionLabel});
+
+        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {destinationDirectoryTextField, destinationFileNameTextField});
 
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -110,7 +120,7 @@ public final class ExportZipVisualPanel1 extends JPanel implements ComponentMess
     private void browseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_browseButtonActionPerformed
         // TODO add your handling code here:
         String dirName = destinationDirectoryTextField.getText();
-        if("".equals(dirName)){
+        if ("".equals(dirName)) {
             dirName = ".";
         }
         File curFile = new File(dirName);
@@ -121,12 +131,12 @@ public final class ExportZipVisualPanel1 extends JPanel implements ComponentMess
         chooser.setCurrentDirectory(curFile.getParentFile());
         chooser.setApproveButtonText(Bundle.ExportZipVisualPanel1_jfilechooser_approvebutton_text());
         int option = chooser.showOpenDialog(this);
-        if(option == JFileChooser.APPROVE_OPTION){
+        if (option == JFileChooser.APPROVE_OPTION) {
             File selFile = chooser.getSelectedFile();
             FileObject fobj = FileUtil.toFileObject(selFile);
             destinationDirectoryTextField.setText(FileUtil.getFileDisplayName(fobj));
         }
-        
+
     }//GEN-LAST:event_browseButtonActionPerformed
     @Override
     public void setValue(UserSelections selections) {
@@ -158,7 +168,7 @@ public final class ExportZipVisualPanel1 extends JPanel implements ComponentMess
         boolean verify1 = archiveName != null && !"".equals(archiveName);
         boolean verify2 = false;
         String destinationDirName = destinationDirectoryTextField.getText();
-        if(destinationDirName != null && !"".equals(destinationDirName)){
+        if (destinationDirName != null && !"".equals(destinationDirName)) {
             File file = new File(destinationDirName);
             FileObject obj = FileUtil.toFileObject(file);
             verify2 = !obj.isVirtual() && obj.isFolder() && obj.isValid();
@@ -176,5 +186,6 @@ public final class ExportZipVisualPanel1 extends JPanel implements ComponentMess
     // End of variables declaration//GEN-END:variables
 
     private UserSelections selections;
+    private ChangeSupport support;
 
 }

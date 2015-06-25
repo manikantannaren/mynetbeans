@@ -5,9 +5,11 @@
  */
 package org.pr.nb.zip.wizard;
 
+import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import org.openide.WizardDescriptor;
 import org.openide.WizardValidationException;
+import org.openide.util.ChangeSupport;
 import org.openide.util.HelpCtx;
 import org.openide.util.NbBundle.Messages;
 import org.pr.nb.zip.UserSelections;
@@ -17,13 +19,14 @@ import org.pr.nb.zip.UserSelections;
     "ERROR_MSG_EMPTY_FILE_NAME=File name cannot be empty and destination directory must exist",
     "ExportZipWizardPanel1_INFO_MSG=Provide an archive file name and choose destination directory"
 })
-public class ExportZipWizardPanel1 implements WizardDescriptor.ValidatingPanel<WizardDescriptor> {
+public class ExportZipWizardPanel1 implements WizardDescriptor.ValidatingPanel<WizardDescriptor>, ChangeListener {
 
     /**
      * The visual component that displays this panel. If you need to access the component from this
      * class, just use getComponent().
      */
     private ExportZipVisualPanel1 component;
+    private ChangeSupport changeSupport = new ChangeSupport(this);
 
     // Get the visual component for the panel. In this template, the component
     // is kept separate. This can be more efficient: if the wizard is created
@@ -33,6 +36,7 @@ public class ExportZipWizardPanel1 implements WizardDescriptor.ValidatingPanel<W
     public ExportZipVisualPanel1 getComponent() {
         if (component == null) {
             component = new ExportZipVisualPanel1();
+            component.addChangeListener(this);
         }
         return component;
     }
@@ -48,6 +52,7 @@ public class ExportZipWizardPanel1 implements WizardDescriptor.ValidatingPanel<W
     @Override
     public boolean isValid() {
         boolean retValue = getComponent().isPanelValid();
+        changeSupport.fireChange();
         return retValue;
         // If it depends on some condition (form filled out...) and
         // this condition changes (last form field filled in...) then
@@ -57,10 +62,12 @@ public class ExportZipWizardPanel1 implements WizardDescriptor.ValidatingPanel<W
 
     @Override
     public void addChangeListener(ChangeListener l) {
+        changeSupport.addChangeListener(l);
     }
 
     @Override
     public void removeChangeListener(ChangeListener l) {
+        changeSupport.removeChangeListener(l);
     }
 
     @Override
@@ -81,6 +88,11 @@ public class ExportZipWizardPanel1 implements WizardDescriptor.ValidatingPanel<W
         if(!isValid()){
             throw new WizardValidationException(getComponent(), "Panel invalid", Bundle.ERROR_MSG_EMPTY_FILE_NAME());
         }
+    }
+
+    @Override
+    public void stateChanged(ChangeEvent e) {
+        changeSupport.fireChange();
     }
 
 }

@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import javax.swing.JComponent;
+import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import org.openide.WizardDescriptor;
 import org.openide.util.ChangeSupport;
@@ -24,7 +25,7 @@ import org.openide.util.NbBundle.Messages;
     "# {1} - Total number of steps",
     "ExportArchiveWizard.stepname.formatted.text=Step {0} of {1}"
 })
-public final class ExportZipWizardIterator implements WizardDescriptor.Iterator<WizardDescriptor> {
+public final class ExportZipWizardIterator implements WizardDescriptor.Iterator<WizardDescriptor>, ChangeListener {
 
     // Example of invoking this wizard:
     // @ActionID(category="...", id="...")
@@ -53,9 +54,15 @@ public final class ExportZipWizardIterator implements WizardDescriptor.Iterator<
     private List<WizardDescriptor.Panel<WizardDescriptor>> getPanels() {
         if (panels == null) {
             panels = new ArrayList<WizardDescriptor.Panel<WizardDescriptor>>();
-            panels.add(new ExportZipWizardPanel1());
-            panels.add(new ExportZipWizardPanel2());
-            panels.add(new ExportZipWizardPanel3());
+            WizardDescriptor.Panel<WizardDescriptor> panel = new ExportZipWizardPanel1();
+            panel.addChangeListener(this);
+            panels.add(panel);
+            panel = new ExportZipWizardPanel2();
+            panel.addChangeListener(this);
+            panels.add(panel);
+            panel = new ExportZipWizardPanel3();
+            panel.addChangeListener(this);
+            panels.add(panel);
             String[] steps = new String[panels.size()];
             for (int i = 0; i < panels.size(); i++) {
                 Component c = panels.get(i).getComponent();
@@ -124,5 +131,10 @@ public final class ExportZipWizardIterator implements WizardDescriptor.Iterator<
     // the number of panels changes in response to user input, then use
     // ChangeSupport to implement add/removeChangeListener and call fireChange
     // when needed
+
+    @Override
+    public void stateChanged(ChangeEvent e) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 
 }

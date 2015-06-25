@@ -10,7 +10,8 @@ import java.util.List;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.ListModel;
-import org.openide.filesystems.FileObject;
+import javax.swing.event.ChangeListener;
+import org.openide.util.ChangeSupport;
 import org.openide.util.NbBundle;
 import org.pr.nb.zip.UserSelections;
 
@@ -23,13 +24,14 @@ import org.pr.nb.zip.UserSelections;
 })
 public final class ExportZipVisualPanel2 extends JPanel implements ComponentMessagingInterface {
 
-    private UserSelections selections;
 
+    
     /**
      * Creates new form ExportZipVisualPanel2
      */
     public ExportZipVisualPanel2() {
         initComponents();
+        support = new ChangeSupport(this);
     }
 
     @Override
@@ -214,6 +216,14 @@ public final class ExportZipVisualPanel2 extends JPanel implements ComponentMess
         ExportArchiveListModel model = (ExportArchiveListModel) newSelectionList.getModel();
         return model.getSize() > 0;
     }
+    
+    public void addChangeListener(ChangeListener l) {
+        support.addChangeListener(l);
+    }
+
+    public void removeChangeListener(ChangeListener l) {
+        support.removeChangeListener(l);
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addAllButton;
@@ -228,5 +238,7 @@ public final class ExportZipVisualPanel2 extends JPanel implements ComponentMess
     private javax.swing.JButton removeAllButton;
     private javax.swing.JButton removeSelectedButton;
     // End of variables declaration//GEN-END:variables
+    private UserSelections selections;
 
+    private ChangeSupport support;
 }

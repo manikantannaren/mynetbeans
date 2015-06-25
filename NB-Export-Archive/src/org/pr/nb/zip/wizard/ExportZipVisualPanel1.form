@@ -23,16 +23,16 @@
                   <Component id="jLabel2" alignment="0" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                  <Component id="destinationFileNameTextField" max="32767" attributes="0"/>
-                  <Component id="destinationDirectoryTextField" max="32767" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="destinationFileNameTextField" linkSize="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="destinationDirectoryTextField" linkSize="3" min="-2" pref="342" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="extensionLabel" linkSize="2" min="-2" max="-2" attributes="0"/>
                   <Component id="browseButton" linkSize="2" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace pref="15" max="32767" attributes="0"/>
+              <EmptySpace max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -82,23 +82,13 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="destinationDirectoryTextField">
-      <Properties>
-        <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-          <ResourceString bundle="org/pr/nb/zip/wizard/Bundle.properties" key="ExportZipVisualPanel1.destinationDirectoryTextField.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
-        </Property>
-      </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="extensionLabel">
-      <Properties>
-        <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-          <ResourceString bundle="org/pr/nb/zip/wizard/Bundle.properties" key="ExportZipVisualPanel1.extensionLabel.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
-        </Property>
-      </Properties>
     </Component>
     <Component class="javax.swing.JButton" name="browseButton">
       <Properties>
-        <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-          <ResourceString bundle="org/pr/nb/zip/wizard/Bundle.properties" key="ExportZipVisualPanel1.browseButton.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+        <Property name="text" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+          <Connection code="Bundle.ExportZipVisualPanel1_browseButton_text()" type="code"/>
         </Property>
       </Properties>
       <Events>
