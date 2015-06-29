@@ -8,7 +8,6 @@ package org.pr.nb.zip.wizard;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import org.openide.WizardDescriptor;
-import org.openide.WizardValidationException;
 import org.openide.util.ChangeSupport;
 import org.openide.util.HelpCtx;
 import org.openide.util.NbBundle;
@@ -18,7 +17,7 @@ import org.pr.nb.zip.UserSelections;
     "ERROR_MSG_EMPTY_SELECTION=Must choose contents to archive",
     "ExportZipWizardPanel2_INFO_MSG=Choose the contents to archive"
 })
-public class ExportZipWizardPanel2 implements WizardDescriptor.ValidatingPanel<WizardDescriptor>, ChangeListener {
+public class ExportZipWizardPanel2 implements WizardDescriptor.Panel<WizardDescriptor>, ChangeListener {
 
     /**
      * The visual component that displays this panel. If you need to access the component from this
@@ -80,18 +79,6 @@ public class ExportZipWizardPanel2 implements WizardDescriptor.ValidatingPanel<W
     public void storeSettings(WizardDescriptor wiz) {
         // use wiz.putProperty to remember current panel state
         wiz.putProperty(UserSelections.USER_SELECTION, getComponent().getValue());
-        if(!isValid()){
-            wiz.putProperty(WizardDescriptor.PROP_ERROR_MESSAGE, Bundle.ERROR_MSG_EMPTY_SELECTION());
-        }else{
-            wiz.putProperty(WizardDescriptor.PROP_ERROR_MESSAGE, "");
-        }
-    }
-
-    @Override
-    public void validate() throws WizardValidationException {
-        if(!isValid()){
-            throw new WizardValidationException(getComponent(), "Invalid panel", Bundle.ERROR_MSG_EMPTY_SELECTION());
-        }
     }
 
     @Override

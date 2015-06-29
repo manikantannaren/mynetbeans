@@ -9,6 +9,8 @@ import java.awt.Component;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JComponent;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -25,7 +27,7 @@ import org.openide.util.NbBundle.Messages;
     "# {1} - Total number of steps",
     "ExportArchiveWizard.stepname.formatted.text=Step {0} of {1}"
 })
-public final class ExportZipWizardIterator implements WizardDescriptor.Iterator<WizardDescriptor>, ChangeListener {
+public final class ExportZipWizardIterator implements WizardDescriptor.Iterator<WizardDescriptor>, ChangeListener{
 
     // Example of invoking this wizard:
     // @ActionID(category="...", id="...")
@@ -50,6 +52,7 @@ public final class ExportZipWizardIterator implements WizardDescriptor.Iterator<
     private List<WizardDescriptor.Panel<WizardDescriptor>> panels;
 
     private ChangeSupport changeSupport = new ChangeSupport(this);
+    private Logger logger = Logger.getLogger(ExportZipWizardIterator.class.getName());
 
     private List<WizardDescriptor.Panel<WizardDescriptor>> getPanels() {
         if (panels == null) {
@@ -58,10 +61,10 @@ public final class ExportZipWizardIterator implements WizardDescriptor.Iterator<
             panel.addChangeListener(this);
             panels.add(panel);
             panel = new ExportZipWizardPanel2();
-            panel.addChangeListener(this);
+//            panel.addChangeListener(this);
             panels.add(panel);
             panel = new ExportZipWizardPanel3();
-            panel.addChangeListener(this);
+//            panel.addChangeListener(this);
             panels.add(panel);
             String[] steps = new String[panels.size()];
             for (int i = 0; i < panels.size(); i++) {
@@ -134,7 +137,8 @@ public final class ExportZipWizardIterator implements WizardDescriptor.Iterator<
 
     @Override
     public void stateChanged(ChangeEvent e) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+//        logger.log(Level.INFO, (String) e.toString());
     }
+
 
 }

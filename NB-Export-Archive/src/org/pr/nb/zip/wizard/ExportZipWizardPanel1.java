@@ -5,6 +5,8 @@
  */
 package org.pr.nb.zip.wizard;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import org.openide.WizardDescriptor;
@@ -14,19 +16,20 @@ import org.openide.util.HelpCtx;
 import org.openide.util.NbBundle.Messages;
 import org.pr.nb.zip.UserSelections;
 
-
 @Messages({
     "ERROR_MSG_EMPTY_FILE_NAME=File name cannot be empty and destination directory must exist",
     "ExportZipWizardPanel1_INFO_MSG=Provide an archive file name and choose destination directory"
 })
-public class ExportZipWizardPanel1 implements WizardDescriptor.ValidatingPanel<WizardDescriptor>, ChangeListener {
+public class ExportZipWizardPanel1 implements WizardDescriptor.Panel<WizardDescriptor>, ChangeListener {
 
     /**
-     * The visual component that displays this panel. If you need to access the component from this
-     * class, just use getComponent().
+     * The visual component that displays this panel. If you need to access the
+     * component from this class, just use getComponent().
      */
     private ExportZipVisualPanel1 component;
-    private ChangeSupport changeSupport = new ChangeSupport(this);
+    private Logger logger = Logger.getLogger(ExportZipWizardPanel1.class.getName());
+    private ChangeSupport support = new ChangeSupport(this);
+    private WizardDescriptor data = null;
 
     // Get the visual component for the panel. In this template, the component
     // is kept separate. This can be more efficient: if the wizard is created
@@ -51,48 +54,50 @@ public class ExportZipWizardPanel1 implements WizardDescriptor.ValidatingPanel<W
 
     @Override
     public boolean isValid() {
+
         boolean retValue = getComponent().isPanelValid();
-        changeSupport.fireChange();
-        return retValue;
+
         // If it depends on some condition (form filled out...) and
         // this condition changes (last form field filled in...) then
         // use ChangeSupport to implement add/removeChangeListener below.
         // WizardDescriptor.ERROR/WARNING/INFORMATION_MESSAGE will also be useful.
+        if (data != null) {
+            data.putProperty(WizardDescriptor.PROP_INFO_MESSAGE, Bundle.ExportZipWizardPanel1_INFO_MSG());
+            data.putProperty(WizardDescriptor.PROP_ERROR_MESSAGE,
+                    retValue ? "" : Bundle.ERROR_MSG_EMPTY_FILE_NAME());
+        }
+
+        return retValue;
     }
 
     @Override
     public void addChangeListener(ChangeListener l) {
-        changeSupport.addChangeListener(l);
+        support.addChangeListener(l);
     }
 
     @Override
     public void removeChangeListener(ChangeListener l) {
-        changeSupport.removeChangeListener(l);
+        support.addChangeListener(l);
     }
 
     @Override
     public void readSettings(WizardDescriptor wiz) {
         UserSelections selections = (UserSelections) wiz.getProperty(UserSelections.USER_SELECTION);
+        this.data = wiz;
         getComponent().setValue(selections);
-        wiz.putProperty(WizardDescriptor.PROP_INFO_MESSAGE, Bundle.ExportZipWizardPanel1_INFO_MSG());
+        data.putProperty(WizardDescriptor.PROP_INFO_MESSAGE, Bundle.ExportZipWizardPanel1_INFO_MSG());
     }
 
     @Override
     public void storeSettings(WizardDescriptor wiz) {
         // use wiz.putProperty to remember current panel state
         wiz.putProperty(UserSelections.USER_SELECTION, getComponent().getValue());
-    }
-
-    @Override
-    public void validate() throws WizardValidationException {
-        if(!isValid()){
-            throw new WizardValidationException(getComponent(), "Panel invalid", Bundle.ERROR_MSG_EMPTY_FILE_NAME());
-        }
+        this.data = wiz;
     }
 
     @Override
     public void stateChanged(ChangeEvent e) {
-        changeSupport.fireChange();
+        support.fireChange();
     }
 
 }

@@ -173,7 +173,7 @@ public final class ExportZipVisualPanel2 extends JPanel implements ComponentMess
         }
     }//GEN-LAST:event_selectionButtonsActionPerformed
     
-    private void migrateValues(JList fromList, JList toList, boolean all){
+    private void migrateValues(JList<ExportArchiveListValueObject> fromList, JList<ExportArchiveListValueObject> toList, boolean all){
         ExportArchiveListModel fromModel = (ExportArchiveListModel)fromList.getModel();
         ExportArchiveListModel toModel = (ExportArchiveListModel)toList.getModel();
         List<ExportArchiveListValueObject> selectedValues = null;
@@ -187,13 +187,14 @@ public final class ExportZipVisualPanel2 extends JPanel implements ComponentMess
         }
         toModel.addAll(selectedValues);
         fromModel.removeAll(selectedValues);
+        support.fireChange();
     }
 
     @Override
     public void setValue(UserSelections selections) {
         this.selections = selections;
         if (this.selections != null) {
-            ListModel model = new ExportArchiveListModel(selections.getOriginalSelectedFiles());
+            ListModel<ExportArchiveListValueObject> model = new ExportArchiveListModel(selections.getOriginalSelectedFiles());
             originalSelectionList.setModel(model);
             model = new ExportArchiveListModel(selections.getUserSelectedFilesInWizard());
             newSelectionList.setModel(model);

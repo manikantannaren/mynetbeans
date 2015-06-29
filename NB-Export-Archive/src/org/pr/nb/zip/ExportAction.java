@@ -63,6 +63,7 @@ public final class ExportAction implements ActionListener {
         UserSelections userSelection = createDefaults(dataFiles);
         WizardDescriptor wiz = new WizardDescriptor(new ExportZipWizardIterator());
         wiz.putProperty(UserSelections.USER_SELECTION, userSelection);
+        wiz.putProperty(WizardDescriptor.PROP_INFO_MESSAGE, "So,me msg");
 //        wiz.putProperty(org.pr.nb.zip.wizard.Bundle., wiz);
         // {0} will be replaced by WizardDescriptor.Panel.getComponent().getName()
         // {1} will be replaced by WizardDescriptor.Iterator.name()
