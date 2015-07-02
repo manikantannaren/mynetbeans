@@ -5,6 +5,8 @@
  */
 package org.pr.nb.zip;
 
+import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -22,22 +24,22 @@ import static org.junit.Assert.*;
  * @author Kaiser
  */
 public class PathComparatorTest {
-    
+
     public PathComparatorTest() {
     }
-    
+
     @BeforeClass
     public static void setUpClass() {
     }
-    
+
     @AfterClass
     public static void tearDownClass() {
     }
-    
+
     @Before
     public void setUp() {
     }
-    
+
     @After
     public void tearDown() {
     }
@@ -45,17 +47,53 @@ public class PathComparatorTest {
     // TODO add test methods here.
     // The methods must be annotated with annotation @Test. For example:
     //
-     @Test
-     public void hello() {
-         List<Path> pathsList = new ArrayList<Path>();
-         pathsList.add(Paths.get("/var/tmp/a/b/c/d/"));
-         pathsList.add(Paths.get("/var/tmp/a/b/c/c"));
-         pathsList.add(Paths.get("/var/tmp/a/a"));
-         pathsList.add(Paths.get("/var/tmp/a/b/"));
-         Collections.sort(pathsList);
-         System.out.println(pathsList);
-         
-         Collections.sort(pathsList, new ArchiveCreator.PathComparator());
-         System.out.println(pathsList);
-     }
+    @Test
+    public void hello() throws IOException {
+        List<Path> pathsList = new ArrayList<Path>();
+        String tempDir = System.getProperty("java.io.tmpdir");
+//         Path parentPath = Paths.get(tempDir);
+        Path path = Paths.get(tempDir, "a", "b", "c", "d");
+        Path dirPath = Files.createDirectories(path);
+        dirPath.toFile().deleteOnExit();
+        pathsList.add(dirPath);
+
+        path = Paths.get(tempDir, "a", "b", "c", "c");
+        Path filePath = Files.createFile(path);
+        filePath.toFile().deleteOnExit();
+        pathsList.add(filePath);
+
+        path = Paths.get(tempDir, "a", "a");
+        filePath = Files.createFile(path);
+        filePath.toFile().deleteOnExit();
+        pathsList.add(filePath);
+
+        path = Paths.get(tempDir, "d", "a", "b", "c", "e");
+        dirPath = Files.createDirectories(path);
+        dirPath.toFile().deleteOnExit();
+        pathsList.add(dirPath);
+
+        path = Paths.get(tempDir, "d", "a", "b", "c", "d");
+        filePath = Files.createFile(path);
+        filePath.toFile().deleteOnExit();
+        pathsList.add(filePath);
+
+        path = Paths.get(tempDir, "a", "b");
+        dirPath = Files.createDirectories(path);
+        dirPath.toFile().deleteOnExit();
+        pathsList.add(dirPath);
+
+
+
+        Collections.sort(pathsList, new ArchiveCreator.PathComparator());
+        dumpList(pathsList);
+        
+    }
+
+    private void dumpList(List<Path> pathsList) {
+        for (Path pathsList1 : pathsList) {
+            System.out.println(pathsList1+"::"+Files.isDirectory(pathsList1));
+        }
+    }
 }
+
+

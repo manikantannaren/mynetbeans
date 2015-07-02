@@ -24,11 +24,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.apache.tools.ant.module.api.support.ActionUtils;
 import org.openide.execution.ExecutorTask;
 import org.openide.filesystems.FileObject;
 import org.openide.filesystems.FileUtil;
 import org.openide.util.Exceptions;
+import org.pr.nb.zip.util.LoggerProvider;
 import org.pr.nb.zip.wizard.ExportArchiveListValueObject;
 
 /**
@@ -38,8 +41,10 @@ import org.pr.nb.zip.wizard.ExportArchiveListValueObject;
 public class ArchiveCreator implements Runnable {
 
     UserSelections selections;
+    Logger logger;
 
     public ArchiveCreator(UserSelections selections) {
+        this.logger = LoggerProvider.getLogger(ArchiveCreator.class);
         this.selections = selections;
     }
 
@@ -76,10 +81,6 @@ public class ArchiveCreator implements Runnable {
         //1. UserSelectons
         //Primary template
         //Fileset template
-//        Map<ArchiveTaskContentNames,String> parsedContents = new EnumMap<ArchiveTaskContentNames, String>(ArchiveTaskContentNames.class);
-//        parsedContents.put(ArchiveTaskContentNames.ANT_FILE,antscript);
-//       parsedContents.put(ArchiveTaskContentNames.FILESET_DIR, props.getProperty(ArchiveTaskContentNames.FILESET_DIR.name()));
-//       parsedContents.put(ArchiveTaskContentNames.FILESET_FILE, props.getProperty(ArchiveTaskContentNames.FILESET_FILE.name()));
         antscript = antscript.replace(GenerateArchiveAntTokens.ANT_PROJECT.getToken(), GenerateArchiveAntTokens.ANT_PROJECT_NAME.getToken());
         antscript = antscript.replace(GenerateArchiveAntTokens.ANT_TASK.getToken(), GenerateArchiveAntTokens.ANT_TASK_NAME.getToken());
 
@@ -94,14 +95,19 @@ public class ArchiveCreator implements Runnable {
         List<ExportArchiveListValueObject> selectedFiles = userSelections.getUserSelectedFilesInWizard();
         StringBuilder filesets = new StringBuilder();
         assert !selectedFiles.isEmpty();
-        for (ExportArchiveListValueObject selectedObject : selectedFiles) {
-            FileObject selFileObject = selectedObject.getDataObject();
-            String tokenizedString = selFileObject.isFolder() ? props.getProperty(GenerateArchiveAntTokens.FILESET_DIR.name()) : props.getProperty(GenerateArchiveAntTokens.FILESET_FILE.name());
-            String tokenToReplace = selFileObject.isFolder() ? GenerateArchiveAntTokens.ANT_ZIP_FILESET_DIR.getToken() : GenerateArchiveAntTokens.ANT_ZIP_FILESET_FILE.getToken();
-            File selFile = FileUtil.toFile(selFileObject);
-            tokenizedString = tokenizedString.replace(tokenToReplace, selFile.getCanonicalPath());
+        
+        List<Path> filesToBeZipped = resolveSelectedFiles(selectedFiles);
+        for (Path filesToBeZipped1 : filesToBeZipped) {
+            String tokenizedString =  Files.isDirectory(filesToBeZipped1)? props.getProperty(GenerateArchiveAntTokens.FILESET_DIR.name()) : props.getProperty(GenerateArchiveAntTokens.FILESET_FILE.name());
+            String tokenToReplace = Files.isDirectory(filesToBeZipped1) ? GenerateArchiveAntTokens.ANT_ZIP_FILESET_DIR.getToken() :GenerateArchiveAntTokens.ANT_ZIP_FILESET_FILE.getToken();
+            String secondTokenToReplace = Files.isDirectory(filesToBeZipped1) ? GenerateArchiveAntTokens.ANT_ZIP_DIR_PREFIX.getToken() :GenerateArchiveAntTokens.ANT_ZIP_FILE_FULLPATH.getToken();
+            File inFile = filesToBeZipped1.toRealPath().toFile();
+            tokenizedString = tokenizedString.replace(tokenToReplace, inFile.getCanonicalPath());
+            tokenizedString = tokenizedString.replace(secondTokenToReplace, inFile.getName());
             filesets.append(tokenizedString);
         }
+        
+        
         antscript = antscript.replace(GenerateArchiveAntTokens.ANT_ZIP_FILESET.getToken(), filesets);
         FileAttribute<?>[] attrs = new FileAttribute<?>[0];
 
@@ -109,6 +115,7 @@ public class ArchiveCreator implements Runnable {
         File antFile = path.toFile();
         antFile.deleteOnExit();
         BufferedWriter out = Files.newBufferedWriter(path);
+        logger.log(Level.INFO, antscript);
         out.write(antscript);
         out.flush();
         out.close();
@@ -118,21 +125,36 @@ public class ArchiveCreator implements Runnable {
     }
 
     private List<Path> resolveSelectedFiles(List<ExportArchiveListValueObject> userSelectedFiles) throws IOException {
-        List<Path> retValue = new ArrayList<Path>();
+        List<Path> pathsList = new ArrayList<Path>();
         List<FileObject> files = new ArrayList<FileObject>();
         for (ExportArchiveListValueObject userSelectedFile : userSelectedFiles) {
             FileObject dataObject = userSelectedFile.getDataObject();
             String cpath = FileUtil.toFile(dataObject).getCanonicalPath();
             Path path = Paths.get(cpath);
-            retValue.add(path);
+            pathsList.add(path);
         }
-        Collections.sort(retValue, new PathComparator());
-        retValue = removeRedundantFiles(retValue);
+        Collections.sort(pathsList, new PathComparator());
+        
+        List<Path> retValue = new ArrayList<Path>();
+        for (Path path : pathsList) {
+            Path result = checkPath(path, pathsList);
+            if(result != null){
+                retValue.add(result);
+            }
+        }
         return retValue;
     }
 
-    private List<Path> removeRedundantFiles(List<Path> retValue) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+
+    Path checkPath(Path path, List<Path> paths) {
+        Path retValue = path;
+        for (Path path1 : paths) {
+            if(!path1.equals(path) && path.startsWith(path1)){
+                retValue = null;
+                break;
+            }
+        }   
+        return retValue;
     }
 
     public static class PathComparator implements Comparator<Path> {
@@ -146,7 +168,6 @@ public class ArchiveCreator implements Runnable {
             //determine of the two who is a directory
             boolean o1isDir = Files.isDirectory(o1);
             boolean o2isDir = Files.isDirectory(o2);
-            System.out.println(o1+" IS DIR : "+o1isDir +":::"+o2+" IS DIR :"+o2isDir);
             if((!o1isDir && !o2isDir) 
                     || (o1isDir && o2isDir)){ //both are either file or dir
                 Integer l1 = o1.getNameCount();

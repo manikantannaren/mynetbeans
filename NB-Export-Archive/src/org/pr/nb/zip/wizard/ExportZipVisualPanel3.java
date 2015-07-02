@@ -73,6 +73,8 @@ public final class ExportZipVisualPanel3 extends JPanel implements ComponentMess
         jLabel3.setLabelFor(destinationTextField);
         org.openide.awt.Mnemonics.setLocalizedText(jLabel3, Bundle.ExportZipVisualPanel1_locationLabel_text());
 
+        destinationTextField.setEditable(false);
+
         jLabel4.setLabelFor(selectedContentsList);
         org.openide.awt.Mnemonics.setLocalizedText(jLabel4, Bundle.ExportZipVisualPanel3_jlabel4_text());
 
@@ -80,8 +82,12 @@ public final class ExportZipVisualPanel3 extends JPanel implements ComponentMess
         selectedContentsList.setEnabled(false);
         jScrollPane2.setViewportView(selectedContentsList);
 
+        fileNameTextField.setEditable(false);
+
         jLabel2.setLabelFor(compressionLevelTextField);
         org.openide.awt.Mnemonics.setLocalizedText(jLabel2, Bundle.ExportZipVisualPanel1_COMPRESSION_LEVEL());
+
+        compressionLevelTextField.setEditable(false);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);

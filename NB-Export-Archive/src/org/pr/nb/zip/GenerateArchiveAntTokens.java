@@ -74,6 +74,19 @@ public enum GenerateArchiveAntTokens {
            return "@level@";
         }
         
+    },ANT_ZIP_FILE_FULLPATH{
+        @Override
+        public String getToken() {
+           return "@fullpath@";
+        }
+        
+    },ANT_ZIP_DIR_PREFIX{
+
+        @Override
+        public String getToken() {
+           return "@filesetprefix@";
+        }
+        
     },ANT_FILE{
 
         @Override
