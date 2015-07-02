@@ -27,6 +27,7 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.SwingUtilities;
 import org.apache.tools.ant.module.api.support.ActionUtils;
 import org.openide.DialogDisplayer;
 import org.openide.WizardDescriptor;
@@ -91,18 +92,8 @@ public final class ExportAction implements ActionListener {
             //generate ant script
             //Run Ant script
             //Ask if to be added to favorites?? Should we be doing this?
-            try {
-                FileObject antScript = generateAntScript((UserSelections) wiz.getProperty(UserSelections.USER_SELECTION));
-                String[] targets = new String[]{GenerateArchiveAntTokens.ANT_TASK_NAME.getToken()};
-                ExecutorTask task = ActionUtils.runTarget(antScript, targets, null);
-                task.addTaskListener(new ExportActionAntScriptCompletionTaskListener());
-            } catch (IOException ex) {
-                Exceptions.printStackTrace(ex);
-            } catch (IllegalArgumentException ex) {
-                Exceptions.printStackTrace(ex);
-            } catch (URISyntaxException ex) {
-                Exceptions.printStackTrace(ex);
-            }
+            ArchiveCreator creator = new ArchiveCreator((UserSelections) wiz.getProperty(UserSelections.USER_SELECTION));
+            SwingUtilities.invokeLater(creator);
         }
     }
 
@@ -125,64 +116,6 @@ public final class ExportAction implements ActionListener {
             ExportArchiveListValueObject val = new ExportArchiveListValueObject(retValue.size(), dataFile);
             retValue.add(val);
         }
-        return retValue;
-    }
-
-    private FileObject generateAntScript(UserSelections userSelections) throws URISyntaxException, IOException {
-        //read template file
-        URL templateurl = getClass().getResource("gen-archive-template.xml");
-        URI templUri = templateurl.toURI();
-        Map<String, String> env = new HashMap<String, String>();
-        env.put("create", "true");
-        FileSystem zipfs = FileSystems.newFileSystem(templUri, env);
-        Path templatePath = Paths.get(templUri);
-        byte[] contents = Files.readAllBytes(templatePath);
-        String antscript = new String(contents);
-        //read propsfile
-        Properties props = new Properties();
-        props.load(getClass().getResourceAsStream("gen-archive-fileset.properties"));
-        //we have things we need.
-        //1. UserSelectons
-        //Primary template
-        //Fileset template
-//        Map<ArchiveTaskContentNames,String> parsedContents = new EnumMap<ArchiveTaskContentNames, String>(ArchiveTaskContentNames.class);
-//        parsedContents.put(ArchiveTaskContentNames.ANT_FILE,antscript);
-//       parsedContents.put(ArchiveTaskContentNames.FILESET_DIR, props.getProperty(ArchiveTaskContentNames.FILESET_DIR.name()));
-//       parsedContents.put(ArchiveTaskContentNames.FILESET_FILE, props.getProperty(ArchiveTaskContentNames.FILESET_FILE.name()));
-        antscript = antscript.replace(GenerateArchiveAntTokens.ANT_PROJECT.getToken(), GenerateArchiveAntTokens.ANT_PROJECT_NAME.getToken());
-        antscript = antscript.replace(GenerateArchiveAntTokens.ANT_TASK.getToken(), GenerateArchiveAntTokens.ANT_TASK_NAME.getToken());
-
-        File destFileDir = FileUtil.toFile(userSelections.getDestinationDirectory());
-        StringBuilder destination = new StringBuilder(destFileDir.getCanonicalPath());
-        destination.append(File.separator);
-        destination.append(userSelections.getDestinationZipName()).append(".");
-        destination.append(userSelections.getExtension());
-        antscript = antscript.replace(GenerateArchiveAntTokens.ANT_ZIP_DESTFILE.getToken(), destination);
-        antscript = antscript.replace(GenerateArchiveAntTokens.ANT_ZIP_LEVEL.getToken(), userSelections.getCompressionLevel() + "");
-
-        List<ExportArchiveListValueObject> selectedFiles = userSelections.getUserSelectedFilesInWizard();
-        StringBuilder filesets = new StringBuilder();
-        assert !selectedFiles.isEmpty();
-        for (ExportArchiveListValueObject selectedObject : selectedFiles) {
-            FileObject selFileObject = selectedObject.getDataObject();
-            String tokenizedString = selFileObject.isFolder() ? props.getProperty(GenerateArchiveAntTokens.FILESET_DIR.name()) : props.getProperty(GenerateArchiveAntTokens.FILESET_FILE.name());
-            String tokenToReplace = selFileObject.isFolder() ? GenerateArchiveAntTokens.ANT_ZIP_FILESET_DIR.getToken() : GenerateArchiveAntTokens.ANT_ZIP_FILESET_FILE.getToken();
-            File selFile = FileUtil.toFile(selFileObject);
-            tokenizedString = tokenizedString.replace(tokenToReplace, selFile.getCanonicalPath());
-            filesets.append(tokenizedString);
-        }
-        antscript = antscript.replace(GenerateArchiveAntTokens.ANT_ZIP_FILESET.getToken(), filesets);
-        FileAttribute<?>[] attrs = new FileAttribute<?>[0];
-
-        Path path = Files.createTempFile("genarchive", "xml", attrs);
-        File antFile = path.toFile();
-        antFile.deleteOnExit();
-        BufferedWriter out = Files.newBufferedWriter(path);
-        out.write(antscript);
-        out.flush();
-        out.close();
-        antFile = FileUtil.normalizeFile(antFile);
-        FileObject retValue = FileUtil.toFileObject(antFile);
         return retValue;
     }
 
