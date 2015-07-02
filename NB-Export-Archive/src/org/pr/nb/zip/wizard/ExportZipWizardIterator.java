@@ -137,7 +137,6 @@ public final class ExportZipWizardIterator implements WizardDescriptor.Iterator<
 
     @Override
     public void stateChanged(ChangeEvent e) {
-//        logger.log(Level.INFO, (String) e.toString());
     }
 
 

@@ -8,6 +8,7 @@ package org.pr.nb.zip.wizard;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import org.openide.WizardDescriptor;
+import org.openide.WizardValidationException;
 import org.openide.util.ChangeSupport;
 import org.openide.util.HelpCtx;
 import org.openide.util.NbBundle;
@@ -17,7 +18,7 @@ import org.pr.nb.zip.UserSelections;
     "ERROR_MSG_EMPTY_SELECTION=Must choose contents to archive",
     "ExportZipWizardPanel2_INFO_MSG=Choose the contents to archive"
 })
-public class ExportZipWizardPanel2 implements WizardDescriptor.Panel<WizardDescriptor>, ChangeListener {
+public class ExportZipWizardPanel2 implements WizardDescriptor.ValidatingPanel<WizardDescriptor>, ChangeListener {
 
     /**
      * The visual component that displays this panel. If you need to access the component from this
@@ -25,6 +26,7 @@ public class ExportZipWizardPanel2 implements WizardDescriptor.Panel<WizardDescr
      */
     private ExportZipVisualPanel2 component;
     private ChangeSupport changeSupport = new ChangeSupport(this);
+    private WizardDescriptor data;
 
     // Get the visual component for the panel. In this template, the component
     // is kept separate. This can be more efficient: if the wizard is created
@@ -50,12 +52,19 @@ public class ExportZipWizardPanel2 implements WizardDescriptor.Panel<WizardDescr
     @Override
     public boolean isValid() {
         // If it is always OK to press Next or Finish, then:
-        return getComponent().isPanelValid();
+        boolean retValue = getComponent().isPanelValid();
 
         // If it depends on some condition (form filled out...) and
         // this condition changes (last form field filled in...) then
         // use ChangeSupport to implement add/removeChangeListener below.
         // WizardDescriptor.ERROR/WARNING/INFORMATION_MESSAGE will also be useful.
+            if (retValue) {
+                data.putProperty(WizardDescriptor.PROP_ERROR_MESSAGE,null);
+            } else {
+                data.putProperty(WizardDescriptor.PROP_ERROR_MESSAGE,
+                        Bundle.ERROR_MSG_EMPTY_SELECTION());
+            }
+        return retValue;
     }
 
     @Override
@@ -73,6 +82,7 @@ public class ExportZipWizardPanel2 implements WizardDescriptor.Panel<WizardDescr
         UserSelections selections = (UserSelections) wiz.getProperty(UserSelections.USER_SELECTION);
         getComponent().setValue(selections);
         wiz.putProperty(WizardDescriptor.PROP_INFO_MESSAGE, Bundle.ExportZipWizardPanel2_INFO_MSG());
+        data = wiz;
     }
 
     @Override
@@ -83,7 +93,13 @@ public class ExportZipWizardPanel2 implements WizardDescriptor.Panel<WizardDescr
 
     @Override
     public void stateChanged(ChangeEvent e) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        changeSupport.fireChange();
+    }
+
+    @Override
+    public void validate() throws WizardValidationException {
+        if(!isValid())
+        throw new WizardValidationException(getComponent(),Bundle.ERROR_MSG_EMPTY_SELECTION(),Bundle.ERROR_MSG_EMPTY_SELECTION()); //To change body of generated methods, choose Tools | Templates.
     }
 
 }

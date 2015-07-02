@@ -5,7 +5,6 @@
  */
 package org.pr.nb.zip;
 
-import java.util.ArrayList;
 import java.util.List;
 import org.openide.filesystems.FileObject;
 import org.pr.nb.zip.wizard.ExportArchiveListValueObject;
@@ -22,6 +21,7 @@ public class UserSelections {
     private List<ExportArchiveListValueObject> originalSelectedFiles;
     private List<ExportArchiveListValueObject> userSelectedFilesInWizard;
     private String extension = "zip";
+    private Integer compressionLevel = 9;
     
     public UserSelections() {
     }
@@ -65,5 +65,14 @@ public class UserSelections {
     public void setUserSelectedFilesInWizard(List<ExportArchiveListValueObject> userSelectedFilesInWizard) {
         this.userSelectedFilesInWizard = userSelectedFilesInWizard;
     }
+
+    public Integer getCompressionLevel() {
+        return this.compressionLevel;
+    }
+
+    public void setCompressionLevel(Integer compressionLevel) {
+        this.compressionLevel = compressionLevel;
+    }
+    
     
 }

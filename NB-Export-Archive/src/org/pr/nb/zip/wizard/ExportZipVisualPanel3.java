@@ -36,6 +36,7 @@ public final class ExportZipVisualPanel3 extends JPanel implements ComponentMess
             destinationTextField.setText(FileUtil.getFileDisplayName(selections.getDestinationDirectory()));
             ExportArchiveListModel model = new ExportArchiveListModel(selections.getUserSelectedFilesInWizard());
             selectedContentsList.setModel(model);
+            compressionLevelTextField.setText(selections.getCompressionLevel().toString());
         }
     }
 
@@ -63,6 +64,8 @@ public final class ExportZipVisualPanel3 extends JPanel implements ComponentMess
         jScrollPane2 = new javax.swing.JScrollPane();
         selectedContentsList = new javax.swing.JList<ExportArchiveListValueObject>();
         fileNameTextField = new javax.swing.JTextField();
+        jLabel2 = new javax.swing.JLabel();
+        compressionLevelTextField = new javax.swing.JTextField();
 
         jLabel1.setLabelFor(fileNameTextField);
         org.openide.awt.Mnemonics.setLocalizedText(jLabel1, Bundle.ExportZipVisualPanel1_fileNameLabel_text());
@@ -70,15 +73,15 @@ public final class ExportZipVisualPanel3 extends JPanel implements ComponentMess
         jLabel3.setLabelFor(destinationTextField);
         org.openide.awt.Mnemonics.setLocalizedText(jLabel3, Bundle.ExportZipVisualPanel1_locationLabel_text());
 
-        destinationTextField.setEditable(false);
-
         jLabel4.setLabelFor(selectedContentsList);
         org.openide.awt.Mnemonics.setLocalizedText(jLabel4, Bundle.ExportZipVisualPanel3_jlabel4_text());
 
         selectedContentsList.setCellRenderer(new ExportArchiveListCellRenderer());
+        selectedContentsList.setEnabled(false);
         jScrollPane2.setViewportView(selectedContentsList);
 
-        fileNameTextField.setEditable(false);
+        jLabel2.setLabelFor(compressionLevelTextField);
+        org.openide.awt.Mnemonics.setLocalizedText(jLabel2, Bundle.ExportZipVisualPanel1_COMPRESSION_LEVEL());
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -98,11 +101,17 @@ public final class ExportZipVisualPanel3 extends JPanel implements ComponentMess
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(destinationTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(destinationTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(compressionLevelTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {destinationTextField, fileNameTextField, jScrollPane2});
+        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {compressionLevelTextField, destinationTextField, fileNameTextField, jScrollPane2});
+
+        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jLabel2, jLabel4});
 
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -119,19 +128,25 @@ public final class ExportZipVisualPanel3 extends JPanel implements ComponentMess
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel4)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 204, Short.MAX_VALUE))
+                        .addGap(0, 156, Short.MAX_VALUE))
+                    .addComponent(jScrollPane2))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(compressionLevelTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
-        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {destinationTextField, jLabel1, jLabel3, jLabel4});
+        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {compressionLevelTextField, destinationTextField, jLabel1, jLabel2, jLabel3, jLabel4});
 
     }// </editor-fold>//GEN-END:initComponents
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextField compressionLevelTextField;
     private javax.swing.JTextField destinationTextField;
     private javax.swing.JTextField fileNameTextField;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane2;
