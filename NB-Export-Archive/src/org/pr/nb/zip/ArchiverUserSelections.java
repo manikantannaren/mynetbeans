@@ -7,23 +7,23 @@ package org.pr.nb.zip;
 
 import java.util.List;
 import org.openide.filesystems.FileObject;
-import org.pr.nb.zip.wizard.ExportArchiveListValueObject;
+import org.pr.nb.zip.wizard.ArchiverListValueObject;
 
 /**
  *
  * @author Kaiser
  */
-public class UserSelections {
+public class ArchiverUserSelections {
     
     public static final String USER_SELECTION = "USER_SELECTION";
     private String destinationZipName;
     private FileObject destinationDirectory;
-    private List<ExportArchiveListValueObject> originalSelectedFiles;
-    private List<ExportArchiveListValueObject> userSelectedFilesInWizard;
+    private List<ArchiverListValueObject> originalSelectedFiles;
+    private List<ArchiverListValueObject> userSelectedFilesInWizard;
     private String extension = "zip";
     private Integer compressionLevel = 9;
     
-    public UserSelections() {
+    public ArchiverUserSelections() {
     }
     
     public String getExtension() {
@@ -50,19 +50,19 @@ public class UserSelections {
         this.destinationDirectory = destinationDirectory;
     }
     
-    public List<ExportArchiveListValueObject> getOriginalSelectedFiles() {
+    public List<ArchiverListValueObject> getOriginalSelectedFiles() {
         return originalSelectedFiles;
     }
     
-    public void setOriginalSelectedFiles(List<ExportArchiveListValueObject> originalSelectedFiles) {
+    public void setOriginalSelectedFiles(List<ArchiverListValueObject> originalSelectedFiles) {
         this.originalSelectedFiles = originalSelectedFiles;
     }
     
-    public List<ExportArchiveListValueObject> getUserSelectedFilesInWizard() {
+    public List<ArchiverListValueObject> getUserSelectedFilesInWizard() {
         return userSelectedFilesInWizard;
     }
     
-    public void setUserSelectedFilesInWizard(List<ExportArchiveListValueObject> userSelectedFilesInWizard) {
+    public void setUserSelectedFilesInWizard(List<ArchiverListValueObject> userSelectedFilesInWizard) {
         this.userSelectedFilesInWizard = userSelectedFilesInWizard;
     }
 

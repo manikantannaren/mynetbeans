@@ -15,12 +15,12 @@ import org.openide.filesystems.FileObject;
  *
  * @author Kaiser
  */
-public class ExportArchiveListModel extends AbstractListModel<ExportArchiveListValueObject>{
-    private List<ExportArchiveListValueObject> contents;
+public class ArchiverListModel extends AbstractListModel<ArchiverListValueObject>{
+    private List<ArchiverListValueObject> contents;
 
-    public ExportArchiveListModel(List<ExportArchiveListValueObject> contents) {
+    public ArchiverListModel(List<ArchiverListValueObject> contents) {
         if(contents == null) throw new NullPointerException("Source list cannot be null");
-        this.contents = new ArrayList<ExportArchiveListValueObject>(contents);
+        this.contents = new ArrayList<ArchiverListValueObject>(contents);
     }
 
     
@@ -30,25 +30,25 @@ public class ExportArchiveListModel extends AbstractListModel<ExportArchiveListV
     }
 
     @Override
-    public ExportArchiveListValueObject getElementAt(int index) {
+    public ArchiverListValueObject getElementAt(int index) {
         if(!contents.isEmpty() && index < contents.size()){
             return contents.get(index);
         }
         return null;
     }
-    public boolean addAll(List<ExportArchiveListValueObject> selItems){
+    public boolean addAll(List<ArchiverListValueObject> selItems){
         boolean retValue = contents.addAll(selItems);
         Collections.sort(contents);
         super.fireIntervalAdded(this, getSize(), getSize());
         return retValue;
     }
 
-    public boolean removeAll(List<ExportArchiveListValueObject> selItems) {
+    public boolean removeAll(List<ArchiverListValueObject> selItems) {
         boolean retValue = contents.removeAll(selItems);
         super.fireIntervalRemoved(this, getSize(), getSize());
         return retValue;
     }
-    public List<ExportArchiveListValueObject> getItems(){
-        return new ArrayList<ExportArchiveListValueObject>(contents);
+    public List<ArchiverListValueObject> getItems(){
+        return new ArrayList<ArchiverListValueObject>(contents);
     }
 }

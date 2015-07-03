@@ -5,14 +5,14 @@
  */
 package org.pr.nb.zip.wizard;
 
-import org.pr.nb.zip.UserSelections;
+import org.pr.nb.zip.ArchiverUserSelections;
 
 /**
  *
  * @author Kaiser
  */
 public interface ComponentMessagingInterface {
-   public void setValue(UserSelections selections);
-   public UserSelections getValue();
+   public void setValue(ArchiverUserSelections selections);
+   public ArchiverUserSelections getValue();
    public Boolean isPanelValid();
 }

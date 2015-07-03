@@ -8,19 +8,19 @@ package org.pr.nb.zip.wizard;
 import javax.swing.JPanel;
 import org.openide.filesystems.FileUtil;
 import org.openide.util.NbBundle;
-import org.pr.nb.zip.UserSelections;
+import org.pr.nb.zip.ArchiverUserSelections;
 
 @NbBundle.Messages({
     "ExportZipVisualPanel3.name=Summary",
     "ExportZipVisualPanel3.jlabel4.text=Selected contents"
 })
-public final class ExportZipVisualPanel3 extends JPanel implements ComponentMessagingInterface{
-    private UserSelections selections;
+public final class ArchiverVisualPanel3 extends JPanel implements ComponentMessagingInterface{
+    private ArchiverUserSelections selections;
 
     /**
      * Creates new form ExportZipVisualPanel3
      */
-    public ExportZipVisualPanel3() {
+    public ArchiverVisualPanel3() {
         initComponents();
     }
 
@@ -29,19 +29,19 @@ public final class ExportZipVisualPanel3 extends JPanel implements ComponentMess
         return Bundle.ExportZipVisualPanel3_name();
     }
     @Override
-    public void setValue(UserSelections selections) {
+    public void setValue(ArchiverUserSelections selections) {
         if(selections != null){
             this.selections = selections;
             fileNameTextField.setText(selections.getDestinationZipName()+"."+selections.getExtension());
             destinationTextField.setText(FileUtil.getFileDisplayName(selections.getDestinationDirectory()));
-            ExportArchiveListModel model = new ExportArchiveListModel(selections.getUserSelectedFilesInWizard());
+            ArchiverListModel model = new ArchiverListModel(selections.getUserSelectedFilesInWizard());
             selectedContentsList.setModel(model);
             compressionLevelTextField.setText(selections.getCompressionLevel().toString());
         }
     }
 
     @Override
-    public UserSelections getValue() {
+    public ArchiverUserSelections getValue() {
         return this.selections;
     }
 
@@ -62,7 +62,7 @@ public final class ExportZipVisualPanel3 extends JPanel implements ComponentMess
         destinationTextField = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        selectedContentsList = new javax.swing.JList<ExportArchiveListValueObject>();
+        selectedContentsList = new javax.swing.JList<org.pr.nb.zip.wizard.ArchiverListValueObject>();
         fileNameTextField = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         compressionLevelTextField = new javax.swing.JTextField();
@@ -78,7 +78,7 @@ public final class ExportZipVisualPanel3 extends JPanel implements ComponentMess
         jLabel4.setLabelFor(selectedContentsList);
         org.openide.awt.Mnemonics.setLocalizedText(jLabel4, Bundle.ExportZipVisualPanel3_jlabel4_text());
 
-        selectedContentsList.setCellRenderer(new ExportArchiveListCellRenderer());
+        selectedContentsList.setCellRenderer(new org.pr.nb.zip.wizard.ArchiverListCellRenderer());
         selectedContentsList.setEnabled(false);
         jScrollPane2.setViewportView(selectedContentsList);
 
@@ -156,7 +156,7 @@ public final class ExportZipVisualPanel3 extends JPanel implements ComponentMess
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JList<ExportArchiveListValueObject> selectedContentsList;
+    private javax.swing.JList<org.pr.nb.zip.wizard.ArchiverListValueObject> selectedContentsList;
     // End of variables declaration//GEN-END:variables
 
 

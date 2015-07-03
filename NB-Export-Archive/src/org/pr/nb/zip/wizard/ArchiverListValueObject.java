@@ -11,7 +11,7 @@ import org.openide.filesystems.FileObject;
  *
  * @author Kaiser
  */
-public class ExportArchiveListValueObject implements Comparable<ExportArchiveListValueObject>{
+public class ArchiverListValueObject implements Comparable<ArchiverListValueObject>{
     private Integer rank = 0;
 
     public Integer getRank() {
@@ -31,16 +31,16 @@ public class ExportArchiveListValueObject implements Comparable<ExportArchiveLis
     }
     private FileObject dataObject;
 
-    public ExportArchiveListValueObject() {
+    public ArchiverListValueObject() {
     }
 
-    public ExportArchiveListValueObject(Integer rank, FileObject dataObject) {
+    public ArchiverListValueObject(Integer rank, FileObject dataObject) {
         this.rank = rank;
         this.dataObject = dataObject;
     }
 
     @Override
-    public int compareTo(ExportArchiveListValueObject that) {
+    public int compareTo(ArchiverListValueObject that) {
         int retValue = -1;
         if(that != null){
             retValue = this.rank.compareTo(that.rank);

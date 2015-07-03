@@ -27,7 +27,7 @@ import org.openide.util.NbBundle.Messages;
     "# {1} - Total number of steps",
     "ExportArchiveWizard.stepname.formatted.text=Step {0} of {1}"
 })
-public final class ExportZipWizardIterator implements WizardDescriptor.Iterator<WizardDescriptor>, ChangeListener{
+public final class ArchiverWizardIterator implements WizardDescriptor.Iterator<WizardDescriptor>, ChangeListener{
 
     // Example of invoking this wizard:
     // @ActionID(category="...", id="...")
@@ -52,18 +52,18 @@ public final class ExportZipWizardIterator implements WizardDescriptor.Iterator<
     private List<WizardDescriptor.Panel<WizardDescriptor>> panels;
 
     private ChangeSupport changeSupport = new ChangeSupport(this);
-    private Logger logger = Logger.getLogger(ExportZipWizardIterator.class.getName());
+    private Logger logger = Logger.getLogger(ArchiverWizardIterator.class.getName());
 
     private List<WizardDescriptor.Panel<WizardDescriptor>> getPanels() {
         if (panels == null) {
             panels = new ArrayList<WizardDescriptor.Panel<WizardDescriptor>>();
-            WizardDescriptor.Panel<WizardDescriptor> panel = new ExportZipWizardPanel1();
+            WizardDescriptor.Panel<WizardDescriptor> panel = new ArchiverWizardPanel1();
             panel.addChangeListener(this);
             panels.add(panel);
-            panel = new ExportZipWizardPanel2();
+            panel = new ArchiverWizardPanel2();
 //            panel.addChangeListener(this);
             panels.add(panel);
-            panel = new ExportZipWizardPanel3();
+            panel = new ArchiverWizardPanel3();
 //            panel.addChangeListener(this);
             panels.add(panel);
             String[] steps = new String[panels.size()];

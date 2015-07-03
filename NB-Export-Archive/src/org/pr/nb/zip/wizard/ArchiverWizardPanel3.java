@@ -9,27 +9,27 @@ import javax.swing.event.ChangeListener;
 import org.openide.WizardDescriptor;
 import org.openide.util.HelpCtx;
 import org.openide.util.NbBundle;
-import org.pr.nb.zip.UserSelections;
+import org.pr.nb.zip.ArchiverUserSelections;
 
 @NbBundle.Messages({
     "ExportZipWizardPanel3.INFO_MSG=Review your choices and click finish"
 })
-public class ExportZipWizardPanel3 implements WizardDescriptor.Panel<WizardDescriptor> {
+public class ArchiverWizardPanel3 implements WizardDescriptor.Panel<WizardDescriptor> {
 
     /**
      * The visual component that displays this panel. If you need to access the component from this
      * class, just use getComponent().
      */
-    private ExportZipVisualPanel3 component;
+    private ArchiverVisualPanel3 component;
 
     // Get the visual component for the panel. In this template, the component
     // is kept separate. This can be more efficient: if the wizard is created
     // but never displayed, or not all panels are displayed, it is better to
     // create only those which really need to be visible.
     @Override
-    public ExportZipVisualPanel3 getComponent() {
+    public ArchiverVisualPanel3 getComponent() {
         if (component == null) {
-            component = new ExportZipVisualPanel3();
+            component = new ArchiverVisualPanel3();
         }
         return component;
     }
@@ -63,14 +63,14 @@ public class ExportZipWizardPanel3 implements WizardDescriptor.Panel<WizardDescr
 
     @Override
     public void readSettings(WizardDescriptor wiz) {
-        UserSelections selections = (UserSelections) wiz.getProperty(UserSelections.USER_SELECTION);
+        ArchiverUserSelections selections = (ArchiverUserSelections) wiz.getProperty(ArchiverUserSelections.USER_SELECTION);
         getComponent().setValue(selections);
         wiz.putProperty(WizardDescriptor.PROP_INFO_MESSAGE, Bundle.ExportZipWizardPanel3_INFO_MSG());
     }
 
     @Override
     public void storeSettings(WizardDescriptor wiz) {
-        wiz.putProperty(UserSelections.USER_SELECTION, getComponent().getValue());
+        wiz.putProperty(ArchiverUserSelections.USER_SELECTION, getComponent().getValue());
     }
 
 }

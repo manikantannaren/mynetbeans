@@ -7,28 +7,12 @@ package org.pr.nb.zip;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.nio.file.FileSystem;
-import java.nio.file.FileSystems;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.attribute.FileAttribute;
 import java.text.MessageFormat;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.SwingUtilities;
-import org.apache.tools.ant.module.api.support.ActionUtils;
 import org.openide.DialogDisplayer;
 import org.openide.WizardDescriptor;
 import org.openide.loaders.DataObject;
@@ -36,17 +20,15 @@ import org.openide.awt.ActionID;
 import org.openide.awt.ActionReference;
 import org.openide.awt.ActionReferences;
 import org.openide.awt.ActionRegistration;
-import org.openide.execution.ExecutorTask;
 import org.openide.filesystems.FileObject;
-import org.openide.filesystems.FileUtil;
-import org.openide.util.Exceptions;
 import org.openide.util.NbBundle.Messages;
-import org.pr.nb.zip.wizard.ExportArchiveListValueObject;
-import org.pr.nb.zip.wizard.ExportZipWizardIterator;
+import org.pr.nb.zip.util.LoggerProvider;
+import org.pr.nb.zip.wizard.ArchiverListValueObject;
+import org.pr.nb.zip.wizard.ArchiverWizardIterator;
 
 @ActionID(
         category = "Tools",
-        id = "org.pr.nb.zip.ExportAction"
+        id = "org.pr.nb.zip.ArchiverAction"
 )
 @ActionRegistration(
         iconBase = "org/pr/nb/zip/jar.png",
@@ -58,14 +40,14 @@ import org.pr.nb.zip.wizard.ExportZipWizardIterator;
 })
 @Messages({
     "CTL_ExportAction=Zip selected nodes",
-    "WIZARD_TITLE=Exporting options"
+    "WIZARD_TITLE=Archiving options"
 })
-public final class ExportAction implements ActionListener {
+public final class ArchiverAction implements ActionListener {
 
-    private static Logger logger = Logger.getLogger(ExportAction.class.getName());
+    private static final Logger logger = LoggerProvider.getLogger(ArchiverAction.class);
     private final List<DataObject> context;
 
-    public ExportAction(List<DataObject> context) {
+    public ArchiverAction(List<DataObject> context) {
         this.context = context;
     }
 
@@ -80,9 +62,9 @@ public final class ExportAction implements ActionListener {
 
         //call wizard here
         //Question: Should Nested selected nodes be resolved here or in the wizard
-        UserSelections userSelection = createDefaults(dataFiles);
-        WizardDescriptor wiz = new WizardDescriptor(new ExportZipWizardIterator());
-        wiz.putProperty(UserSelections.USER_SELECTION, userSelection);
+        ArchiverUserSelections userSelection = createDefaults(dataFiles);
+        WizardDescriptor wiz = new WizardDescriptor(new ArchiverWizardIterator());
+        wiz.putProperty(ArchiverUserSelections.USER_SELECTION, userSelection);
         // {0} will be replaced by WizardDescriptor.Panel.getComponent().getName()
         // {1} will be replaced by WizardDescriptor.Iterator.name()
         wiz.setTitleFormat(new MessageFormat("{0} ({1})"));
@@ -92,28 +74,28 @@ public final class ExportAction implements ActionListener {
             //generate ant script
             //Run Ant script
             //Ask if to be added to favorites?? Should we be doing this?
-            ArchiveCreator creator = new ArchiveCreator((UserSelections) wiz.getProperty(UserSelections.USER_SELECTION));
+            ArchiveCreator creator = new ArchiveCreator((ArchiverUserSelections) wiz.getProperty(ArchiverUserSelections.USER_SELECTION));
             SwingUtilities.invokeLater(creator);
         }
     }
 
-    private UserSelections createDefaults(List<FileObject> dataFiles) {
-        UserSelections retValue = new UserSelections();
+    private ArchiverUserSelections createDefaults(List<FileObject> dataFiles) {
+        ArchiverUserSelections retValue = new ArchiverUserSelections();
         if (!dataFiles.isEmpty()) {
             FileObject obj = dataFiles.get(0);
             FileObject destination = obj.getParent();
             retValue.setDestinationZipName(obj.getName());
             retValue.setDestinationDirectory(destination);
             retValue.setUserSelectedFilesInWizard(createListContents(dataFiles));
-            retValue.setOriginalSelectedFiles(new ArrayList<ExportArchiveListValueObject>());
+            retValue.setOriginalSelectedFiles(new ArrayList<ArchiverListValueObject>());
         }
         return retValue;
     }
 
-    private List<ExportArchiveListValueObject> createListContents(List<FileObject> dataFiles) {
-        List<ExportArchiveListValueObject> retValue = new ArrayList<ExportArchiveListValueObject>();
+    private List<ArchiverListValueObject> createListContents(List<FileObject> dataFiles) {
+        List<ArchiverListValueObject> retValue = new ArrayList<ArchiverListValueObject>();
         for (FileObject dataFile : dataFiles) {
-            ExportArchiveListValueObject val = new ExportArchiveListValueObject(retValue.size(), dataFile);
+            ArchiverListValueObject val = new ArchiverListValueObject(retValue.size(), dataFile);
             retValue.add(val);
         }
         return retValue;

@@ -5,7 +5,9 @@
  */
 package org.pr.nb.zip;
 
-import java.awt.event.ActionEvent;
+import java.util.prefs.Preferences;
+import org.openide.util.NbPreferences;
+import org.pr.nb.zip.options.ArchiverPreferencesKeys;
 import static org.testng.Assert.*;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
@@ -17,9 +19,9 @@ import org.testng.annotations.Test;
  *
  * @author Kaiser
  */
-public class ExportActionNGTest {
+public class InstallerNGTest {
     
-    public ExportActionNGTest() {
+    public InstallerNGTest() {
     }
 
     @BeforeClass
@@ -39,16 +41,19 @@ public class ExportActionNGTest {
     }
 
     /**
-     * Test of actionPerformed method, of class ExportAction.
+     * Test of restored method, of class Installer.
      */
     @Test
-    public void testActionPerformed() {
-        System.out.println("actionPerformed");
-        ActionEvent ev = null;
-        ArchiverAction instance = null;
-        instance.actionPerformed(ev);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+    public void testRestored() {
+        System.out.println("restored");
+        Installer instance = new Installer();
+        instance.restored();
+        Preferences prefs = NbPreferences.forModule(ArchiverAction.class);
+        System.out.println(prefs.absolutePath());
+        Boolean value = prefs.getBoolean(ArchiverPreferencesKeys.LOG_OUTPUT.name(), true);
+        assertFalse(value);
+        value = prefs.getBoolean(ArchiverPreferencesKeys.SHOW_ADD_TO_FAV_DIALOG.name(), true);
+        assertTrue(value);
     }
     
 }

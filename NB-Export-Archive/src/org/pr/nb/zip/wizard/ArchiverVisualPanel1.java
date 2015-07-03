@@ -21,7 +21,7 @@ import org.openide.filesystems.FileUtil;
 import org.openide.util.ChangeSupport;
 import org.openide.util.NbBundle;
 import org.openide.util.NbBundle.Messages;
-import org.pr.nb.zip.UserSelections;
+import org.pr.nb.zip.ArchiverUserSelections;
 import org.pr.nb.zip.util.LoggerProvider;
 
 @Messages({
@@ -42,13 +42,13 @@ import org.pr.nb.zip.util.LoggerProvider;
     "ExportZipVisualPanel1.COMPRESSION.LEVEL.8=8",
     "ExportZipVisualPanel1.COMPRESSION.LEVEL.9=Max"
 })
-public final class ExportZipVisualPanel1 extends JPanel implements ComponentMessagingInterface {
+public final class ArchiverVisualPanel1 extends JPanel implements ComponentMessagingInterface {
 
     /**
      * Creates new form ExportZipVisualPanel1
      */
-    public ExportZipVisualPanel1() {
-        this.logger = LoggerProvider.getLogger(ExportZipVisualPanel1.class);
+    public ArchiverVisualPanel1() {
+        this.logger = LoggerProvider.getLogger(ArchiverVisualPanel1.class);
         initComponents();
         support = new ChangeSupport(this);
         destinationFileNameTextField.getDocument().addDocumentListener(new DocumentListenerImpl());
@@ -189,7 +189,7 @@ public final class ExportZipVisualPanel1 extends JPanel implements ComponentMess
 
     }//GEN-LAST:event_browseButtonActionPerformed
     @Override
-    public void setValue(UserSelections selections) {
+    public void setValue(ArchiverUserSelections selections) {
         this.selections = selections;
         //populate fields
         if (this.selections != null) {
@@ -201,7 +201,7 @@ public final class ExportZipVisualPanel1 extends JPanel implements ComponentMess
     }
 
     @Override
-    public UserSelections getValue() {
+    public ArchiverUserSelections getValue() {
         if (this.selections != null) {
             this.selections.setDestinationZipName(this.destinationFileNameTextField.getText());
             final String destinationDirectoryPath = destinationDirectoryTextField.getText();
@@ -233,7 +233,7 @@ public final class ExportZipVisualPanel1 extends JPanel implements ComponentMess
     private Dictionary getLabelTable() {
         Dictionary<Integer,JLabel> labels = new Hashtable<Integer, JLabel>();
         for(int x = 0; x < 10; x++){
-            String text = NbBundle.getMessage(ExportZipVisualPanel1.class, "ExportZipVisualPanel1.COMPRESSION.LEVEL."+x);
+            String text = NbBundle.getMessage(ArchiverVisualPanel1.class, "ExportZipVisualPanel1.COMPRESSION.LEVEL."+x);
             JLabel label = new JLabel(text);
             labels.put(x, label);
         }
@@ -251,7 +251,7 @@ public final class ExportZipVisualPanel1 extends JPanel implements ComponentMess
     private javax.swing.JLabel jLabel3;
     // End of variables declaration//GEN-END:variables
 
-    private UserSelections selections;
+    private ArchiverUserSelections selections;
     private ChangeSupport support;
     private Logger logger;
 

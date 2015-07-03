@@ -13,7 +13,7 @@ import javax.swing.ListModel;
 import javax.swing.event.ChangeListener;
 import org.openide.util.ChangeSupport;
 import org.openide.util.NbBundle;
-import org.pr.nb.zip.UserSelections;
+import org.pr.nb.zip.ArchiverUserSelections;
 
 @NbBundle.Messages({
     "ExportZipVisualPanel2_NAME=Contents to archive",
@@ -22,14 +22,14 @@ import org.pr.nb.zip.UserSelections;
     "ExportZipVisualPanel2.removeSelectedButton.text=<",
     "ExportZipVisualPanel2.removeAllButton.text=<<"
 })
-public final class ExportZipVisualPanel2 extends JPanel implements ComponentMessagingInterface {
+public final class ArchiverVisualPanel2 extends JPanel implements ComponentMessagingInterface {
 
 
     
     /**
      * Creates new form ExportZipVisualPanel2
      */
-    public ExportZipVisualPanel2() {
+    public ArchiverVisualPanel2() {
         initComponents();
         support = new ChangeSupport(this);
     }
@@ -48,7 +48,7 @@ public final class ExportZipVisualPanel2 extends JPanel implements ComponentMess
         java.awt.GridBagConstraints gridBagConstraints;
 
         jScrollPane2 = new javax.swing.JScrollPane();
-        originalSelectionList = new javax.swing.JList<ExportArchiveListValueObject>();
+        originalSelectionList = new javax.swing.JList<org.pr.nb.zip.wizard.ArchiverListValueObject>();
         jPanel1 = new javax.swing.JPanel();
         addSelectedButton = new javax.swing.JButton();
         addAllButton = new javax.swing.JButton();
@@ -57,9 +57,9 @@ public final class ExportZipVisualPanel2 extends JPanel implements ComponentMess
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        newSelectionList = new javax.swing.JList<ExportArchiveListValueObject>();
+        newSelectionList = new javax.swing.JList<org.pr.nb.zip.wizard.ArchiverListValueObject>();
 
-        originalSelectionList.setCellRenderer(new ExportArchiveListCellRenderer());
+        originalSelectionList.setCellRenderer(new org.pr.nb.zip.wizard.ArchiverListCellRenderer());
         jScrollPane2.setViewportView(originalSelectionList);
 
         jPanel1.setLayout(new java.awt.GridBagLayout());
@@ -132,7 +132,7 @@ public final class ExportZipVisualPanel2 extends JPanel implements ComponentMess
         gridBagConstraints.weighty = 0.1;
         jPanel1.add(jLabel2, gridBagConstraints);
 
-        newSelectionList.setCellRenderer(new ExportArchiveListCellRenderer());
+        newSelectionList.setCellRenderer(new org.pr.nb.zip.wizard.ArchiverListCellRenderer());
         jScrollPane1.setViewportView(newSelectionList);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -173,17 +173,17 @@ public final class ExportZipVisualPanel2 extends JPanel implements ComponentMess
         }
     }//GEN-LAST:event_selectionButtonsActionPerformed
     
-    private void migrateValues(JList<ExportArchiveListValueObject> fromList, JList<ExportArchiveListValueObject> toList, boolean all){
-        ExportArchiveListModel fromModel = (ExportArchiveListModel)fromList.getModel();
-        ExportArchiveListModel toModel = (ExportArchiveListModel)toList.getModel();
-        List<ExportArchiveListValueObject> selectedValues = null;
+    private void migrateValues(JList<ArchiverListValueObject> fromList, JList<ArchiverListValueObject> toList, boolean all){
+        ArchiverListModel fromModel = (ArchiverListModel)fromList.getModel();
+        ArchiverListModel toModel = (ArchiverListModel)toList.getModel();
+        List<ArchiverListValueObject> selectedValues = null;
         if(all){
             selectedValues = fromModel.getItems();
         }else{
             selectedValues = fromList.getSelectedValuesList();
         }
         if(selectedValues == null){
-            selectedValues = new ArrayList<ExportArchiveListValueObject>();
+            selectedValues = new ArrayList<ArchiverListValueObject>();
         }
         toModel.addAll(selectedValues);
         fromModel.removeAll(selectedValues);
@@ -191,22 +191,22 @@ public final class ExportZipVisualPanel2 extends JPanel implements ComponentMess
     }
 
     @Override
-    public void setValue(UserSelections selections) {
+    public void setValue(ArchiverUserSelections selections) {
         this.selections = selections;
         if (this.selections != null) {
-            ListModel<ExportArchiveListValueObject> model = new ExportArchiveListModel(selections.getOriginalSelectedFiles());
+            ListModel<ArchiverListValueObject> model = new ArchiverListModel(selections.getOriginalSelectedFiles());
             originalSelectionList.setModel(model);
-            model = new ExportArchiveListModel(selections.getUserSelectedFilesInWizard());
+            model = new ArchiverListModel(selections.getUserSelectedFilesInWizard());
             newSelectionList.setModel(model);
         }
     }
 
     @Override
-    public UserSelections getValue() {
+    public ArchiverUserSelections getValue() {
         if (selections != null) {
-            ExportArchiveListModel model = (ExportArchiveListModel) originalSelectionList.getModel();
+            ArchiverListModel model = (ArchiverListModel) originalSelectionList.getModel();
             selections.setOriginalSelectedFiles(model.getItems());
-            model = (ExportArchiveListModel) newSelectionList.getModel();
+            model = (ArchiverListModel) newSelectionList.getModel();
             selections.setUserSelectedFilesInWizard(model.getItems());
         }
         return selections;
@@ -214,7 +214,7 @@ public final class ExportZipVisualPanel2 extends JPanel implements ComponentMess
 
     @Override
     public Boolean isPanelValid() {
-        ExportArchiveListModel model = (ExportArchiveListModel) newSelectionList.getModel();
+        ArchiverListModel model = (ArchiverListModel) newSelectionList.getModel();
         return model.getSize() > 0;
     }
     
@@ -234,12 +234,12 @@ public final class ExportZipVisualPanel2 extends JPanel implements ComponentMess
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JList<ExportArchiveListValueObject> newSelectionList;
-    private javax.swing.JList<ExportArchiveListValueObject> originalSelectionList;
+    private javax.swing.JList<org.pr.nb.zip.wizard.ArchiverListValueObject> newSelectionList;
+    private javax.swing.JList<org.pr.nb.zip.wizard.ArchiverListValueObject> originalSelectionList;
     private javax.swing.JButton removeAllButton;
     private javax.swing.JButton removeSelectedButton;
     // End of variables declaration//GEN-END:variables
-    private UserSelections selections;
+    private ArchiverUserSelections selections;
 
     private ChangeSupport support;
 }

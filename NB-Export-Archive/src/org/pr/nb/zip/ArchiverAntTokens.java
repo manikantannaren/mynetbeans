@@ -9,7 +9,7 @@ package org.pr.nb.zip;
  *
  * @author Kaiser
  */
-public enum GenerateArchiveAntTokens {
+public enum ArchiverAntTokens {
     
     ANT_PROJECT{
 
@@ -57,7 +57,7 @@ public enum GenerateArchiveAntTokens {
 
         @Override
         public String getToken() {
-           return "gen-archive";
+           return "Zip Creator";
         }
         
     },ANT_TASK_NAME{
