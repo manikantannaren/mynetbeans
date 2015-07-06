@@ -1,0 +1,7 @@
+Manifest-Version: 1.0
+AutoUpdate-Show-In-Client: true
+OpenIDE-Module: org.pr.nb.zip
+OpenIDE-Module-Install: org/pr/nb/zip/Installer.class
+OpenIDE-Module-Localizing-Bundle: org/pr/nb/zip/Bundle.properties
+OpenIDE-Module-Specification-Version: 1.0
+
