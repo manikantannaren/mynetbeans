@@ -1,8 +1,19 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Copyright 2015 Manikantan Narender Nath.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
+
 package org.pr.nb.zip;
 
 import java.io.BufferedWriter;
@@ -26,6 +37,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.prefs.Preferences;
 import org.apache.tools.ant.module.api.support.ActionUtils;
 import org.openide.execution.ExecutorTask;
@@ -34,10 +47,10 @@ import org.openide.filesystems.FileUtil;
 import org.openide.util.Exceptions;
 import org.openide.util.NbBundle;
 import org.openide.util.NbPreferences;
-import org.openide.windows.IOColorLines;
 import org.openide.windows.IOProvider;
 import org.openide.windows.InputOutput;
 import org.pr.nb.zip.options.ArchiverPreferencesKeys;
+import org.pr.nb.zip.util.LoggerProvider;
 import org.pr.nb.zip.wizard.ArchiverListValueObject;
 
 /**
@@ -60,12 +73,12 @@ import org.pr.nb.zip.wizard.ArchiverListValueObject;
 public class ArchiveCreator implements Runnable {
 
     ArchiverUserSelections selections;
-//    Logger logger;
+    Logger logger;
 
     Preferences prefs;
 
     public ArchiveCreator(ArchiverUserSelections selections) {
-//        this.logger = LoggerProvider.getLogger(ArchiveCreator.class);
+        this.logger = LoggerProvider.getLogger(ArchiveCreator.class);
         this.selections = selections;
         prefs = NbPreferences.forModule(ArchiverAction.class);
     }
@@ -74,13 +87,14 @@ public class ArchiveCreator implements Runnable {
     public void run() {
         try {
             FileObject antScript = generateAntScript(selections);
-            String[] targets = new String[]{ArchiverAntTokens.ANT_TASK_NAME.getToken()};
+//            String[] targets = new String[]{ArchiverAntTokens.ANT_TASK_NAME.getToken()};
             Properties props = new Properties();
             
             ExecutorTask task = ActionUtils.runTarget(antScript, null, null);
             StringBuilder destination = getDestinationFile(selections);
             File file = new File(destination.toString());
             file = FileUtil.normalizeFile(file);
+            
             task.addTaskListener(new ArchiverAntScriptCompletionTaskListener(FileUtil.toFileObject(file)));
             log(Bundle.archiver_done(), true);
         } catch (IOException ex) {
@@ -183,6 +197,7 @@ public class ArchiveCreator implements Runnable {
             Path path = Paths.get(cpath);
             pathsList.add(path);
         }
+    
         log(Bundle.Checking_files_to_be_zipped(pathsList), false);
         Collections.sort(pathsList, new PathComparator());
 

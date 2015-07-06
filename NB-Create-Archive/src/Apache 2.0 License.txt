@@ -13,17 +13,3 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-package org.pr.nb.zip.wizard;
-
-import org.pr.nb.zip.ArchiverUserSelections;
-
-/**
- *
- * @author Kaiser
- */
-public interface ComponentMessagingInterface {
-   public void setValue(ArchiverUserSelections selections);
-   public ArchiverUserSelections getValue();
-   public Boolean isPanelValid();
-}
