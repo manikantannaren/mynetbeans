@@ -12,6 +12,10 @@ The changes with the previous version include
 * If the first selected node is a "non-file" node like "Importany files" or "REST services" the action is disabled.
 * Changed naming and labels
 
+##Getting the plugin
+###Netbeans plugin portal
+You can download the plugin from [Netbeans plugin portal](http://plugins.netbeans.org/plugin/58976/?show=true)
+
 ##Acknowledgements
 A big thank you to @Chris2011 for trying out the plugin in full trust and reporting issues
 
