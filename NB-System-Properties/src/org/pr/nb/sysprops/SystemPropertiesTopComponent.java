@@ -88,6 +88,8 @@ public final class SystemPropertiesTopComponent extends TopComponent  {
             }
         ));
         propertiesTable.setComponentPopupMenu(tablePopupMenu);
+        propertiesTable.setFillsViewportHeight(true);
+        propertiesTable.setShowGrid(true);
         jScrollPane1.setViewportView(propertiesTable);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
