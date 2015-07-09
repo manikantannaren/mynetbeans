@@ -14,6 +14,9 @@
               <Connection code="Bundle.copyPropertyNamePopupMenuItem_text()" type="code"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="copyPropertyNameMenuItemActionPerformed"/>
+          </Events>
         </MenuItem>
         <MenuItem class="javax.swing.JMenuItem" name="copyPropertyValueMenuItem1">
           <Properties>
@@ -21,6 +24,9 @@
               <Connection code="Bundle.copyPropertyValuePopupMenuItem_text()" type="code"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="copyPropertyValueMenuItem1ActionPerformed"/>
+          </Events>
         </MenuItem>
         <MenuItem class="javax.swing.JMenuItem" name="copyPropertyMenuItem">
           <Properties>
@@ -28,6 +34,9 @@
               <Connection code="Bundle.copyPropertyPopupMenuItem_text()" type="code"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="copyPropertyMenuItemActionPerformed"/>
+          </Events>
         </MenuItem>
       </SubComponents>
     </Container>
@@ -73,8 +82,15 @@
               <Connection component="tablePopupMenu" type="bean"/>
             </Property>
             <Property name="fillsViewportHeight" type="boolean" value="true"/>
-            <Property name="showGrid" type="boolean" value="true"/>
+            <Property name="rowHeight" type="int" value="20"/>
           </Properties>
+          <Events>
+            <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="propertiesTableMousePressed"/>
+            <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="propertiesTableMouseReleased"/>
+          </Events>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="        Font font = propertiesTable.getTableHeader().getFont();&#xa;        Font newfont = new Font(font.getName(), Font.BOLD, font.getSize());&#xa;propertiesTable.getTableHeader().setFont(newfont);&#xa;((DefaultTableCellRenderer)propertiesTable.getTableHeader().getDefaultRenderer())&#xa;    .setHorizontalAlignment(DefaultTableCellRenderer.CENTER);"/>
+          </AuxValues>
         </Component>
       </SubComponents>
     </Container>
