@@ -16,6 +16,14 @@ The changes with the previous version include
 ###Netbeans plugin portal
 You can download the plugin from [Netbeans plugin portal](http://plugins.netbeans.org/plugin/58976/?show=true)
 
+###Using the NetBeans plugin manager
+This plugin is verified for NetBeans 8.0.* and can be installed using the plugin manager.
+
+1. Start NetBeans
+2. Selected Tools->Plugins
+3. In Available Plugins tab, search for ```NetBeans Create Archive```
+4. Select the plugin
+5. Click install. 
 ##Acknowledgements
 A big thank you to @Chris2011 for trying out the plugin in full trust and reporting issues
 
