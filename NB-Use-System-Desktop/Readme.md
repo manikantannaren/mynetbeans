@@ -12,3 +12,15 @@ This plugin has four actions, Open, Browse, Edit and send by mail. Each of these
 3. There are no options to set. What ever is set on the operating system will be used.
 4. Tested Platforms - Netbeans 8 and Java SE 7 and up. The plugin has been developer tested on Win 7, Windows 8, Mac OS X - Yosemite.
 5. **_If an application is not associated with the given file, the behaviour is non-consistent. Some times the Open With dialog appears, sometimes it is hidden behind the IDE and many times, throws Exception_**
+
+##Getting the plugin
+###From NetBeans plugin portal
+You can download the plugin from the [Netbeans plugin portal](http://plugins.netbeans.org/plugin/57462/?show=true)
+###Using the NetBeans plugin manager
+This plugin is verified for NetBeans 8.0.* and can be installed using the plugin manager.
+
+1. Start NetBeans
+2. Selected Tools->Plugins
+3. In Available Plugins tab, search for ```NetBeans use system desktop```
+4. Select the plugin
+5. Click install. 
