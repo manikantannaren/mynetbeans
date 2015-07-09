@@ -1,5 +1,5 @@
-Netbeans Plugin Create Archive
-------------------------------
+#About Netbeans Plugin Create Archive
+-------------------------------------
 
 The plugin [Old name: Export As Archive](http://plugins.netbeans.org/plugin/10235/?show=true) is re-written using the ActionListener and @Action annotations of Netbeans. 
 
@@ -12,3 +12,8 @@ The changes with the previous version include
 * If the first selected node is a "non-file" node like "Importany files" or "REST services" the action is disabled.
 * Changed naming and labels
 
+##Acknowledgements
+A big thank you to @chris2011 for trying out the plugin in full trust and reporting issues
+
+1. [Issue #3: Can't install plugin, favorites is needed.](https://github.com/manikantannaren/mynetbeans/issues/3). Had to disable a feature to fix the bug. :disappointed_relieved:
+2. [Issue #4: Missing resource exception](https://github.com/manikantannaren/mynetbeans/issues/4)
