@@ -21,7 +21,7 @@ This plugin is verified for NetBeans 8.0.* and can be installed using the plugin
 
 1. Start NetBeans
 2. Selected Tools->Plugins
-3. In Available Plugins tab, search for ```NetBeans Create Archive```
+3. In Available Plugins tab, search for ```Create-Archive```
 4. Select the plugin
 5. Click install. 
 ##Acknowledgements
