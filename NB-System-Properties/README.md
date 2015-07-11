@@ -23,3 +23,6 @@ It is possible to copy the properties by right clickign on any row. If no rows a
 3. Copy name and value (in name=value format) from selected rows or current row
 
 ##Downloading the plugin
+You download the plugin from <a href='http://plugins.netbeans.org/plugin/59068/?show=true'> NetBeans Plugin portal</a>
+
+Once the plugin is verified it will also be available from within NetBeans' plugin manager
