@@ -24,6 +24,7 @@ import java.util.logging.Logger;
  */
 public class LoggerProvider {
     
+    @SuppressWarnings("unchecked")
     public static Logger getLogger(Class whichClass){
         return Logger.getLogger(whichClass.getName());
     }
