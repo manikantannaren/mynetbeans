@@ -1,9 +1,9 @@
 #About mynetbeans
 ==========
 
-A reporsitory of my experiments with NetBeans. Some of these experiments might result in NetBeans plugins.
+A repository of my experiments with NetBeans. Some of these experiments might result in NetBeans plugins.
 
-I have been using NetBeans since early on first via Forte for Java. I loved that very much compared to IBM Visual Age and Symantec Visual Cafe. Yes that since that young. Later when Sun decided to wreck Forte For Java, I moved full time to NetBeans (was verion 5 I think).
+I have been using NetBeans since early on first via Forte for Java. I loved that very much compared to IBM Visual Age and Symantec Visual Cafe. Yes! Since that young. Later when Sun decided to wreck Forte For Java, I moved full time to NetBeans (was verion 5 I think).
 
 Over the years, I resisted popular opinion and organizational pressures to move away from NetBeans so much so that I am always in the NetBeans users minority of 1. Over so many years some of the things that helped me retain my love for the NetBeans IDE are
 
