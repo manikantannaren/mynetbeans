@@ -14,6 +14,7 @@ Over the years, I resisted popular opinion and organizational pressures to move 
 5. Newer Java ecosystem paradigms like JPA, REST/Jersey/Wicket was adapted to seamlessly, Lambda, Generics
  
 Coming to Today, some of my favorite NetBeans features are
+
 1. The Terminal window. It has it's hiccups but none which are show stoppers. I don't have to leave my beloved even for a second to do something in a terminal. I can now do it all within the IDE
 2. HTML5 support - The Google connector is a boon. The bi-directional code changes trim down my effort in devloping HTML5 pages. I have quite a few NB converts because of this one feature.
 3. Coding REST API - Now this is one feature I use fairly regularly and the speed with which my REST API is coded, tested and improved is helping me migrate people to NetBeans
