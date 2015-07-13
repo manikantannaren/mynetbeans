@@ -67,12 +67,12 @@ final class ArchiverPanel extends javax.swing.JPanel {
         logExecutionHeltextArea.setWrapStyleWord(true);
         logExecutionHeltextArea.setCursor(null);
         logExecutionHeltextArea.setEnabled(false);
-        logExecutionHeltextArea.setFocusTraversalKeysEnabled(false);
         logExecutionHeltextArea.setFocusable(false);
         logExecutionHeltextArea.setOpaque(false);
         jScrollPane1.setViewportView(logExecutionHeltextArea);
 
         org.openide.awt.Mnemonics.setLocalizedText(showAddToFavoritesDialogCheckBox, Bundle.showAddToFavoritesDialogCheckBox_txt());
+        showAddToFavoritesDialogCheckBox.setEnabled(false);
 
         jScrollPane2.setBorder(null);
         jScrollPane2.setOpaque(false);
@@ -86,7 +86,6 @@ final class ArchiverPanel extends javax.swing.JPanel {
         addToFavoritesHelpTextArea.setBorder(null);
         addToFavoritesHelpTextArea.setCursor(null);
         addToFavoritesHelpTextArea.setEnabled(false);
-        addToFavoritesHelpTextArea.setFocusTraversalKeysEnabled(false);
         addToFavoritesHelpTextArea.setFocusable(false);
         addToFavoritesHelpTextArea.setOpaque(false);
         jScrollPane2.setViewportView(addToFavoritesHelpTextArea);

@@ -29,7 +29,7 @@ public class Installer extends ModuleInstall {
         // TODO
         Preferences prefs = NbPreferences.forModule(ArchiverAction.class);
         prefs.putBoolean(ArchiverPreferencesKeys.LOG_OUTPUT.name(), true);
-        prefs.putBoolean(ArchiverPreferencesKeys.SHOW_ADD_TO_FAV_DIALOG.name(),true);
+        prefs.putBoolean(ArchiverPreferencesKeys.SHOW_ADD_TO_FAV_DIALOG.name(),false);
         try {
             prefs.flush();
         } catch (BackingStoreException ex) {

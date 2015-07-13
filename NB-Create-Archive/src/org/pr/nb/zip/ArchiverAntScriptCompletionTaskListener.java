@@ -17,7 +17,6 @@
 package org.pr.nb.zip;
 
 import java.util.prefs.Preferences;
-import org.netbeans.modules.favorites.api.Favorites;
 import org.openide.DialogDescriptor;
 import org.openide.DialogDisplayer;
 import org.openide.execution.ExecutorTask;
@@ -48,19 +47,19 @@ class ArchiverAntScriptCompletionTaskListener implements TaskListener {
         if (showDialog) {
             ExecutorTask thisTask = (ExecutorTask) task;
             if (thisTask.result() == 0) {
-                final AddToFavoritesConfirmPanel addToFavoritesConfirmPanel = new AddToFavoritesConfirmPanel(destFile);
-                DialogDescriptor descriptor = new DialogDescriptor(addToFavoritesConfirmPanel, Bundle.add_to_favorites());
-                Object userOption = DialogDisplayer.getDefault().notify(descriptor);
-                if (userOption == DialogDescriptor.OK_OPTION) {
-                    try {
-                        Favorites.getDefault().add(destFile);
-                    } catch (NullPointerException ex) {
-                        Exceptions.printStackTrace(ex);
-                    } catch (DataObjectNotFoundException ex) {
-                        Exceptions.printStackTrace(ex);
-                    }
-                }
-                addToFavoritesConfirmPanel.storeChanges();
+//                final AddToFavoritesConfirmPanel addToFavoritesConfirmPanel = new AddToFavoritesConfirmPanel(destFile);
+//                DialogDescriptor descriptor = new DialogDescriptor(addToFavoritesConfirmPanel, Bundle.add_to_favorites());
+//                Object userOption = DialogDisplayer.getDefault().notify(descriptor);
+//                if (userOption == DialogDescriptor.OK_OPTION) {
+//                    try {
+//                        Favorites.getDefault().add(destFile);
+//                    } catch (NullPointerException ex) {
+//                        Exceptions.printStackTrace(ex);
+//                    } catch (DataObjectNotFoundException ex) {
+//                        Exceptions.printStackTrace(ex);
+//                    }
+//                }
+//                addToFavoritesConfirmPanel.storeChanges();
             }
         }
     }

@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.pr.nb.zip;
 
 import java.awt.event.ActionEvent;
@@ -47,7 +46,8 @@ import org.pr.nb.zip.wizard.ArchiverWizardIterator;
 )
 @ActionReferences({
     @ActionReference(path = "Menu/BuildProject", position = 1200, separatorBefore = 1150),
-    @ActionReference(path = "Toolbars/Build", position = 500)
+    @ActionReference(path = "Toolbars/Build", position = 500),
+    @ActionReference(path = "Shortcuts", name = "D-F3")
 })
 @Messages({
     "CTL_ExportAction=Zip selected nodes",
