@@ -16,6 +16,8 @@
 package org.pr.nb.sysprops;
 
 import java.awt.BorderLayout;
+import javax.swing.ActionMap;
+import javax.swing.text.DefaultEditorKit;
 import org.netbeans.api.settings.ConvertAsProperties;
 import org.openide.awt.ActionID;
 import org.openide.awt.ActionReference;
@@ -63,6 +65,8 @@ public final class SystemPropertiesTopComponent extends TopComponent implements 
         setName(Bundle.CTL_SystemPropertiesTopComponent());
         setToolTipText(Bundle.HINT_SystemPropertiesTopComponent());
 
+        ActionMap map = getActionMap();
+        map.put(DefaultEditorKit.copyAction, ExplorerUtils.actionCopy(manager)); 
         associateLookup(ExplorerUtils.createLookup(manager, getActionMap()));
         
         AbstractNode root = new AbstractNode(new CategoryNodes());
