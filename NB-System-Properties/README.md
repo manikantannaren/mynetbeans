@@ -26,3 +26,8 @@ It is possible to copy the properties by right clickign on any row. If no rows a
 You download the plugin from <a href='http://plugins.netbeans.org/plugin/59068/?show=true'> NetBeans Plugin portal</a>
 
 Once the plugin is verified it will also be available from within NetBeans' plugin manager
+
+##Further reading
+1. [The Netbeans Nodes Tutorial](https://platform.netbeans.org/tutorials/nbm-nodesapi3.html)
+2. [Discussion about the OutlineView](http://forums.netbeans.org/ptopic24429.html)
+3. 

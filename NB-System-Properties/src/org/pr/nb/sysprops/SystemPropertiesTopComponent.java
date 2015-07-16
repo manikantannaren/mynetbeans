@@ -15,29 +15,18 @@
  */
 package org.pr.nb.sysprops;
 
-import java.awt.Font;
-import java.awt.Point;
-import java.awt.Toolkit;
-import java.awt.datatransfer.Clipboard;
-import java.awt.datatransfer.StringSelection;
-import java.awt.event.MouseEvent;
-import java.util.AbstractMap;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Enumeration;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
-import java.util.Set;
-import javax.swing.SwingUtilities;
-import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.TableColumnModel;
+import java.awt.BorderLayout;
 import org.netbeans.api.settings.ConvertAsProperties;
 import org.openide.awt.ActionID;
 import org.openide.awt.ActionReference;
-import org.openide.util.Exceptions;
+import org.openide.explorer.ExplorerManager;
+import org.openide.explorer.ExplorerUtils;
+import org.openide.explorer.view.OutlineView;
+import org.openide.nodes.AbstractNode;
+import org.openide.nodes.Node;
 import org.openide.windows.TopComponent;
 import org.openide.util.NbBundle.Messages;
+import org.pr.nb.sysprops.nodes.CategoryNodes;
 
 /**
  * Top component which displays something.
@@ -48,7 +37,7 @@ import org.openide.util.NbBundle.Messages;
 )
 @TopComponent.Description(
         preferredID = "SystemPropertiesTopComponent",
-        iconBase = "org/pr/nb/sysprops/properties16.png",
+        iconBase = "org/pr/nb/sysprops/sysprops16.png",
         persistenceType = TopComponent.PERSISTENCE_NEVER
 )
 @TopComponent.Registration(mode = "output", openAtStartup = false)
@@ -60,17 +49,33 @@ import org.openide.util.NbBundle.Messages;
 )
 @Messages({
     "CTL_SystemPropertiesAction=System Properties",
-    "CTL_SystemPropertiesTopComponent=SystemProperties Window",
-    "HINT_SystemPropertiesTopComponent=This is a SystemProperties window",
+    "CTL_SystemPropertiesTopComponent=System Properties",
+    "HINT_SystemPropertiesTopComponent=Displays the list of environment variables and JVM properties",
     "copyPropertyNamePopupMenuItem.text=Copy Name",
     "copyPropertyValuePopupMenuItem.text=Copy Value",
-    "copyPropertyPopupMenuItem.text=Copy Name and Value",})
-public final class SystemPropertiesTopComponent extends TopComponent {
+    "copyPropertyPopupMenuItem.text=Copy Name and Value",
+    "outlineview.firstcolumn.name=Properties"
+})
+public final class SystemPropertiesTopComponent extends TopComponent implements ExplorerManager.Provider {
 
     public SystemPropertiesTopComponent() {
         initComponents();
         setName(Bundle.CTL_SystemPropertiesTopComponent());
         setToolTipText(Bundle.HINT_SystemPropertiesTopComponent());
+
+        associateLookup(ExplorerUtils.createLookup(manager, getActionMap()));
+        
+        AbstractNode root = new AbstractNode(new CategoryNodes());
+        manager.setRootContext(root);
+        
+        OutlineView view = new OutlineView(Bundle.outlineview_firstcolumn_name());
+        view.setPropertyColumns("entryValue", "Value");
+        add(view, BorderLayout.CENTER);
+
+        view.getOutline().setRootVisible(false);
+        Node node = root.getChildren().getNodeAt(0);
+        view.expandNode(node);
+        System.out.println(view.isExpanded(node));
     }
 
     /**
@@ -81,224 +86,14 @@ public final class SystemPropertiesTopComponent extends TopComponent {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        tablePopupMenu = new javax.swing.JPopupMenu();
-        copyPropertyNameMenuItem = new javax.swing.JMenuItem();
-        copyPropertyValueMenuItem1 = new javax.swing.JMenuItem();
-        copyPropertyMenuItem = new javax.swing.JMenuItem();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        propertiesTable = new javax.swing.JTable();
-
-        org.openide.awt.Mnemonics.setLocalizedText(copyPropertyNameMenuItem, Bundle.copyPropertyNamePopupMenuItem_text());
-        copyPropertyNameMenuItem.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                copyPropertyNameMenuItemActionPerformed(evt);
-            }
-        });
-        tablePopupMenu.add(copyPropertyNameMenuItem);
-
-        org.openide.awt.Mnemonics.setLocalizedText(copyPropertyValueMenuItem1, Bundle.copyPropertyValuePopupMenuItem_text());
-        copyPropertyValueMenuItem1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                copyPropertyValueMenuItem1ActionPerformed(evt);
-            }
-        });
-        tablePopupMenu.add(copyPropertyValueMenuItem1);
-
-        org.openide.awt.Mnemonics.setLocalizedText(copyPropertyMenuItem, Bundle.copyPropertyPopupMenuItem_text());
-        copyPropertyMenuItem.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                copyPropertyMenuItemActionPerformed(evt);
-            }
-        });
-        tablePopupMenu.add(copyPropertyMenuItem);
-
-        propertiesTable.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-
-            }
-        ));
-        propertiesTable.setComponentPopupMenu(tablePopupMenu);
-        propertiesTable.setFillsViewportHeight(true);
-        propertiesTable.setRowHeight(20);
-        Font font = propertiesTable.getTableHeader().getFont();
-        Font newfont = new Font(font.getName(), Font.BOLD, font.getSize());
-        propertiesTable.getTableHeader().setFont(newfont);
-        ((DefaultTableCellRenderer)propertiesTable.getTableHeader().getDefaultRenderer())
-        .setHorizontalAlignment(DefaultTableCellRenderer.CENTER);
-        propertiesTable.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                propertiesTableMousePressed(evt);
-            }
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                propertiesTableMouseReleased(evt);
-            }
-        });
-        jScrollPane1.setViewportView(propertiesTable);
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
-        );
+        setLayout(new java.awt.BorderLayout());
     }// </editor-fold>//GEN-END:initComponents
 
-    private void copyPropertyNameMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_copyPropertyNameMenuItemActionPerformed
-        // TODO add your handling code here:
-        transferToClipBoard("name");
 
-    }//GEN-LAST:event_copyPropertyNameMenuItemActionPerformed
-
-    private void copyPropertyValueMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_copyPropertyValueMenuItem1ActionPerformed
-        // TODO add your handling code here:
-        transferToClipBoard("value");
-    }//GEN-LAST:event_copyPropertyValueMenuItem1ActionPerformed
-
-    private void copyPropertyMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_copyPropertyMenuItemActionPerformed
-        // TODO add your handling code here:
-        transferToClipBoard("namevalue");
-    }//GEN-LAST:event_copyPropertyMenuItemActionPerformed
-
-    int[] currentRows;
-    int popupOnRow;
-    private void propertiesTableMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_propertiesTableMousePressed
-        triggerMouseClick(evt);
-    }//GEN-LAST:event_propertiesTableMousePressed
-
-
-    private void propertiesTableMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_propertiesTableMouseReleased
-        // TODO add your handling code here:
-        triggerMouseClick(evt);
-    }//GEN-LAST:event_propertiesTableMouseReleased
-    private void triggerMouseClick(MouseEvent evt) {
-        // TODO add your handling code here:
-        if (SwingUtilities.isRightMouseButton(evt)) {
-            Point p = evt.getPoint();
-            popupOnRow = propertiesTable.rowAtPoint(p);
-        }
-        currentRows = propertiesTable.getSelectedRows();
-    }
-
-    /**
-     *
-     * @param range Name, value or both (name=value)
-     */
-    private void transferToClipBoard(String range) {
-        StringBuilder builder = new StringBuilder();
-        if (currentRows.length > 0) {
-            for (int i = 0; i < currentRows.length; i++) {
-                PropertiesTableDataObject prop = (PropertiesTableDataObject) propertiesTable.getValueAt(currentRows[i], 0);
-                convertPropertyTableDataObjectToStringAndAddToStringBuilder(prop, range, builder);
-                builder.append("\n");
-            }
-        } else {
-            PropertiesTableDataObject prop = (PropertiesTableDataObject) propertiesTable.getValueAt(popupOnRow, 0);
-            convertPropertyTableDataObjectToStringAndAddToStringBuilder(prop, range, builder);
-        }
-        String selection = builder.toString().trim();
-        if (selection.length() > 0) {
-            Clipboard clipBoard = Toolkit.getDefaultToolkit().getSystemClipboard();
-            try {
-                StringSelection data = new StringSelection(selection);
-                clipBoard.setContents(data, data);
-            } catch (IllegalStateException e) {
-                Exceptions.printStackTrace(e);
-                Toolkit.getDefaultToolkit().beep();
-            }
-        }
-    }
-
-    private void convertPropertyTableDataObjectToStringAndAddToStringBuilder(PropertiesTableDataObject prop, String range, StringBuilder builder) {
-        if (prop != null) {
-            if (range.equals("name")) {
-                builder.append(prop.getData().getKey());
-            } else if (range.equals("value")) {
-                builder.append(prop.getData().getValue());
-            } else if (range.equals("namevalue")) {
-                builder.append(prop.getData().getKey()).append("=").append(prop.getData().getValue());
-            }
-        }
-    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JMenuItem copyPropertyMenuItem;
-    private javax.swing.JMenuItem copyPropertyNameMenuItem;
-    private javax.swing.JMenuItem copyPropertyValueMenuItem1;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable propertiesTable;
-    private javax.swing.JPopupMenu tablePopupMenu;
     // End of variables declaration//GEN-END:variables
     @Override
     public void componentOpened() {
-        // TODO add custom code on component opening
-        //Read System properties
-        //Create Table model
-        //Display System properties
-        Properties sysProps = System.getProperties();
-        Enumeration<String> keys = (Enumeration<String>) sysProps.propertyNames();
-        List<PropertiesTableDataObject> properties = new ArrayList<PropertiesTableDataObject>();
-        while (keys.hasMoreElements()) {
-            String key = keys.nextElement();
-            String value = sysProps.getProperty(key);
-            if (value.contains(System.lineSeparator())) {
-                char[] data = value.toCharArray();
-                StringBuilder builder = new StringBuilder();
-                for (char e : data) {
-                    if (((int) e) == 10) {
-                        builder.append("\\n");
-                    } else if (((int) e) == 13) {
-                        builder.append("\\r");
-                    }else{
-                        builder.append(e);
-                    }
-
-                }
-                value = builder.toString();
-            }
-            Map.Entry<String, String> entry = new AbstractMap.SimpleImmutableEntry<String, String>(key, value);
-            PropertiesTableDataObject.Flavour flv = PropertiesTableDataObject.Flavour.PROP;
-//nb.native.filechooser
-//nb.show.statistics.ui
-//netbeans.accept_license_class
-//netbeans.buildnumber
-//netbeans.default_userdir_root
-//netbeans.dirs
-//netbeans.dynamic.classpath
-//netbeans.home
-//netbeans.importclass
-//netbeans.logger.console
-//netbeans.productversion
-//netbeans.user
-//org.openide.awt.ActionReference.completion
-//org.openide.major.version
-//org.openide.specification.version
-//org.openide.version
-            if (key.contains("nb.native") || key.contains("nb.show") || key.contains("openide") || key.contains("netbeans")) {
-                flv = PropertiesTableDataObject.Flavour.NETBEANS;
-            }
-            PropertiesTableDataObject obj = new PropertiesTableDataObject(entry, flv);
-            properties.add(obj);
-        }
-        Map<String, String> envProps = System.getenv();
-        Set<Map.Entry<String, String>> entries = envProps.entrySet();
-        for (Map.Entry<String, String> entry : entries) {
-            PropertiesTableDataObject obj = new PropertiesTableDataObject(entry, PropertiesTableDataObject.Flavour.ENV);
-            properties.add(obj);
-        }
-        Collections.sort(properties, new PropertiesTableDataObjectComparator());
-        PropertiesTableModel model = new PropertiesTableModel(properties);
-        propertiesTable.setModel(model);
-        TableColumnModel cmodel = propertiesTable.getColumnModel();
-        int count = cmodel.getColumnCount();
-        for (int i = 0; i < count; i++) {
-            cmodel.getColumn(i).setCellRenderer(new PropertyTableCellRenderer());
-        }
 
     }
 
@@ -317,5 +112,12 @@ public final class SystemPropertiesTopComponent extends TopComponent {
     void readProperties(java.util.Properties p) {
         String version = p.getProperty("version");
         // TODO read your settings according to their version
+    }
+
+    private transient final ExplorerManager manager = new ExplorerManager();
+
+    @Override
+    public ExplorerManager getExplorerManager() {
+        return manager;
     }
 }

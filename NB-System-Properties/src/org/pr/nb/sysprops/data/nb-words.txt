@@ -1,0 +1,4 @@
+nb.native
+nb.show
+openide
+netbeans
