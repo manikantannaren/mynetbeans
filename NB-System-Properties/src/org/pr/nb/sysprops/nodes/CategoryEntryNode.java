@@ -5,7 +5,9 @@
  */
 package org.pr.nb.sysprops.nodes;
 
+import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
+import java.awt.datatransfer.UnsupportedFlavorException;
 import java.beans.IntrospectionException;
 import java.io.IOException;
 import javax.swing.Action;
@@ -19,8 +21,9 @@ import org.openide.util.NbBundle;
 import org.openide.util.actions.SystemAction;
 import org.openide.util.datatransfer.ExTransferable;
 import org.openide.util.lookup.Lookups;
-import org.pr.nb.sysprops.data.Category;
 import org.pr.nb.sysprops.data.CategoryEntry;
+import org.pr.nb.sysprops.nodes.actions.CopyNameAction;
+import org.pr.nb.sysprops.nodes.actions.CopyValueAction;
 
 /**
  *
@@ -77,12 +80,12 @@ public class CategoryEntryNode extends AbstractNode {
             prop.setShortDescription(Bundle.categoryentry_entryvalue_hint());
             prop.setValue("htmlDisplayValue", "<font color='!textText'>" + key.getEntryValue());
             propertySet.put(prop);
-            
-            Property<Category.Flavour> flvProperty = new PropertySupport.Reflection<Category.Flavour>(key, Category.Flavour.class, "getFlavour", null);
+            Property<String> flvProperty = new PropertySupport.Reflection<String>(key, String.class, "getFlavour", null);
             flvProperty.setDisplayName(Bundle.categoryentry_flavour_displayName());
             flvProperty.setShortDescription(Bundle.categoryentry_flavour_hint());
             flvProperty.setValue("htmlDisplayValue", "<font color='!textText'>" + displayName);
             propertySet.put(flvProperty);
+            
         } catch (NoSuchMethodException ex) {
             Exceptions.printStackTrace(ex);
         }
@@ -93,7 +96,10 @@ public class CategoryEntryNode extends AbstractNode {
     @Override
     public Action[] getActions(boolean context) {
         Action act = SystemAction.get(CopyAction.class);
-        return new Action[]{act};
+        return new Action[]{act, 
+            new CopyNameAction(this),
+            new CopyValueAction(this)
+        };
     }
 
     @Override
@@ -116,4 +122,58 @@ public class CategoryEntryNode extends AbstractNode {
         return false;
     }
 
+    @Override
+    public Transferable clipboardCopy() throws IOException {
+        Transferable t = super.clipboardCopy(); //To change body of generated methods, choose Tools | Templates.
+        ExTransferable added = ExTransferable.create(t);
+        
+        added.put(new ExTransferable.Single(DataFlavor.stringFlavor){
+
+            @Override
+            protected String getData() throws IOException, UnsupportedFlavorException {
+                CategoryEntry thisEntry = getLookup().lookup(CategoryEntry.class);
+                StringBuilder builder = new StringBuilder(thisEntry.getEntryName());
+                builder.append("=").append(thisEntry.getEntryValue());
+                return builder.toString();
+            }
+            
+        });
+        return added;
+    }
+    
+    public Transferable clipboardCopyOnlyName() throws IOException{
+        Transferable t = super.clipboardCopy(); 
+        ExTransferable added = ExTransferable.create(t);
+        
+        added.put(new ExTransferable.Single(DataFlavor.stringFlavor){
+
+            @Override
+            protected String getData() throws IOException, UnsupportedFlavorException {
+                CategoryEntry thisEntry = getLookup().lookup(CategoryEntry.class);
+                return thisEntry.getEntryName();
+            }
+            
+        });
+        return added;
+        
+    }
+
+    public Transferable clipboardCopyOnlyValue() throws IOException{
+        Transferable t = super.clipboardCopy(); 
+        ExTransferable added = ExTransferable.create(t);
+        
+        added.put(new ExTransferable.Single(DataFlavor.stringFlavor){
+
+            @Override
+            protected String getData() throws IOException, UnsupportedFlavorException {
+                CategoryEntry thisEntry = getLookup().lookup(CategoryEntry.class);
+                return thisEntry.getEntryValue();
+            }
+            
+        });
+        return added;
+        
+    }
+
+    
 }

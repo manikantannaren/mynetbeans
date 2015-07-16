@@ -79,7 +79,6 @@ public final class SystemPropertiesTopComponent extends TopComponent implements 
         view.getOutline().setRootVisible(false);
         Node node = root.getChildren().getNodeAt(0);
         view.expandNode(node);
-        System.out.println(view.isExpanded(node));
     }
 
     /**
