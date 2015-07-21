@@ -58,6 +58,7 @@
     <modules>
         <module>NB-OpenCSV-Wrapper</module>
         <module>NB-CSV-Nodes</module>
+        <module>NB-CSV-FILETYPE</module>
     </modules>
 
     <properties>

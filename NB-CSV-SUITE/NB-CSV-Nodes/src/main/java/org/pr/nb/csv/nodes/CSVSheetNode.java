@@ -21,7 +21,7 @@ public class CSVSheetNode extends AbstractNode{
     CSVSheet key;
 
     public CSVSheetNode(CSVSheet key) {
-        super(Children.create(new CSVSheetFactory(key),true));
+        super(Children.create(new CSVRowFactory(key),true));
         this.key = key;
         setDisplayName(key.getName());
         setIconBaseWithExtension("org/pr/nb/csv/nodes/test_csv16.png");

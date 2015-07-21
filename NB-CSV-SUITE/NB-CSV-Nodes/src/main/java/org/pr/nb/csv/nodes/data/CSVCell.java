@@ -14,7 +14,7 @@ public class CSVCell {
     private String cellValue;
     private int columnNum;
     private int rowNum;
-            
+
     public CSVCell(String data, int columnNum, int rowNum) {
         this.cellValue = data;
         this.columnNum = columnNum;
@@ -33,5 +33,4 @@ public class CSVCell {
         return rowNum;
     }
 
-    
 }

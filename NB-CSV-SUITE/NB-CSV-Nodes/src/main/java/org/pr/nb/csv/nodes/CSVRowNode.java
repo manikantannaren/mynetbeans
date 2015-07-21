@@ -17,11 +17,12 @@ public class CSVRowNode extends AbstractNode {
 
     private CSVRow key;
     public CSVRowNode(CSVRow key) {
-        super(Children.create(new CSVRowFactory(key), true));
+        super(Children.create(new CSVCellFactory(key), true));
         this.key = key;
         super.setName(key.getRowNumber()+"");
         setIconBaseWithExtension("org/pr/nb/csv/nodes/row16.png");
     }
+    
 
     
 }
