@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://www.netbeans.org/ns/project/1">
+    <type>org.netbeans.modules.apisupport.project</type>
+    <configuration>
+        <data xmlns="http://www.netbeans.org/ns/nb-module-project/3">
+            <code-name-base>org.pr.nb.csv</code-name-base>
+            <suite-component/>
+            <module-dependencies/>
+            <public-packages>
+                <package>com.opencsv</package>
+                <package>com.opencsv.bean</package>
+                <package>com.opencsv.enums</package>
+                <package>com.opencsv.stream.reader</package>
+            </public-packages>
+            <class-path-extension>
+                <runtime-relative-path>ext/opencsv-3.4.jar</runtime-relative-path>
+                <binary-origin>release/modules/ext/opencsv-3.4.jar</binary-origin>
+            </class-path-extension>
+        </data>
+    </configuration>
+</project>
