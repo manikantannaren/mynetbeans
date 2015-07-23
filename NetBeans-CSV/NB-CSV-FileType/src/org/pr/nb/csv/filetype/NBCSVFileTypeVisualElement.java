@@ -35,8 +35,8 @@ import org.pr.nb.csv.nodes.data.CSVSheet;
         iconBase = "org/pr/nb/csv/filetype/text_csv16.png",
         mimeType = "text/x-csv",
         persistenceType = TopComponent.PERSISTENCE_NEVER,
-        preferredID = "NBCSVFileTypeVisual",
-        position = 0
+        preferredID = "NBCSVFileTypeVisual"
+        
 )
 @Messages("LBL_NBCSVFileType_VISUAL=Visual")
 public final class NBCSVFileTypeVisualElement extends JPanel implements MultiViewElement, ExplorerManager.Provider {
@@ -105,30 +105,6 @@ public final class NBCSVFileTypeVisualElement extends JPanel implements MultiVie
 
     @Override
     public void componentShowing() {
-        EditorCookie cookie = obj.getLookup().lookup(EditorCookie.class);
-        Document doc = cookie.getDocument();
-        if (doc != null) {
-            try {
-                String text = doc.getText(0, doc.getLength());
-                FileObject fobj = obj.getPrimaryFile();
-                CSVSheet sheet = new CSVSheet(fobj.getNameExt(), fobj);
-                CSVSheet sheetFromText = new CSVSheet(fobj.getNameExt(),fobj,text);
-                CSVSheetNode node = new CSVSheetNode(sheet);
-                
-                explorerManager.setRootContext(node);
-                NodeTableModel model = new NodeTableModel();
-                
-                Node[] rowNodes = node.getChildren().getNodes();
-                System.out.println("Number of nodes "+rowNodes.length);
-                model.setNodes(rowNodes);
-                model.setProperties(CSVSheetNode.columnNames());
-                view.getTable().setModel(model);
-                System.out.println("Number of table rows "+view.getTable().getRowCount());
-                
-            } catch (BadLocationException ex) {
-                Exceptions.printStackTrace(ex);
-            }
-        }
     }
 
     @Override
@@ -137,6 +113,30 @@ public final class NBCSVFileTypeVisualElement extends JPanel implements MultiVie
 
     @Override
     public void componentActivated() {
+        EditorCookie cookie = obj.getLookup().lookup(EditorCookie.class);
+        Document doc = cookie.getDocument();
+        if (doc != null) {
+            try {
+                String text = doc.getText(0, doc.getLength());
+                FileObject fobj = obj.getPrimaryFile();
+                CSVSheet sheet = new CSVSheet(fobj.getNameExt(), fobj);
+                CSVSheet sheetFromText = new CSVSheet(fobj.getNameExt(), fobj, text);
+                CSVSheetNode node = new CSVSheetNode(sheet);
+
+                Node[] rowNodes = node.getChildren().getNodes();
+                System.out.println("Number of nodes " + rowNodes.length);
+                NodeTableModel model = new NodeTableModel();
+                model.setNodes(rowNodes);
+                model.setProperties(CSVSheetNode.columnNames());
+                view.getTable().setModel(model);
+                System.out.println("Number of table rows " + view.getTable().getRowCount());
+//                explorerManager.setRootContext(node);
+
+            } catch (BadLocationException ex) {
+                Exceptions.printStackTrace(ex);
+            }
+        }
+
     }
 
     @Override

@@ -12,6 +12,7 @@ import org.openide.nodes.AbstractNode;
 import org.openide.nodes.Children;
 import org.openide.nodes.PropertySupport;
 import org.openide.nodes.Sheet;
+import org.openide.util.Exceptions;
 import org.pr.nb.csv.nodes.data.CSVRow;
 
 /**
@@ -32,16 +33,29 @@ public class CSVRowNode extends AbstractNode {
     @Override
     protected Sheet createSheet() {
         Sheet propertySheet = super.createSheet();
-
         Sheet.Set propertySet = Sheet.createPropertiesSet();
         propertySheet.put(propertySet);
-        Property[] propertiesToDefine = CSVSheetNode.columnNames();
-        List<CSVCellNode> toPopulate = new ArrayList<CSVCellNode>();
-        new CSVCellFactory(key).createChildren(toPopulate);
-//        Property prop = new 
-//        for (CSVCellNode cSVCellNode : toPopulate) {
-//            
-//        }
+        try {
+
+            Property<String>[] propertiesToDefine = CSVSheetNode.columnNames();
+            List<CSVCellNode> toPopulate = new ArrayList<CSVCellNode>();
+            new CSVCellFactory(key).createChildren(toPopulate);
+            PropertySupport.Reflection<Integer> prop = new PropertySupport.Reflection<Integer>(key, Integer.class, "getRowNumber", null);
+            propertySet.put(prop);
+            for (int x = 0; x < propertiesToDefine.length; x++) {
+                Property<String> columnProp = propertiesToDefine[x];
+                if (x < toPopulate.size()) {
+                    CellProperty property = new CellProperty(columnProp.getName(), toPopulate.get(x));
+                    propertySet.put(property);
+                } else {
+                    CellProperty property = new CellProperty(columnProp.getName(), null);
+                    propertySet.put(property);
+                }
+                System.out.println("MaDE up prop for "+columnProp.getDisplayName());
+            }
+        } catch (NoSuchMethodException ex) {
+            Exceptions.printStackTrace(ex);
+        }
         return propertySheet;
     }
 
@@ -49,8 +63,8 @@ public class CSVRowNode extends AbstractNode {
 
         CSVCellNode key;
 
-        public CellProperty(String name, String displayName, String shortDescription, CSVCellNode value) {
-            super(name, CSVCellNode.class, displayName, shortDescription);
+        public CellProperty(String name, CSVCellNode value) {
+            super(name, CSVCellNode.class, value != null?value.getDisplayName():"", "");
             this.key = value;
         }
 
@@ -59,12 +73,10 @@ public class CSVRowNode extends AbstractNode {
             return key;
         }
 
-        @Override
-        public String getDisplayName() {
-            return key.getDisplayName();
-        }
-        
-
+//        @Override
+//        public String getDisplayName() {
+//            return key != null ? key.getDisplayName() : "";
+//        }
     }
 
 }

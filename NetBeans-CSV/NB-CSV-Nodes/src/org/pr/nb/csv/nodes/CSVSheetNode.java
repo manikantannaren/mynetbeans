@@ -22,7 +22,7 @@ import org.pr.nb.csv.nodes.data.CSVSheet;
 @NbBundle.Messages({
     "HINT_Sheet=Represents the chosen csv file as rows and cells",
     "HINT_ROW_NUMBER_COLUMN=Row number",
-    "LBL_ROW=''"
+    "LBL_ROW="
 
 })
 public class CSVSheetNode extends AbstractNode {
@@ -39,24 +39,21 @@ public class CSVSheetNode extends AbstractNode {
 
     public static Property[] columnNames() {
         List<ColumnNameProperty> columnNames = new ArrayList<ColumnNameProperty>();
-        for (int x = 64; x < 91; x++) {
-            if (x == 64) {//row number
-                ColumnNameProperty prop = new ColumnNameProperty("rownum", Bundle.LBL_ROW(), Bundle.HINT_ROW_NUMBER_COLUMN());
-                columnNames.add(prop);
-            }else{
-                
-                char c = (char)x;
-                for(int y = 65; y < 91; y++){
-                    char c1 = (char)y;
-                    ColumnNameProperty prop = new ColumnNameProperty(c1+""+c, c1+""+c, "");
-                    columnNames.add(prop);
-                }
-                ColumnNameProperty prop = new ColumnNameProperty(""+c, ""+c, "");
-                columnNames.add(prop);
-            }
+        for (int x = 65; x < 91; x++) {
+
+            char c = (char) x;
+//                for(int y = 65; y < 91; y++){
+//                    char c1 = (char)y;
+//                    ColumnNameProperty prop = new ColumnNameProperty(c1+""+c, c1+""+c, "");
+//                    columnNames.add(prop);
+//                }
+            ColumnNameProperty prop = new ColumnNameProperty("" + c, "" + c, "");
+            columnNames.add(prop);
         }
-        
+
         Collections.sort(columnNames);
+        ColumnNameProperty prop = new ColumnNameProperty("rownum", Bundle.LBL_ROW(), Bundle.HINT_ROW_NUMBER_COLUMN());
+        columnNames.add(0,prop);
         Property[] retValue = new Property[columnNames.size()];
         return columnNames.toArray(retValue);
     }
