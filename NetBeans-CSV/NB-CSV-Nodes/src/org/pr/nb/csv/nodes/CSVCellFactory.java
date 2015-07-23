@@ -17,20 +17,34 @@ import org.pr.nb.csv.nodes.data.CSVRow;
  */
 public class CSVCellFactory extends ChildFactory.Detachable<CSVCell> {
 
-    private CSVRow key;
+    private final CSVRow key;
     public CSVCellFactory(CSVRow key) {
         this.key = key;
     }
 
+    
     @Override
     protected boolean createKeys(List<CSVCell> toPopulate) {
+        getCells(toPopulate);
+        return true;
+    }
+
+    protected void getCells(List<CSVCell> toPopulate) {
         String [] datum = key.getRowData();
         for (int i = 0; i < datum.length; i++) {
             String data = datum[i];
             CSVCell cell = new CSVCell(data, i,key.getRowNumber());
             toPopulate.add(cell);
         }
-        return true;
+    }
+    protected void createChildren(List<CSVCellNode> toPopulate){
+        String [] datum = key.getRowData();
+        for (int i = 0; i < datum.length; i++) {
+            String data = datum[i];
+            CSVCell cell = new CSVCell(data, i,key.getRowNumber());
+            CSVCellNode node = new CSVCellNode(cell);
+            toPopulate.add(node);
+        }
     }
     @Override
     protected Node createWaitNode() {

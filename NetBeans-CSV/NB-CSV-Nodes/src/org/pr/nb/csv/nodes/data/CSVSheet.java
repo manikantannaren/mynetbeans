@@ -16,9 +16,21 @@ public class CSVSheet {
 
     FileObject chosenFile;
 
+    private String csvText;
+    
     public CSVSheet(String name, FileObject chosenFile) {
         this.name = name;
         this.chosenFile = chosenFile;
+    }
+
+
+    public CSVSheet(String name,FileObject fobj,  String csvText) {
+        this(name,fobj);
+        this.csvText = csvText;
+    }
+
+    public String getCsvText() {
+        return csvText;
     }
     
     public String getName() {

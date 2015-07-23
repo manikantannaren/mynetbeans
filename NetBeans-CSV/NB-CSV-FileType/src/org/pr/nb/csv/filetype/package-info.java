@@ -7,7 +7,7 @@
     "template.displayname=CSV file"
 })
 @TemplateRegistration(folder = "Other", iconBase = "org/pr/nb/csv/filetype/text_csv16.png", 
-        content = "csvfile.csv", displayName = "#template.displayname")
+        content = "csvfile.csv", displayName = "#template.displayname",position = 200)
 package org.pr.nb.csv.filetype;
 
 import org.netbeans.api.templates.TemplateRegistration;

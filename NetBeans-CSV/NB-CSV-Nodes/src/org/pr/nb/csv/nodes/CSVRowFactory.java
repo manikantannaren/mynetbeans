@@ -11,10 +11,10 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.StringReader;
 import java.util.List;
 import org.netbeans.api.progress.ProgressHandle;
 import org.netbeans.api.progress.ProgressHandleFactory;
-import org.openide.filesystems.FileObject;
 import org.openide.filesystems.FileUtil;
 import org.openide.nodes.ChildFactory;
 import org.openide.nodes.Node;
@@ -49,61 +49,61 @@ public class CSVRowFactory extends ChildFactory.Detachable<CSVRow> {
     @Override
     protected boolean createKeys(List<CSVRow> toPopulate) {
         assert key.getChosenFile() != null;
-        new CSVFileParser(key.getChosenFile(), toPopulate).parse();
+        new CSVFileParser(toPopulate).parse();
         return true;
     }
 
     @Override
     protected Node createWaitNode() {
+        
         Node waitNode = super.createWaitNode();
         waitNode.setDisplayName(Bundle.waitnode_text());
         return waitNode;
     }
 
     @Override
-    protected Node createNodeForKey(CSVRow key) {
+    protected Node[] createNodesForKey(CSVRow key) {
         CSVRowNode rowNode = new CSVRowNode(key);
-        return rowNode;
+        return new Node[]{rowNode};
     }
 
     private class CSVFileParser implements Runnable, Cancellable, TaskListener {
 
-        private final FileObject csvFileToReadFrom;
         private final RequestProcessor processor;
         private final List<CSVRow> toPopulate;
         private boolean cancelled = false;
-        private ProgressHandle progressHandle ;
-        private CSVFileParser(FileObject chosenFile, List<CSVRow> toPopulate) {
-            this.csvFileToReadFrom = chosenFile;
+        private ProgressHandle progressHandle;
+
+        private CSVFileParser(List<CSVRow> toPopulate) {
             this.toPopulate = toPopulate;
             processor = new RequestProcessor(getClass().getCanonicalName(), 1, true);
         }
 
         public void parse() {
             progressHandle = ProgressHandleFactory.createHandle("", this);
-            RequestProcessor.Task task = processor.create(this);
-            task.addTaskListener(this);
-            task.schedule(0);
+//            RequestProcessor.Task task = processor.create(this);
+//            task.addTaskListener(this);
+//            task.schedule(0);
+            run();
         }
 
         @Override
         public void run() {
-            progressHandle.setDisplayName(Bundle.reading_progress_displaytext_readingfile(FileUtil.getFileDisplayName(csvFileToReadFrom)));
+            progressHandle.setDisplayName(Bundle.reading_progress_displaytext_readingfile(FileUtil.getFileDisplayName(key.getChosenFile())));
             progressHandle.start();
             BufferedReader in = null;
             try {
-                File file = FileUtil.toFile(key.getChosenFile());
-                in = new BufferedReader(new FileReader(file));
+                in = getReaderFromKey();
                 CSVReader reader = new CSVReader(in);
                 List<String[]> data = reader.readAll();
-                progressHandle.switchToDeterminate(0);
+//                progressHandle.switchToDeterminate(0);
                 int numrows = data.size();
                 for (int i = 0; i < data.size(); i++) {
                     if (cancelled) {
                         break;
                     }
-                    String displayName = Bundle.reading_progress_displaytext_parsingtext(i);
-                    progressHandle.progress(displayName, computePercentage(i, numrows));
+                    String displayName = Bundle.reading_progress_displaytext_parsingtext(computePercentage(i, numrows));
+//                    progressHandle.progress(displayName, computePercentage(i, numrows));
                     String[] datum = data.get(i);
                     CSVRow row = new CSVRow(datum, i);
                     toPopulate.add(row);
@@ -121,6 +121,7 @@ public class CSVRowFactory extends ChildFactory.Detachable<CSVRow> {
                     Exceptions.printStackTrace(ex);
                 }
             }
+            progressHandle.finish();
 
         }
 
@@ -134,10 +135,24 @@ public class CSVRowFactory extends ChildFactory.Detachable<CSVRow> {
         @Override
         public void taskFinished(Task task) {
             progressHandle.finish();
+//            CSVRowFactory.super.refresh(true);
+            
         }
 
         private int computePercentage(int i, int numrows) {
             return (i * 100) / numrows;
+        }
+
+        private BufferedReader getReaderFromKey() throws FileNotFoundException {
+            BufferedReader retValue = null;
+            if (key.getCsvText() == null) {
+                File file = FileUtil.toFile(key.getChosenFile());
+                retValue = new BufferedReader(new FileReader(file));
+            } else {
+                StringReader in = new StringReader(key.getCsvText());
+                retValue = new BufferedReader(in);
+            }
+            return retValue;
         }
 
     }
