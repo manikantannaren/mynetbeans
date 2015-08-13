@@ -1,3 +1,0 @@
-Manifest-Version: 1.0
-OpenIDE-Module-Localizing-Bundle: org/pr/nb/csv/nb/csv/nodes/Bundle.properties
-
