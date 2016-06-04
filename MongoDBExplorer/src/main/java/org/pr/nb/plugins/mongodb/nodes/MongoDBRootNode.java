@@ -16,10 +16,14 @@
 package org.pr.nb.plugins.mongodb.nodes;
 
 import java.awt.Image;
+import javax.swing.Action;
+import org.openide.actions.NewAction;
 import org.openide.nodes.AbstractNode;
 import org.openide.nodes.Children;
 import org.openide.util.ImageUtilities;
 import org.openide.util.NbBundle;
+import org.openide.util.actions.SystemAction;
+import org.openide.util.datatransfer.NewType;
 
 /**
  *
@@ -44,6 +48,21 @@ class MongoDBRootNode extends AbstractNode {
     @Override
     public Image getOpenedIcon(int type) {
         return ImageUtilities.loadImage("org/pr/nb/plugins/mongodb/nodes/db-catalog-node.png");
+    }
+
+    @Override
+    public Action[] getActions(boolean context) {
+        Action[] retValue = new Action[]{
+            SystemAction.get(NewAction.class)
+        };
+        return retValue;
+    }
+
+    @Override
+    public NewType[] getNewTypes() {
+        return new NewType[]{
+            new MongoDBInstanceType()
+        };
     }
 
 }
