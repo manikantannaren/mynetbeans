@@ -15,17 +15,25 @@
  */
 package org.pr.nb.plugins.mongodb.dialogs;
 
+import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import org.openide.WizardDescriptor;
+import org.openide.util.ChangeSupport;
 import org.openide.util.HelpCtx;
 
-public class NewMongDBInstanceWizardPanel2 implements WizardDescriptor.Panel<WizardDescriptor> {
+public class NewMongDBInstanceWizardPanel2 implements WizardDescriptor.Panel<WizardDescriptor>, ChangeListener {
 
     /**
      * The visual component that displays this panel. If you need to access the
      * component from this class, just use getComponent().
      */
     private NewMongDBInstanceTestConnectionVisualPanel component;
+    private ChangeSupport changeSupport;
+
+    public NewMongDBInstanceWizardPanel2(ChangeSupport changeSupport) {
+        this.changeSupport = changeSupport;
+        addChangeListener(this);
+    }
 
     // Get the visual component for the panel. In this template, the component
     // is kept separate. This can be more efficient: if the wizard is created
@@ -34,7 +42,7 @@ public class NewMongDBInstanceWizardPanel2 implements WizardDescriptor.Panel<Wiz
     @Override
     public NewMongDBInstanceTestConnectionVisualPanel getComponent() {
         if (component == null) {
-            component = new NewMongDBInstanceTestConnectionVisualPanel();
+            component = new NewMongDBInstanceTestConnectionVisualPanel(changeSupport);
         }
         return component;
     }
@@ -50,7 +58,7 @@ public class NewMongDBInstanceWizardPanel2 implements WizardDescriptor.Panel<Wiz
     @Override
     public boolean isValid() {
         // If it is always OK to press Next or Finish, then:
-        return true;
+        return component.isConnectionValid();
         // If it depends on some condition (form filled out...) and
         // this condition changes (last form field filled in...) then
         // use ChangeSupport to implement add/removeChangeListener below.
@@ -59,20 +67,33 @@ public class NewMongDBInstanceWizardPanel2 implements WizardDescriptor.Panel<Wiz
 
     @Override
     public void addChangeListener(ChangeListener l) {
+        changeSupport.addChangeListener(l);
     }
 
     @Override
     public void removeChangeListener(ChangeListener l) {
+        changeSupport.removeChangeListener(l);
     }
 
     @Override
     public void readSettings(WizardDescriptor wiz) {
-        // use wiz.getProperty to retrieve previous panel state
+        component.readSettings(wiz);
     }
 
     @Override
     public void storeSettings(WizardDescriptor wiz) {
-        // use wiz.putProperty to remember current panel state
+        component.storeSettings(wiz);
+    }
+
+    @Override
+    public void stateChanged(ChangeEvent e) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    protected void finalize() throws Throwable {
+        removeChangeListener(this);
+        super.finalize(); //To change body of generated methods, choose Tools | Templates.
     }
 
 }

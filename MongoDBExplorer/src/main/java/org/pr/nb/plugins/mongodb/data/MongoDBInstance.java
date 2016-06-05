@@ -22,11 +22,17 @@ import org.bson.types.ObjectId;
 import org.json.simple.JSONAware;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONStreamAware;
+import org.openide.util.NbBundle;
 
 /**
  *
  * @author Mahakaal
  */
+@NbBundle.Messages({
+    "# {0} - Hostname",
+    "DEFAULT_DISPLAY_NAME=Local instance: {0}"
+}
+)
 public class MongoDBInstance implements JSONAware, JSONStreamAware, Serializable {
 
     public static final String FIELD_HOSTNAME = "hostname";
@@ -42,7 +48,6 @@ public class MongoDBInstance implements JSONAware, JSONStreamAware, Serializable
     private String displayName;
 
     public MongoDBInstance() {
-        id = new ObjectId().toHexString();
     }
 
     public MongoDBInstance(String id, String hostName, Integer portNumber, String userName, String displayName) {
@@ -91,6 +96,11 @@ public class MongoDBInstance implements JSONAware, JSONStreamAware, Serializable
 
     public void setDisplayName(String displayName) {
         this.displayName = displayName;
+    }
+
+    public static MongoDBInstance createWithDefaults() {
+        MongoDBInstance retValue = new MongoDBInstance(new ObjectId().toHexString(), "127.0.0.1", 27017, "root", Bundle.DEFAULT_DISPLAY_NAME("127.0.0.1"));
+        return retValue;
     }
 
     @Override

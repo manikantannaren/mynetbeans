@@ -16,28 +16,133 @@
 package org.pr.nb.plugins.mongodb.dialogs;
 
 import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.text.PlainDocument;
+import org.openide.WizardDescriptor;
+import org.openide.util.ChangeSupport;
 import org.openide.util.NbBundle;
+import org.pr.nb.plugins.mongodb.components.PropertyNames;
 import org.pr.nb.plugins.mongodb.components.WholeNumberDocumentFilter;
+import org.pr.nb.plugins.mongodb.data.MongoDBInstance;
+import org.pr.nb.plugins.mongodb.nodes.WizardMessagingInterface;
 
 @NbBundle.Messages({
+    "PANEL1_TITLE=Connection details",
     "LBL_HOSTNAME=Host name",
     "LBL_PORTNUMBER=Port number",
     "LBL_USERNAME=User name",
-    "LBL_DISPLAYNAME=Display name"
+    "LBL_DISPLAYNAME=Display name",
+    "ERR_HOSTNAME_REQUIRED=Hostame or IP address is required",
+    "ERR_PORT_REQUIRED=Port number is required"
 })
-public final class NewMongDBInstanceDetailsVisualPanel extends JPanel {
+public final class NewMongDBInstanceDetailsVisualPanel extends JPanel implements WizardMessagingInterface {
 
-    /**
-     * Creates new form NewMongDBInstanceVisualPanel1
-     */
-    public NewMongDBInstanceDetailsVisualPanel() {
+    NewMongDBInstanceDetailsVisualPanel(ChangeSupport changeSupport) {
+        this.changeSupport = changeSupport;
         initComponents();
+        addDocumentListeners();
+    }
+
+    private void addDocumentListeners() {
+        hostNameTextField.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                validateHostName(hostNameTextField);
+            }
+
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                validateHostName(hostNameTextField);
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                validateHostName(hostNameTextField);
+            }
+        });
+        portNumberTextField.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                validatePortNumber(portNumberTextField);
+            }
+
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                validatePortNumber(portNumberTextField);
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                validatePortNumber(portNumberTextField);
+            }
+        });
+        userNameTextField.getDocument().addDocumentListener(new DocumentListener() {
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                validateBlanks(userNameTextField);
+            }
+
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                validateBlanks(userNameTextField);
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                validateBlanks(userNameTextField);
+            }
+        });
+    }
+
+    private void validatePortNumber(JTextField textField) {
+        validateBlanks(textField);
+    }
+
+    private void validateHostName(JTextField textField) {
+        validateBlanks(textField);
+    }
+
+    private void validateBlanks(JTextField textField) {
+        if (textField.getText().length() <= 0) {
+            if (data != null) {
+                data.setMessageType(WizardDescriptor.ERROR_MESSAGE);
+                data.putProperty(WizardDescriptor.PROP_ERROR_MESSAGE, Bundle.ERR_HOSTNAME_REQUIRED());
+            }
+        }
     }
 
     @Override
     public String getName() {
-        return "Step #1";
+        return Bundle.PANEL1_TITLE();
+    }
+
+    @Override
+    public void readSettings(WizardDescriptor wiz) {
+        // use wiz.getProperty to retrieve previous panel state
+        this.data = wiz;
+        MongoDBInstance instance = (MongoDBInstance) wiz.getProperty(PropertyNames.NEW_MONGODB_WIZARD_INSTANCE.name());
+        assert instance != null;
+        hostNameTextField.setText(instance.getHostName());
+        portNumberTextField.setText(instance.getPortNumber() + "");
+        userNameTextField.setText(instance.getUserName());
+        displayNameTextField.setText(instance.getDisplayName());
+    }
+
+    @Override
+    public void storeSettings(WizardDescriptor wiz) {
+        this.data = wiz;
+        MongoDBInstance instance = (MongoDBInstance) wiz.getProperty(PropertyNames.NEW_MONGODB_WIZARD_INSTANCE.name());
+        instance.setHostName(hostNameTextField.getText());
+        instance.setDisplayName(displayNameTextField.getText());
+        instance.setUserName(userNameTextField.getText());
+        try {
+            instance.setPortNumber(Integer.parseInt(portNumberTextField.getText()));
+        } catch (NumberFormatException e) {
+            instance.setPortNumber(27017);
+        }
     }
 
     /**
@@ -146,4 +251,7 @@ public final class NewMongDBInstanceDetailsVisualPanel extends JPanel {
     private javax.swing.JTextField portNumberTextField;
     private javax.swing.JTextField userNameTextField;
     // End of variables declaration//GEN-END:variables
+    private ChangeSupport changeSupport;
+    private WizardDescriptor data;
+
 }

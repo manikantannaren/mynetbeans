@@ -16,26 +16,63 @@
 package org.pr.nb.plugins.mongodb.dialogs;
 
 import javax.swing.JPanel;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.text.PlainDocument;
+import org.openide.WizardDescriptor;
+import org.openide.util.ChangeSupport;
 import org.openide.util.NbBundle;
+import org.pr.nb.plugins.mongodb.components.PropertyNames;
 import org.pr.nb.plugins.mongodb.components.WholeNumberDocumentFilter;
+import org.pr.nb.plugins.mongodb.data.MongoDBInstance;
+import org.pr.nb.plugins.mongodb.nodes.WizardMessagingInterface;
 
 @NbBundle.Messages({
+    "PANEL2_TITLE=Step #2: Test connection",
     "LBL_PASSOWRD=Display name",
     "BTN_TESTCONNECTION=Test connection"
 })
-public final class NewMongDBInstanceTestConnectionVisualPanel extends JPanel {
+public final class NewMongDBInstanceTestConnectionVisualPanel extends JPanel implements ChangeListener, WizardMessagingInterface {
 
-    /**
-     * Creates new form NewMongDBInstanceVisualPanel1
-     */
-    public NewMongDBInstanceTestConnectionVisualPanel() {
+    NewMongDBInstanceTestConnectionVisualPanel(ChangeSupport changeSupport) {
+        this.changeSupport = changeSupport;
+        changeSupport.addChangeListener(this);
         initComponents();
+    }
+
+    boolean isConnectionValid() {
+        return connected;
     }
 
     @Override
     public String getName() {
-        return "Step #1";
+        return Bundle.PANEL2_TITLE();
+    }
+
+    @Override
+    public void readSettings(WizardDescriptor wiz) {
+        // use wiz.getProperty to retrieve previous panel state
+        this.data = wiz;
+        MongoDBInstance instance = (MongoDBInstance) wiz.getProperty(PropertyNames.NEW_MONGODB_WIZARD_INSTANCE.name());
+        assert instance != null;
+        hostNameTextField.setText(instance.getHostName());
+        portNumberTextField.setText(instance.getPortNumber() + "");
+        userNameTextField.setText(instance.getUserName());
+        displayNameTextField.setText(instance.getDisplayName());
+    }
+
+    @Override
+    public void storeSettings(WizardDescriptor wiz) {
+        this.data = wiz;
+        MongoDBInstance instance = (MongoDBInstance) wiz.getProperty(PropertyNames.NEW_MONGODB_WIZARD_INSTANCE.name());
+        instance.setHostName(hostNameTextField.getText());
+        instance.setDisplayName(displayNameTextField.getText());
+        instance.setUserName(userNameTextField.getText());
+        try {
+            instance.setPortNumber(Integer.parseInt(portNumberTextField.getText()));
+        } catch (NumberFormatException e) {
+            instance.setPortNumber(27017);
+        }
     }
 
     /**
@@ -172,6 +209,7 @@ public final class NewMongDBInstanceTestConnectionVisualPanel extends JPanel {
         // TODO add your handling code here:
         progressbarPanel.setVisible(true);
         //call mongo service here.
+        changeSupport.fireChange();
     }//GEN-LAST:event_testConnectionButtonActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -187,4 +225,12 @@ public final class NewMongDBInstanceTestConnectionVisualPanel extends JPanel {
     private javax.swing.JButton testConnectionButton;
     private javax.swing.JTextField userNameTextField;
     // End of variables declaration//GEN-END:variables
+    private Boolean connected = false;
+    private ChangeSupport changeSupport;
+    private WizardDescriptor data;
+
+    @Override
+    public void stateChanged(ChangeEvent e) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }
