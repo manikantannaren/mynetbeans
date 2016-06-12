@@ -17,6 +17,7 @@ package org.pr.nb.plugins.mongodb.nodes;
 
 import java.awt.Image;
 import java.beans.IntrospectionException;
+import java.io.IOException;
 import javax.swing.Action;
 import org.openide.nodes.BeanNode;
 import org.pr.nb.plugins.mongodb.data.MongoDBInstance;
@@ -26,7 +27,7 @@ import org.pr.nb.plugins.mongodb.data.MongoDBInstance;
  * @author Mahakaal
  */
 public class MongoDBInstanceNode extends BeanNode<MongoDBInstance> {
-    
+
     public MongoDBInstanceNode(MongoDBInstance bean) throws IntrospectionException {
         super(bean);
     }
@@ -47,12 +48,13 @@ public class MongoDBInstanceNode extends BeanNode<MongoDBInstance> {
     }
 
     @Override
-    public boolean canRename() {
+    public boolean canDestroy() {
         return true;
     }
 
     @Override
-    public boolean canDestroy() {
-        return true;
+    public void destroy() throws IOException {
+        fireNodeDestroyed();
     }
+
 }

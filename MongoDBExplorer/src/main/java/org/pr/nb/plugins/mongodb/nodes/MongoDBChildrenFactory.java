@@ -15,6 +15,7 @@
  */
 package org.pr.nb.plugins.mongodb.nodes;
 
+import java.beans.PropertyChangeEvent;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -27,7 +28,11 @@ import org.openide.filesystems.FileObject;
 import org.openide.filesystems.FileUtil;
 import org.openide.modules.Places;
 import org.openide.nodes.ChildFactory;
+import org.openide.nodes.NodeAdapter;
+import org.openide.nodes.NodeEvent;
 import org.openide.util.Exceptions;
+import org.pr.nb.plugins.mongodb.components.PropertiesNotifier;
+import org.pr.nb.plugins.mongodb.components.PropertyNames;
 import org.pr.nb.plugins.mongodb.data.MongoDBInstance;
 
 /**
@@ -42,6 +47,7 @@ class MongoDBChildrenFactory extends ChildFactory.Detachable<MongoDBInstance> {
 
     MongoDBChildrenFactory() {
         registeredInstances = readStoredInstances();
+        PropertiesNotifier.addPropertyChangeListener(PropertyNames.NEW_MONGODB_INSTANCE, new NodeEventWrapper());
     }
 
     @Override
@@ -92,5 +98,21 @@ class MongoDBChildrenFactory extends ChildFactory.Detachable<MongoDBInstance> {
         File userDir = Places.getUserDirectory();
         FileObject userDirFileObject = FileUtil.toFileObject(FileUtil.normalizeFile(userDir));
         return FileUtil.createFolder(userDirFileObject, CONFIG_DATABASES_MONGO_DB);
+    }
+
+    private class NodeEventWrapper extends NodeAdapter {
+
+        @Override
+        public void nodeDestroyed(NodeEvent ne) {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+        @Override
+        public void propertyChange(PropertyChangeEvent evt) {
+            if (evt.getPropertyName().equals(PropertyNames.NEW_MONGODB_INSTANCE.name())) {
+                registeredInstances.add((MongoDBInstance) evt.getNewValue());
+            }
+            refresh(true);
+        }
     }
 }

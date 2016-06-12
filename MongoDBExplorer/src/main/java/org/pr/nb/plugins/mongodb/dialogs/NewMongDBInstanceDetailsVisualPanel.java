@@ -35,7 +35,13 @@ import org.pr.nb.plugins.mongodb.nodes.WizardMessagingInterface;
     "LBL_USERNAME=User name",
     "LBL_DISPLAYNAME=Display name",
     "ERR_HOSTNAME_REQUIRED=Hostame or IP address is required",
-    "ERR_PORT_REQUIRED=Port number is required"
+    "ERR_PORT_REQUIRED=Port number is required",
+    "ERR_USERNAME_REQUIRED=User name is required",
+    "# {0} - User name",
+    "# {1} - Host name",
+    "# {2} - Port number",
+    "TEXT_DISPLAYNAME={0}@{1}:{2}"
+
 })
 public final class NewMongDBInstanceDetailsVisualPanel extends JPanel implements WizardMessagingInterface {
 
@@ -49,69 +55,137 @@ public final class NewMongDBInstanceDetailsVisualPanel extends JPanel implements
         hostNameTextField.getDocument().addDocumentListener(new DocumentListener() {
             @Override
             public void changedUpdate(DocumentEvent e) {
-                validateHostName(hostNameTextField);
+                validateHostName();
             }
 
             @Override
             public void insertUpdate(DocumentEvent e) {
-                validateHostName(hostNameTextField);
+                validateHostName();
             }
 
             @Override
             public void removeUpdate(DocumentEvent e) {
-                validateHostName(hostNameTextField);
+                validateHostName();
             }
         });
         portNumberTextField.getDocument().addDocumentListener(new DocumentListener() {
             @Override
             public void changedUpdate(DocumentEvent e) {
-                validatePortNumber(portNumberTextField);
+                validatePortNumber();
             }
 
             @Override
             public void insertUpdate(DocumentEvent e) {
-                validatePortNumber(portNumberTextField);
+                validatePortNumber();
             }
 
             @Override
             public void removeUpdate(DocumentEvent e) {
-                validatePortNumber(portNumberTextField);
+                validatePortNumber();
             }
         });
         userNameTextField.getDocument().addDocumentListener(new DocumentListener() {
 
             @Override
             public void changedUpdate(DocumentEvent e) {
-                validateBlanks(userNameTextField);
+                validateUserName();
             }
 
             @Override
             public void insertUpdate(DocumentEvent e) {
-                validateBlanks(userNameTextField);
+                validateUserName();
             }
 
             @Override
             public void removeUpdate(DocumentEvent e) {
-                validateBlanks(userNameTextField);
+                validateUserName();
+            }
+        });
+        displayNameTextField.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                displayNameChangedByUser = true;
+                updateDisplayName();
+            }
+
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                displayNameChangedByUser = true;
+                updateDisplayName();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                displayNameChangedByUser = true;
+                updateDisplayName();
             }
         });
     }
 
-    private void validatePortNumber(JTextField textField) {
-        validateBlanks(textField);
+    private void updateDisplayName() {
+        if (!displayNameChangedByUser || (displayNameChangedByUser && displayNameTextField.getText().isEmpty())) {
+            displayNameChangedByUser = false;
+        }
+        if (!displayNameChangedByUser) {
+            String displayName = Bundle.TEXT_DISPLAYNAME(userNameTextField.getText(), hostNameTextField.getText(), portNumberTextField.getText());
+            displayNameTextField.setText(displayName);
+            displayNameChangedByUser = false;
+        }
     }
 
-    private void validateHostName(JTextField textField) {
-        validateBlanks(textField);
+    private boolean validateUserName() {
+        boolean retValue = validateBlanks(userNameTextField, Bundle.ERR_USERNAME_REQUIRED());
+        if (retValue) {
+            updateDisplayName();
+        }
+        return retValue;
     }
 
-    private void validateBlanks(JTextField textField) {
+    private boolean validatePortNumber() {
+        boolean retValue = validateBlanks(portNumberTextField, Bundle.ERR_PORT_REQUIRED());
+        if (retValue) {
+            updateDisplayName();
+        }
+        return retValue;
+    }
+
+    private boolean validateHostName() {
+        boolean retValue = validateBlanks(hostNameTextField, Bundle.ERR_HOSTNAME_REQUIRED());
+        if (retValue) {
+            updateDisplayName();
+        }
+        return retValue;
+    }
+
+    private boolean validateBlanks(JTextField textField, String errMessage) {
         if (textField.getText().length() <= 0) {
             if (data != null) {
+                data.setValid(false);
                 data.setMessageType(WizardDescriptor.ERROR_MESSAGE);
-                data.putProperty(WizardDescriptor.PROP_ERROR_MESSAGE, Bundle.ERR_HOSTNAME_REQUIRED());
+                data.putProperty(WizardDescriptor.PROP_ERROR_MESSAGE, errMessage);
             }
+            return false;
+        } else if (data != null) {
+            data.setValid(true);
+            data.setMessageType(WizardDescriptor.INFORMATION_MESSAGE);
+            data.putProperty(WizardDescriptor.PROP_ERROR_MESSAGE, null);
         }
+        changeSupport.fireChange();
+        return true;
+    }
+
+    boolean areDetailsValid() {
+        boolean retValue = true;
+
+        retValue = validateHostName();
+        if (retValue) {
+            retValue = validatePortNumber();
+        }
+        if (retValue) {
+            retValue = validateUserName();
+        }
+        changeSupport.fireChange();
+        return retValue;
     }
 
     @Override
@@ -134,6 +208,7 @@ public final class NewMongDBInstanceDetailsVisualPanel extends JPanel implements
     @Override
     public void storeSettings(WizardDescriptor wiz) {
         this.data = wiz;
+        updateDisplayName();
         MongoDBInstance instance = (MongoDBInstance) wiz.getProperty(PropertyNames.NEW_MONGODB_WIZARD_INSTANCE.name());
         instance.setHostName(hostNameTextField.getText());
         instance.setDisplayName(displayNameTextField.getText());
@@ -253,5 +328,5 @@ public final class NewMongDBInstanceDetailsVisualPanel extends JPanel implements
     // End of variables declaration//GEN-END:variables
     private ChangeSupport changeSupport;
     private WizardDescriptor data;
-
+    private boolean displayNameChangedByUser = false;
 }

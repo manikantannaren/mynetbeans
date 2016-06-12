@@ -29,8 +29,8 @@ import org.openide.util.datatransfer.NewType;
 import org.pr.nb.plugins.mongodb.components.PropertiesNotifier;
 import org.pr.nb.plugins.mongodb.components.PropertyNames;
 import org.pr.nb.plugins.mongodb.data.MongoDBInstance;
-import org.pr.nb.plugins.mongodb.dialogs.NewMongDBInstanceWizardPanel1;
-import org.pr.nb.plugins.mongodb.dialogs.NewMongDBInstanceWizardPanel2;
+import org.pr.nb.plugins.mongodb.dialogs.NewMongDBInstanceDetailsWizardPanel;
+import org.pr.nb.plugins.mongodb.dialogs.NewMongDBInstanceTestConnectionWizardPanel;
 
 /**
  *
@@ -47,8 +47,8 @@ class MongoDBInstanceType extends NewType {
     private void launchWizard() {
         ChangeSupport changeSupport = new ChangeSupport(this);
         List<WizardDescriptor.Panel<WizardDescriptor>> panels = new ArrayList<WizardDescriptor.Panel<WizardDescriptor>>();
-        panels.add(new NewMongDBInstanceWizardPanel1(changeSupport));
-        panels.add(new NewMongDBInstanceWizardPanel2(changeSupport));
+        panels.add(new NewMongDBInstanceDetailsWizardPanel(changeSupport));
+        panels.add(new NewMongDBInstanceTestConnectionWizardPanel(changeSupport));
         String[] steps = new String[panels.size()];
         for (int i = 0; i < panels.size(); i++) {
             Component c = panels.get(i).getComponent();

@@ -21,7 +21,7 @@ import org.openide.WizardDescriptor;
 import org.openide.util.ChangeSupport;
 import org.openide.util.HelpCtx;
 
-public class NewMongDBInstanceWizardPanel2 implements WizardDescriptor.Panel<WizardDescriptor>, ChangeListener {
+public class NewMongDBInstanceTestConnectionWizardPanel implements WizardDescriptor.Panel<WizardDescriptor>, ChangeListener {
 
     /**
      * The visual component that displays this panel. If you need to access the
@@ -30,7 +30,7 @@ public class NewMongDBInstanceWizardPanel2 implements WizardDescriptor.Panel<Wiz
     private NewMongDBInstanceTestConnectionVisualPanel component;
     private ChangeSupport changeSupport;
 
-    public NewMongDBInstanceWizardPanel2(ChangeSupport changeSupport) {
+    public NewMongDBInstanceTestConnectionWizardPanel(ChangeSupport changeSupport) {
         this.changeSupport = changeSupport;
         addChangeListener(this);
     }

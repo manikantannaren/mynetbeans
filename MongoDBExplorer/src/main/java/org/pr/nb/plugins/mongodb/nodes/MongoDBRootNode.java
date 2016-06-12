@@ -65,4 +65,23 @@ class MongoDBRootNode extends AbstractNode {
         };
     }
 
+    @Override
+    public boolean canCut() {
+        return false;
+    }
+
+    @Override
+    public boolean canCopy() {
+        return false;
+    }
+
+    @Override
+    public boolean canDestroy() {
+        return false;
+    }
+
+    @Override
+    public boolean canRename() {
+        return false;
+    }
 }

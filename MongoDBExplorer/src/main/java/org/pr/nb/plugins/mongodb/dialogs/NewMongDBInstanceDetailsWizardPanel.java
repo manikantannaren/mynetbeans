@@ -21,7 +21,7 @@ import org.openide.WizardDescriptor;
 import org.openide.util.ChangeSupport;
 import org.openide.util.HelpCtx;
 
-public class NewMongDBInstanceWizardPanel1 implements WizardDescriptor.Panel<WizardDescriptor>, ChangeListener {
+public class NewMongDBInstanceDetailsWizardPanel implements WizardDescriptor.Panel<WizardDescriptor>, ChangeListener {
 
     /**
      * The visual component that displays this panel. If you need to access the
@@ -30,7 +30,7 @@ public class NewMongDBInstanceWizardPanel1 implements WizardDescriptor.Panel<Wiz
     private NewMongDBInstanceDetailsVisualPanel component;
     private ChangeSupport changeSupport;
 
-    public NewMongDBInstanceWizardPanel1(ChangeSupport changeSupport) {
+    public NewMongDBInstanceDetailsWizardPanel(ChangeSupport changeSupport) {
         this.changeSupport = changeSupport;
         addChangeListener(this);
     }
@@ -58,7 +58,7 @@ public class NewMongDBInstanceWizardPanel1 implements WizardDescriptor.Panel<Wiz
     @Override
     public boolean isValid() {
         // If it is always OK to press Next or Finish, then:
-        return true;
+        return component.areDetailsValid();
         // If it depends on some condition (form filled out...) and
         // this condition changes (last form field filled in...) then
         // use ChangeSupport to implement add/removeChangeListener below.

@@ -27,13 +27,12 @@ public class PropertiesNotifier {
 
     private static final PropertyChangeSupport changeSupport = new PropertyChangeSupport(PropertiesNotifier.class);
 
-
-    public static void addPropertyChangeListener(String propertyName, PropertyChangeListener l) {
-        changeSupport.addPropertyChangeListener(propertyName, l);
+    public static void addPropertyChangeListener(PropertyNames propertyName, PropertyChangeListener l) {
+        changeSupport.addPropertyChangeListener(propertyName.name(), l);
     }
 
-    public static void removePropertyChangeListener(String propertyName, PropertyChangeListener l) {
-        changeSupport.removePropertyChangeListener(propertyName, l);
+    public static void removePropertyChangeListener(PropertyNames propertyName, PropertyChangeListener l) {
+        changeSupport.removePropertyChangeListener(propertyName.name(), l);
     }
 
     public static void fireNewMongoDBInstance(MongoDBInstance newInstance) {
