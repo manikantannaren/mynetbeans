@@ -25,12 +25,12 @@ import java.util.logging.Logger;
 import javax.swing.SwingUtilities;
 import org.openide.DialogDisplayer;
 import org.openide.WizardDescriptor;
-import org.openide.loaders.DataObject;
 import org.openide.awt.ActionID;
 import org.openide.awt.ActionReference;
 import org.openide.awt.ActionReferences;
 import org.openide.awt.ActionRegistration;
 import org.openide.filesystems.FileObject;
+import org.openide.loaders.DataObject;
 import org.openide.util.NbBundle.Messages;
 import org.pr.nb.zip.util.LoggerProvider;
 import org.pr.nb.zip.wizard.ArchiverListValueObject;
@@ -49,6 +49,7 @@ import org.pr.nb.zip.wizard.ArchiverWizardIterator;
     @ActionReference(path = "Toolbars/Build", position = 500),
     @ActionReference(path = "Loaders/folder/any/Actions", position = 500),
     @ActionReference(path = "Projects/Actions", position = 500),
+    @ActionReference(path = "Projects/package/Actions", position = 500),
     @ActionReference(path = "Shortcuts", name = "D-S-F3")
 })
 @Messages({

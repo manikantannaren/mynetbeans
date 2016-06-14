@@ -29,6 +29,10 @@ import org.openide.util.NbPreferences;
 import org.openide.windows.WindowManager;
 import org.pr.nb.zip.options.ArchiverPreferencesKeys;
 
+/**
+ * Installer logic for registering actions is replicated from
+ * {@link  https://github.com/hajdam/deltahex-netbeans/blob/master/src/org/exbin/deltahex/netbeans/Installer.java}
+ */
 public class Installer extends ModuleInstall {
 
     private static final Logger logger = Logger.getLogger(Installer.class.getName());

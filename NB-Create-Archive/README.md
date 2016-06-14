@@ -27,5 +27,7 @@ This plugin is verified for NetBeans 8.0.* and can be installed using the plugin
 ##Acknowledgements
 A big thank you to @Chris2011 for trying out the plugin in full trust and reporting issues
 
-1. [Issue #3: Can't install plugin, favorites is needed.](https://github.com/manikantannaren/mynetbeans/issues/3). Had to disable a feature to fix the bug. :disappointed_relieved:
-2. [Issue #4: Missing resource exception](https://github.com/manikantannaren/mynetbeans/issues/4)
+##Open Issues
+1. issue #2: Multiple output windows 
+2. Issue #5: Action is not available for nodes like Source Packages, site root etc.
+3. Issue #9: Action is disabled for Web projects
