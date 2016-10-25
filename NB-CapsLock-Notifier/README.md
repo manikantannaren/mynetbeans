@@ -15,10 +15,10 @@ When the plugin is installed, it shows CAPS if the caps lock key is pressed by t
 #Inspiration
 ------------
 
-I was struggling to do register, a keyevent handler for the whole of the IDE when I stumbled upon (literally) Geertjan's blog post [Listening to Key Events in NetBeans IDE] [https://blogs.oracle.com/geertjan/entry/listening_to_key_events_in]
+I was struggling to do register, a keyevent handler for the whole of the IDE when I stumbled upon (literally) Geertjan's blog post [Listening to Key Events in NetBeans IDE] (https://blogs.oracle.com/geertjan/entry/listening_to_key_events_in)
 
 #Downloading the plugin
 ------------------------
 
-The plugin is available for download from the [NetBeans plugin portal] [http://plugins.netbeans.org/plugin/69579/?show=true]
+The plugin is available for download from the [NetBeans plugin portal] (http://plugins.netbeans.org/plugin/69579/?show=true)
 The plugin will also be available in the NetBeans plugin manager once it is verified.
