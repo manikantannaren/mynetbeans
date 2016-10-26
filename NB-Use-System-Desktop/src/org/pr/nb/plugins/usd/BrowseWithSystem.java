@@ -46,8 +46,12 @@ import org.openide.util.NbBundle.Messages;
     @ActionReference(path = "Loaders/Desktop")
 })
 @Messages({"CTL_BrowseWithSystem=Browse with desktop",
-"CTL_Browsing_Status=Browsing file {0} using desktop",
-"CTL_Browsing_Error=Could not open browser for file {0}: {1})"})
+    "# {0} - the file to be browsed",
+    "CTL_Browsing_Status=Browsing file {0} using desktop",
+    "# {0} - the file to be browsed",
+    "# {1} - the reason for error opened",
+    "CTL_Browsing_Error=Could not open browser for file {0}: {1})"}
+)
 
 public final class BrowseWithSystem implements ActionListener {
 

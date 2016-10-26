@@ -47,8 +47,11 @@ import org.openide.util.NbBundle.Messages;
 })
 
 @Messages({"CTL_EditWithSystem=Edit with desktop",
-"CTL_Editing_Status=Editing file {0} using desktop",
-"CTL_Editing_Error=Error opening desktop editor for {0}: {1}"})
+    "# {0} - the file to be edited",
+    "CTL_Editing_Status=Editing file {0} using desktop",
+    "# {0} - the file to be opened",
+    "# {1} - the reasonf for error",
+    "CTL_Editing_Error=Error opening desktop editor for {0}: {1}"})
 public final class EditWithSystem implements ActionListener {
 
     private final DataObject context;

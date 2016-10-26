@@ -46,8 +46,11 @@ import org.openide.util.NbBundle.Messages;
         
 })
 @Messages({"CTL_OpenWithSystem=Open with desktop",
-"CTL_Opening_Status=Opening file {0} using desktop",
-"CTL_Opening_Error=Error Opening file {0} using desktop:{1}"})
+    "# {0} - the file to be opened",
+    "CTL_Opening_Status=Opening file {0} using desktop",
+    "# {0} - the file to be opened",
+    "# {1} - the reason for error",
+    "CTL_Opening_Error=Error Opening file {0} using desktop:{1}"})
 public final class OpenWithSystem implements ActionListener {
 
     private final DataObject context;
