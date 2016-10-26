@@ -13,19 +13,3 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-package org.pr.nb.zip.util;
-
-import java.util.logging.Logger;
-
-/**
- *
- * @author Kaiser
- */
-public class LoggerProvider {
-    
-    @SuppressWarnings("unchecked")
-    public static Logger getLogger(Class<?> whichClass){
-        return Logger.getLogger(whichClass.getName());
-    }
-}
