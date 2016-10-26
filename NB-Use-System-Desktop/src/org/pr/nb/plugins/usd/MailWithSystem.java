@@ -50,10 +50,16 @@ import org.openide.util.NbBundle.Messages;
 
 })
 @Messages({"CTL_MailWithSystem=Send by mail",
+    "# {0} - the file to be opened",
     "CTL_Mail_Status=Opening mailing client for {0}",
+    "# {0} - the file to be opened",
+    "# {1} - the reason for error",
     "CTL_Mail_Error=Could not launch mail client for {0}: {1}",
+    "# {0} - the file to be opened",
     "CTL_Mail_Error_Folder={0} is a directory. Please choose a file to email",
+    "# {0} - the file to be opened",
     "CTL_Mail_subject=Emailing%20{0}",
+    "# {0} - the file to be opened",
     "CTL_Mail_body=Please%20attach%20{0}%20to%20this%20mail"})
 
 public final class MailWithSystem implements ActionListener {
