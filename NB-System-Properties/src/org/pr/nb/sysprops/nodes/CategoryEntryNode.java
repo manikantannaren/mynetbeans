@@ -5,11 +5,14 @@
  */
 package org.pr.nb.sysprops.nodes;
 
+import java.awt.Component;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.beans.IntrospectionException;
+import java.beans.PropertyEditorSupport;
 import java.io.IOException;
+import java.util.Objects;
 import javax.swing.Action;
 import org.openide.actions.CopyAction;
 import org.openide.nodes.AbstractNode;
@@ -75,11 +78,13 @@ public class CategoryEntryNode extends AbstractNode {
             prop.setValue("htmlDisplayValue", "<font color='!textText'>" + key.getEntryName());
             propertySet.put(prop);
 
-            prop = new PropertySupport.Reflection<String>(key, String.class, "getEntryValue", null);
-            prop.setDisplayName(Bundle.categoryentry_entryvalue_displayname());
-            prop.setShortDescription(Bundle.categoryentry_entryvalue_hint());
-            prop.setValue("htmlDisplayValue", "<font color='!textText'>" + key.getEntryValue());
-            propertySet.put(prop);
+            PropertySupport.Reflection<String> propvalue = new PropertySupport.Reflection<String>(key, String.class, "getEntryValue", null);
+            propvalue.setDisplayName(Bundle.categoryentry_entryvalue_displayname());
+            propvalue.setShortDescription(Bundle.categoryentry_entryvalue_hint());
+            propvalue.setValue("htmlDisplayValue", "<font color='!textText'>" + key.getEntryValue());
+            propvalue.setPropertyEditorClass(SysProEditor.class);
+            propertySet.put(propvalue);
+            
             Property<String> flvProperty = new PropertySupport.Reflection<String>(key, String.class, "getFlavour", null);
             flvProperty.setDisplayName(Bundle.categoryentry_flavour_displayName());
             flvProperty.setShortDescription(Bundle.categoryentry_flavour_hint());
@@ -174,6 +179,4 @@ public class CategoryEntryNode extends AbstractNode {
         return added;
         
     }
-
-    
 }

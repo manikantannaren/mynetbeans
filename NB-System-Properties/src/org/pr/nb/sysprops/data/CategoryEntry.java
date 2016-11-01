@@ -12,7 +12,7 @@ import java.util.Map;
  * @author Kaiser
  */
 public class CategoryEntry implements Comparable<CategoryEntry>{
-    private Map.Entry<String, String> data;
+    private final Map.Entry<String, String> data;
     private final Category.Flavour flavour;
 
 
