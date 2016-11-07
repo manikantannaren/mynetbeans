@@ -42,7 +42,7 @@ import org.pr.nb.sysprops.nodes.actions.CopyValueAction;
 })
 public class CategoryEntryNode extends AbstractNode {
 
-    private CategoryEntry key;
+    private final CategoryEntry key;
 
     public CategoryEntryNode(CategoryEntry key) throws IntrospectionException {
         super(Children.LEAF, Lookups.singleton(key));
@@ -72,20 +72,20 @@ public class CategoryEntryNode extends AbstractNode {
         }
 
         try {
-            Property<String> prop = new PropertySupport.Reflection<String>(key, String.class, "getEntryName", null);
+            Property<String> prop = new PropertySupport.Reflection<>(key, String.class, "getEntryName", null);
             prop.setDisplayName(Bundle.categoryentry_entryname_displayname());
             prop.setShortDescription(Bundle.categoryentry_entryname_hint());
             prop.setValue("htmlDisplayValue", "<font color='!textText'>" + key.getEntryName());
             propertySet.put(prop);
 
-            PropertySupport.Reflection<String> propvalue = new PropertySupport.Reflection<String>(key, String.class, "getEntryValue", null);
+            PropertySupport.Reflection<String> propvalue = new PropertySupport.Reflection<>(key, String.class, "getEntryValue", null);
             propvalue.setDisplayName(Bundle.categoryentry_entryvalue_displayname());
             propvalue.setShortDescription(Bundle.categoryentry_entryvalue_hint());
             propvalue.setValue("htmlDisplayValue", "<font color='!textText'>" + key.getEntryValue());
             propvalue.setPropertyEditorClass(SysProEditor.class);
             propertySet.put(propvalue);
             
-            Property<String> flvProperty = new PropertySupport.Reflection<String>(key, String.class, "getFlavour", null);
+            Property<String> flvProperty = new PropertySupport.Reflection<>(key, String.class, "getFlavour", null);
             flvProperty.setDisplayName(Bundle.categoryentry_flavour_displayName());
             flvProperty.setShortDescription(Bundle.categoryentry_flavour_hint());
             flvProperty.setValue("htmlDisplayValue", "<font color='!textText'>" + displayName);

@@ -31,33 +31,43 @@ public class SplitRenderer extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextPane1 = new javax.swing.JTextPane();
 
+        setOpaque(false);
         setLayout(new java.awt.BorderLayout());
 
+        jPanel1.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5));
+        jPanel1.setOpaque(false);
+        jPanel1.setLayout(new java.awt.BorderLayout());
+
+        jScrollPane1.setBackground(new java.awt.Color(255, 255, 255));
         jScrollPane1.setMaximumSize(new java.awt.Dimension(400, 300));
         jScrollPane1.setMinimumSize(new java.awt.Dimension(400, 300));
 
         jTextPane1.setEditable(false);
-        jTextPane1.setBackground(new java.awt.Color(204, 204, 204));
         jTextPane1.setContentType("text/html"); // NOI18N
         jTextPane1.setPreferredSize(new java.awt.Dimension(400, 300));
         jScrollPane1.setViewportView(jTextPane1);
 
-        add(jScrollPane1, java.awt.BorderLayout.CENTER);
+        jPanel1.add(jScrollPane1, java.awt.BorderLayout.CENTER);
+
+        add(jPanel1, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextPane jTextPane1;
     // End of variables declaration//GEN-END:variables
 
     private void renderSplitText(String textValue) {
+        StringBuilder contents = new StringBuilder("<html>").append("<body>");
         String [] rows = textValue.split(File.pathSeparator);
-        StringBuilder contents = new StringBuilder(0);
         Arrays.asList(rows).forEach(row->contents.append(row).append("<br/>"));
+        contents.append("</body>").append("</html>");
         jTextPane1.setText(contents.toString());
     }
 }

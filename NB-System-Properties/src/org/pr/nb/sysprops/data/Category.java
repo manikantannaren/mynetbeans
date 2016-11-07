@@ -34,19 +34,20 @@ public class Category {
     }
 
     public List<CategoryEntry> getItems() {
-        List<CategoryEntry> entries = new ArrayList<CategoryEntry>();
+        List<CategoryEntry> entries = new ArrayList<>();
         if (this.flavour == Flavour.ENV) {
 
             Map<String, String> envs = System.getenv();
             Set<Map.Entry<String, String>> entrySet = envs.entrySet();
-            for (Map.Entry<String, String> entry : entrySet) {
+            entrySet.stream().map((entry) -> {
                 String key = entry.getKey();
                 String value = entry.getValue();
                 value = escapeNewLine(value);
-                Map.Entry<String, String> newentry = new AbstractMap.SimpleImmutableEntry<String, String>(key, value);
-                CategoryEntry _entry = new CategoryEntry(newentry, flavour);
+                Map.Entry<String, String> newentry = new AbstractMap.SimpleImmutableEntry<>(key, value);
+                return newentry;
+            }).map((newentry) -> new CategoryEntry(newentry, flavour)).forEachOrdered((_entry) -> {
                 entries.add(_entry);
-            }
+            });
         } else {
             Properties props = System.getProperties();
             Enumeration<String> keys = (Enumeration<String>) props.propertyNames();
@@ -54,7 +55,7 @@ public class Category {
                 String key = keys.nextElement();
                 String value = props.getProperty(key);
                 value = escapeNewLine(value);
-                Map.Entry<String, String> entry = new AbstractMap.SimpleImmutableEntry<String, String>(key, value);
+                Map.Entry<String, String> entry = new AbstractMap.SimpleImmutableEntry<>(key, value);
 
                 boolean addToList = checkIfToAdd(entry);
                 if (addToList) {
