@@ -119,9 +119,8 @@ public final class NBCSVFileTypeVisualElement extends JPanel implements MultiVie
             try {
                 String text = doc.getText(0, doc.getLength());
                 FileObject fobj = obj.getPrimaryFile();
-                CSVSheet sheet = new CSVSheet(fobj.getNameExt(), fobj);
                 CSVSheet sheetFromText = new CSVSheet(fobj.getNameExt(), fobj, text);
-                CSVSheetNode node = new CSVSheetNode(sheet);
+                CSVSheetNode node = new CSVSheetNode(sheetFromText);
 
                 Node[] rowNodes = node.getChildren().getNodes();
                 System.out.println("Number of nodes " + rowNodes.length);
@@ -130,7 +129,7 @@ public final class NBCSVFileTypeVisualElement extends JPanel implements MultiVie
                 model.setProperties(CSVSheetNode.columnNames());
                 view.getTable().setModel(model);
                 System.out.println("Number of table rows " + view.getTable().getRowCount());
-//                explorerManager.setRootContext(node);
+                explorerManager.setRootContext(node);
 
             } catch (BadLocationException ex) {
                 Exceptions.printStackTrace(ex);

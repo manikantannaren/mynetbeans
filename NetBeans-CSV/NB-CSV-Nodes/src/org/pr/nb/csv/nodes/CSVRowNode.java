@@ -51,7 +51,6 @@ public class CSVRowNode extends AbstractNode {
                     CellProperty property = new CellProperty(columnProp.getName(), null);
                     propertySet.put(property);
                 }
-                System.out.println("MaDE up prop for "+columnProp.getDisplayName());
             }
         } catch (NoSuchMethodException ex) {
             Exceptions.printStackTrace(ex);

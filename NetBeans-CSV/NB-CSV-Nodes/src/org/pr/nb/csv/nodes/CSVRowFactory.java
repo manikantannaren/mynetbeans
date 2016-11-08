@@ -81,10 +81,9 @@ public class CSVRowFactory extends ChildFactory.Detachable<CSVRow> {
 
         public void parse() {
             progressHandle = ProgressHandleFactory.createHandle("", this);
-//            RequestProcessor.Task task = processor.create(this);
-//            task.addTaskListener(this);
-//            task.schedule(0);
-            run();
+            RequestProcessor.Task task = processor.create(this);
+            task.addTaskListener(this);
+            task.schedule(0);
         }
 
         @Override
