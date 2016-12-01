@@ -27,3 +27,11 @@
 /NB-CapsLock-Notifier/build/
 /NB-SUID-Generator/nbproject/private/
 /NB-SUID-Generator/build/
+/NB-Gen-Cert/nbproject/private/
+/NB-Gen-Cert/build/
+/NB-Gen-Cert-Suite/nbproject/private/
+/NB-Gen-Cert-Suite/NB-Gen-Cert/build/
+/NB-Gen-Cert-Suite/NB-Gen-Cert/nbproject/private/
+/NB-Gen-Cert-Suite/build/
+/NB-Gen-Cert-Suite/NB-Lib-BountyCastle/build/
+/NB-Gen-Cert-Suite/NB-Lib-BountyCastle/nbproject/private/
