@@ -1,0 +1,6 @@
+Manifest-Version: 1.0
+AutoUpdate-Show-In-Client: true
+OpenIDE-Module: or.pr.nb.crpto.provider
+OpenIDE-Module-Localizing-Bundle: or/pr/nb/crpto/provider/Bundle.properties
+OpenIDE-Module-Specification-Version: 1.0
+
