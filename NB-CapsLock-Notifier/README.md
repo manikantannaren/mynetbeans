@@ -22,3 +22,10 @@ I was struggling to do register, a keyevent handler for the whole of the IDE whe
 
 The plugin is available for download from the [NetBeans plugin portal] (http://plugins.netbeans.org/plugin/69579/?show=true)
 The plugin will also be available in the NetBeans plugin manager once it is verified.
+
+
+#Attributions
+-------------
+#Geertjan's blog post [Listening to Key Events in NetBeans IDE] (https://blogs.oracle.com/geertjan/entry/listening_to_key_events_in)
+#Balloon Icon Some icons by [Yusuke Kamiyamane](http://p.yusukekamiyamane.com/). Licensed under a Creative Commons Attribution 3.0 License.
+#Notification API understanding from [DZone](https://dzone.com/articles/nb-tips-4-notifications)
