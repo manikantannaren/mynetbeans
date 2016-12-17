@@ -4,12 +4,11 @@
  */
 package org.pr.nb.capslock.balloon;
 
-import javax.imageio.ImageIO;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import org.openide.awt.Notification;
 import org.openide.awt.NotificationDisplayer;
-import org.openide.util.NbBundle;
+import org.openide.util.*;
 
 /**
  *
@@ -22,24 +21,38 @@ import org.openide.util.NbBundle;
 public class BallonDisplayer {
 
     Icon warningIcon;
-    
+    private Notification notification;
+
     private BallonDisplayer() {
-        warningIcon = new ImageIcon(getClass().getResource(
-            "light_bulb_exclamation.png"));
+        warningIcon = ImageUtilities.loadImageIcon(
+            "org/pr/nb/capslock/balloon/light_bulb_exclamation.png", true);
     }
 
     public static BallonDisplayer getInstance() {
         return NewSingletonHolder.INSTANCE;
     }
 
+    public void hideBalloon() {
+        if (notification != null) {
+            notification.clear();
+        }
+        notification = null;
+    }
+
     private static class NewSingletonHolder {
+
         private static final BallonDisplayer INSTANCE = new BallonDisplayer();
     }
 
     public void showBalloon() {
-        Notification notification = NotificationDisplayer.getDefault().notify(Bundle.BALLOON_TITLE(),
-            warningIcon, Bundle.CAPS_ON(),
-            null, NotificationDisplayer.Priority.NORMAL,
-            NotificationDisplayer.Category.WARNING);
+        if (notification == null) {
+
+            notification =
+                NotificationDisplayer.getDefault().
+                    notify(Bundle.BALLOON_TITLE(),
+                        warningIcon, Bundle.CAPS_ON(),
+                        null, NotificationDisplayer.Priority.NORMAL,
+                        NotificationDisplayer.Category.WARNING);
+        }
     }
 }

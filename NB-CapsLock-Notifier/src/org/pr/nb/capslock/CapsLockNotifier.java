@@ -57,9 +57,10 @@ public class CapsLockNotifier extends JLabel implements
                 KeyEvent.VK_CAPS_LOCK);
             if (state) {
                 setText(Bundle.LBL_CAPS_ON());
-//                BallonDisplayer.getInstance().showBalloon();
+                BallonDisplayer.getInstance().showBalloon();
             } else {
                 setText(Bundle.LBL_CAPS_OFF());
+                BallonDisplayer.getInstance().hideBalloon();
             }
         }
     }
