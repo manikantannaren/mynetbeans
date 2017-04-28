@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE filesystem PUBLIC "-//NetBeans//DTD Filesystem 1.2//EN"
+                            "http://www.netbeans.org/dtds/filesystem-1_2.dtd">
+<filesystem>
+    <folder name="xml">
+        <folder name="entities">
+            <folder name="org_pr_nb_clocks_editor">
+                <file name="NBClock" url="nbres:/org/netbeans/modules/settings/resources/properties-1_0.dtd">
+                    <!--org.pr.nb.clocks.editor.NBClockTopComponent-->
+                    <attr name="hint.originalPublicID" stringvalue="-//org.pr.nb.clocks.editor//NBClock//EN"/>
+                </file>
+            </folder>
+        </folder>
+        <folder name="memory">
+            <folder name="org">
+                <folder name="pr">
+                    <folder name="nb">
+                        <folder name="clocks">
+                            <folder name="editor">
+                                <file name="NBClockTopComponent">
+                                    <!--org.pr.nb.clocks.editor.NBClockTopComponent-->
+                                    <attr name="settings.providerPath" stringvalue="xml/lookups//org_pr_nb_clocks_editor/NBClock.instance"/>
+                                </file>
+                            </folder>
+                        </folder>
+                    </folder>
+                </folder>
+            </folder>
+        </folder>
+        <folder name="lookups">
+            <folder name="org_pr_nb_clocks_editor">
+                <file name="NBClock.instance">
+                    <!--org.pr.nb.clocks.editor.NBClockTopComponent-->
+                    <attr
+                        methodvalue="org.netbeans.api.settings.Factory.create" name="instanceCreate"/>
+                    <attr
+                        methodvalue="org.netbeans.api.settings.Factory.properties" name="settings.convertor"/>
+                    <attr name="settings.instanceClass" stringvalue="org.pr.nb.clocks.editor.NBClockTopComponent"/>
+                    <attr name="settings.instanceOf" stringvalue="org.pr.nb.clocks.editor.NBClockTopComponent"/>
+                    <attr boolvalue="true" name="xmlproperties.preventStoring"/>
+                </file>
+            </folder>
+        </folder>
+    </folder>
+    <folder name="Menu">
+        <folder name="Window">
+            <file name="org-pr-nb-clocks-editor-NBClockTopComponent.shadow">
+                <!--org.pr.nb.clocks.editor.NBClockTopComponent-->
+                <attr name="originalFile" stringvalue="Actions/Window/org-pr-nb-clocks-editor-NBClockTopComponent.instance"/>
+            </file>
+        </folder>
+    </folder>
+    <folder name="Windows2">
+        <folder name="Components">
+            <file name="NBClockTopComponent.settings">
+                <!--org.pr.nb.clocks.editor.NBClockTopComponent--><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE settings PUBLIC "-//NetBeans//DTD Session settings 1.0//EN" "http://www.netbeans.org/dtds/sessionsettings-1_0.dtd">
+<settings version="1.0">
+  <instance class="org.pr.nb.clocks.editor.NBClockTopComponent"/>
+</settings>
+]]></file>
+        </folder>
+        <folder name="Modes">
+            <folder name="editor">
+                <file name="NBClockTopComponent.wstcref">
+                    <!--org.pr.nb.clocks.editor.NBClockTopComponent--><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tc-ref PUBLIC "-//NetBeans//DTD Top Component in Mode Properties 2.0//EN" "http://www.netbeans.org/dtds/tc-ref2_0.dtd">
+<tc-ref version="2.0">
+  <tc-id id="NBClockTopComponent"/>
+  <state opened="false"/>
+</tc-ref>
+]]></file>
+            </folder>
+        </folder>
+    </folder>
+    <folder name="Actions">
+        <folder name="Window">
+            <file name="org-pr-nb-clocks-editor-NBClockTopComponent.instance">
+                <!--org.pr.nb.clocks.editor.NBClockTopComponent-->
+                <attr
+                    methodvalue="org.openide.windows.TopComponent.openAction" name="instanceCreate"/>
+                <attr name="component" newvalue="org.pr.nb.clocks.editor.NBClockTopComponent"/>
+                <attr name="preferredID" stringvalue="NBClockTopComponent"/>
+                <attr
+                    bundlevalue="org.pr.nb.clocks.editor.Bundle#CTL_NBClockAction" name="displayName"/>
+                <attr name="iconBase" stringvalue="org/pr/nb/clocks/editor/clock.png"/>
+            </file>
+        </folder>
+    </folder>
+</filesystem>
