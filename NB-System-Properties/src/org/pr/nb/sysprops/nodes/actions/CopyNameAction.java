@@ -15,7 +15,6 @@ import org.openide.util.Lookup;
 import org.openide.util.NbBundle;
 import org.openide.util.datatransfer.ExClipboard;
 import org.pr.nb.sysprops.nodes.CategoryEntryNode;
-import org.pr.nb.sysprops.nodes.CategoryNode;
 
 /**
  *

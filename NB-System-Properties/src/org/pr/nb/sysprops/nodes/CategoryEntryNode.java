@@ -5,14 +5,12 @@
  */
 package org.pr.nb.sysprops.nodes;
 
-import java.awt.Component;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.beans.IntrospectionException;
-import java.beans.PropertyEditorSupport;
 import java.io.IOException;
-import java.util.Objects;
+import java.lang.reflect.InvocationTargetException;
 import javax.swing.Action;
 import org.openide.actions.CopyAction;
 import org.openide.nodes.AbstractNode;
@@ -37,8 +35,8 @@ import org.pr.nb.sysprops.nodes.actions.CopyValueAction;
     "categoryentry.entryname.hint=Name of the environment variable or system property",
     "categoryentry.entryvalue.displayname=Value",
     "categoryentry.entryvalue.hint=Value of the above environment variable or system property",
-    "categoryentry.flavour.displayName=Category",    
-    "categoryentry.flavour.hint=Category to which this entry belongs to. viz Environment variables, System properties and NetBeans properties"    
+    "categoryentry.flavour.displayName=Category",
+    "categoryentry.flavour.hint=Category to which this entry belongs to. viz Environment variables, System properties and NetBeans properties"
 })
 public class CategoryEntryNode extends AbstractNode {
 
@@ -58,39 +56,51 @@ public class CategoryEntryNode extends AbstractNode {
         Sheet.Set propertySet = Sheet.createPropertiesSet();
         propertySheet.put(propertySet);
 
-        String displayName = "";
+        String categoryDisplayName = "";
         switch (key.getFlavour()) {
             case NETBEANS:
-                displayName = Bundle.catnb();
+                categoryDisplayName = Bundle.catnb();
                 break;
             case PROP:
-                displayName = Bundle.catprop();
+                categoryDisplayName = Bundle.catprop();
                 break;
             case ENV:
-                displayName = Bundle.catenv();
+                categoryDisplayName = Bundle.catenv();
                 break;
         }
 
         try {
-            Property<String> prop = new PropertySupport.Reflection<>(key, String.class, "getEntryName", null);
+            Property<String> prop = new PropertySupport.Reflection<>(key,
+                    String.class, "getEntryName", null);
             prop.setDisplayName(Bundle.categoryentry_entryname_displayname());
             prop.setShortDescription(Bundle.categoryentry_entryname_hint());
-            prop.setValue("htmlDisplayValue", "<font color='!textText'>" + key.getEntryName());
+            prop.setValue("htmlDisplayValue", "<font color='!textText'>" + key.
+                    getEntryName());
             propertySet.put(prop);
 
-            PropertySupport.Reflection<String> propvalue = new PropertySupport.Reflection<>(key, String.class, "getEntryValue", null);
-            propvalue.setDisplayName(Bundle.categoryentry_entryvalue_displayname());
-            propvalue.setShortDescription(Bundle.categoryentry_entryvalue_hint());
-            propvalue.setValue("htmlDisplayValue", "<font color='!textText'>" + key.getEntryValue());
+            PropertySupport.Reflection<String> propvalue = new PropertySupport.Reflection<>(
+                    key, String.class, "getEntryValue", null);
+            propvalue.setDisplayName(Bundle.
+                    categoryentry_entryvalue_displayname());
+            propvalue.
+                    setShortDescription(Bundle.categoryentry_entryvalue_hint());
+            propvalue.setValue("htmlDisplayValue", "<font color='!textText'>"
+                    + key.getEntryValue());
             propvalue.setPropertyEditorClass(SysProEditor.class);
             propertySet.put(propvalue);
-            
-            Property<String> flvProperty = new PropertySupport.Reflection<>(key, String.class, "getFlavour", null);
-            flvProperty.setDisplayName(Bundle.categoryentry_flavour_displayName());
-            flvProperty.setShortDescription(Bundle.categoryentry_flavour_hint());
-            flvProperty.setValue("htmlDisplayValue", "<font color='!textText'>" + displayName);
+            String catNAme = categoryDisplayName;
+            Property<String> flvProperty = new PropertySupport.ReadOnly<String>(
+                    "Category", String.class, Bundle.categoryentry_flavour_displayName(),
+                    Bundle.categoryentry_flavour_hint()) {
+                @Override
+                public String getValue() throws IllegalAccessException,
+                        InvocationTargetException {
+                    return catNAme;
+                }
+
+            };
             propertySet.put(flvProperty);
-            
+
         } catch (NoSuchMethodException ex) {
             Exceptions.printStackTrace(ex);
         }
@@ -101,7 +111,7 @@ public class CategoryEntryNode extends AbstractNode {
     @Override
     public Action[] getActions(boolean context) {
         Action act = SystemAction.get(CopyAction.class);
-        return new Action[]{act, 
+        return new Action[]{act,
             new CopyNameAction(this),
             new CopyValueAction(this)
         };
@@ -131,52 +141,59 @@ public class CategoryEntryNode extends AbstractNode {
     public Transferable clipboardCopy() throws IOException {
         Transferable t = super.clipboardCopy(); //To change body of generated methods, choose Tools | Templates.
         ExTransferable added = ExTransferable.create(t);
-        
-        added.put(new ExTransferable.Single(DataFlavor.stringFlavor){
+
+        added.put(new ExTransferable.Single(DataFlavor.stringFlavor) {
 
             @Override
-            protected String getData() throws IOException, UnsupportedFlavorException {
-                CategoryEntry thisEntry = getLookup().lookup(CategoryEntry.class);
-                StringBuilder builder = new StringBuilder(thisEntry.getEntryName());
+            protected String getData() throws IOException,
+                    UnsupportedFlavorException {
+                CategoryEntry thisEntry = getLookup().
+                        lookup(CategoryEntry.class);
+                StringBuilder builder = new StringBuilder(thisEntry.
+                        getEntryName());
                 builder.append("=").append(thisEntry.getEntryValue());
                 return builder.toString();
             }
-            
+
         });
         return added;
     }
-    
-    public Transferable clipboardCopyOnlyName() throws IOException{
-        Transferable t = super.clipboardCopy(); 
+
+    public Transferable clipboardCopyOnlyName() throws IOException {
+        Transferable t = super.clipboardCopy();
         ExTransferable added = ExTransferable.create(t);
-        
-        added.put(new ExTransferable.Single(DataFlavor.stringFlavor){
+
+        added.put(new ExTransferable.Single(DataFlavor.stringFlavor) {
 
             @Override
-            protected String getData() throws IOException, UnsupportedFlavorException {
-                CategoryEntry thisEntry = getLookup().lookup(CategoryEntry.class);
+            protected String getData() throws IOException,
+                    UnsupportedFlavorException {
+                CategoryEntry thisEntry = getLookup().
+                        lookup(CategoryEntry.class);
                 return thisEntry.getEntryName();
             }
-            
+
         });
         return added;
-        
+
     }
 
-    public Transferable clipboardCopyOnlyValue() throws IOException{
-        Transferable t = super.clipboardCopy(); 
+    public Transferable clipboardCopyOnlyValue() throws IOException {
+        Transferable t = super.clipboardCopy();
         ExTransferable added = ExTransferable.create(t);
-        
-        added.put(new ExTransferable.Single(DataFlavor.stringFlavor){
+
+        added.put(new ExTransferable.Single(DataFlavor.stringFlavor) {
 
             @Override
-            protected String getData() throws IOException, UnsupportedFlavorException {
-                CategoryEntry thisEntry = getLookup().lookup(CategoryEntry.class);
+            protected String getData() throws IOException,
+                    UnsupportedFlavorException {
+                CategoryEntry thisEntry = getLookup().
+                        lookup(CategoryEntry.class);
                 return thisEntry.getEntryValue();
             }
-            
+
         });
         return added;
-        
+
     }
 }

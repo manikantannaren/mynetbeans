@@ -20,7 +20,7 @@ public class CategoryNodes extends Children.Keys<Category> {
     @Override
     protected void addNotify() {
         super.addNotify();
-        List<Category> categories = new ArrayList<Category>();
+        List<Category> categories = new ArrayList<>();
 
         Category cat = new Category(Category.Flavour.ENV);
         categories.add(cat);

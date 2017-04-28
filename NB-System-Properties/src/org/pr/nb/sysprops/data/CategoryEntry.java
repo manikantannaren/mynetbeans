@@ -5,7 +5,6 @@
  */
 package org.pr.nb.sysprops.data;
 
-import java.io.File;
 import java.util.Map;
 
 /**
