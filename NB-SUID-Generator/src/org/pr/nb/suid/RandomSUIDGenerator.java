@@ -19,9 +19,9 @@ import org.openide.util.Lookup;
 import org.openide.util.NbBundle;
 
 @NbBundle.Messages({
-    "DEFAULT_GENERATOR_NAME=Default serialVersionUID"
+    "RANDOM_GENERATOR_NAME=Random serialVersionUID"
 })
-public class DefaultSUIDGenerator implements CodeGenerator {
+public class RandomSUIDGenerator implements CodeGenerator {
 
     JTextComponent textComp;
 
@@ -29,16 +29,17 @@ public class DefaultSUIDGenerator implements CodeGenerator {
      * 
      * @param context containing JTextComponent and possibly other items registered by {@link CodeGeneratorContextProvider}
      */
-     DefaultSUIDGenerator(Lookup context) { // Good practice is not to save Lookup outside ctor
+     RandomSUIDGenerator(Lookup context) { // Good practice is not to save Lookup outside ctor
         textComp = context.lookup(JTextComponent.class);
     }
+
 
     /**
      * The name which will be inserted inside Insert Code dialog
      */
     @Override
     public String getDisplayName() {
-        return Bundle.DEFAULT_GENERATOR_NAME();
+        return Bundle.RANDOM_GENERATOR_NAME();
     }
 
     /**
@@ -51,7 +52,7 @@ public class DefaultSUIDGenerator implements CodeGenerator {
             Document editorDoc = textComp.getDocument();
             JavaSource javaSource = JavaSource.forDocument(editorDoc);
             if(javaSource != null){
-                CancellableTask<WorkingCopy> suidGenTask = new SUIDGenCancellableTask(0L);
+                CancellableTask<WorkingCopy> suidGenTask = new SUIDGenCancellableTask(System.nanoTime());
                 ModificationResult result = javaSource.runModificationTask(suidGenTask);
                 result.commit();
             }
