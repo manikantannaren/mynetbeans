@@ -12,18 +12,14 @@ import com.sun.source.tree.ModifiersTree;
 import com.sun.source.tree.PrimitiveTypeTree;
 import com.sun.source.tree.Tree;
 import com.sun.source.tree.VariableTree;
-import java.io.ObjectStreamClass;
 import java.util.List;
 import java.util.TreeSet;
 import javax.lang.model.element.Modifier;
 import javax.lang.model.type.TypeKind;
-import org.netbeans.api.java.classpath.ClassPath;
 import org.netbeans.api.java.source.CancellableTask;
-import org.netbeans.api.java.source.ClasspathInfo;
 import org.netbeans.api.java.source.JavaSource;
 import org.netbeans.api.java.source.TreeMaker;
 import org.netbeans.api.java.source.WorkingCopy;
-import org.openide.util.Exceptions;
 
 /**
  *
@@ -34,9 +30,8 @@ class SUIDGenCancellableTask implements CancellableTask<WorkingCopy> {
     Long suidToCreate;
     String fqn;
 
-    SUIDGenCancellableTask(Long suidToCreate, String fqn) {
-        this.suidToCreate = suidToCreate;
-        this.fqn = fqn;
+    SUIDGenCancellableTask(long suid) {
+        this.suidToCreate = suid;
     }
 
     @Override
@@ -64,26 +59,10 @@ class SUIDGenCancellableTask implements CancellableTask<WorkingCopy> {
         modifiersSet.add(Modifier.FINAL);
         ModifiersTree modifiers = maker.Modifiers(modifiersSet);
         PrimitiveTypeTree longTypeTree = maker.PrimitiveType(TypeKind.LONG);
-        LiteralTree initialValueTree = maker.Literal(getSuid(workingCopy));
+        LiteralTree initialValueTree = maker.Literal(suidToCreate);
         VariableTree suidVarTree = maker.Variable(modifiers, (CharSequence) "serialVersionUID", longTypeTree, initialValueTree);
         ClassTree modifiedClazz = maker.insertClassMember(clazz, 0, suidVarTree);
         workingCopy.rewrite(clazz, modifiedClazz);
-    }
-
-    private Long getSuid(WorkingCopy workingCopy) {
-        Long retValue = 0L;
-        if (fqn != null && !fqn.isEmpty()) {
-            try {
-                ClassPath cp = ClassPath.getClassPath(workingCopy.getFileObject(), "COMPILE");
-                Class clazz = cp.getClassLoader(true).loadClass(fqn);
-//                Class clazz = Class.forName(fqn);
-                retValue = ObjectStreamClass.lookup(clazz).getSerialVersionUID();
-            } catch (Exception e) {
-                Exceptions.printStackTrace(e);
-                retValue = 0L;
-            }
-        }
-        return retValue;
     }
 
 }
