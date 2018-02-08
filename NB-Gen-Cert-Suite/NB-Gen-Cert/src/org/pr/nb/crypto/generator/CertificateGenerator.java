@@ -14,5 +14,5 @@ import org.pr.nb.crypto.UserInputs;
  * @author Mahakaal
  */
 public interface CertificateGenerator {
-    public FileObject generateCertificate(UserInputs inputs) throws NoSuchAlgorithmException;
+    public FileObject generateCertificate(UserInputs inputs) throws NoSuchAlgorithmException;    
 }

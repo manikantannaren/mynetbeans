@@ -12,6 +12,7 @@
                 <package>org.bouncycastle.asn1.anssi</package>
                 <package>org.bouncycastle.asn1.bc</package>
                 <package>org.bouncycastle.asn1.bsi</package>
+                <package>org.bouncycastle.asn1.cmc</package>
                 <package>org.bouncycastle.asn1.cmp</package>
                 <package>org.bouncycastle.asn1.cms</package>
                 <package>org.bouncycastle.asn1.cms.ecc</package>
@@ -21,6 +22,8 @@
                 <package>org.bouncycastle.asn1.eac</package>
                 <package>org.bouncycastle.asn1.esf</package>
                 <package>org.bouncycastle.asn1.ess</package>
+                <package>org.bouncycastle.asn1.est</package>
+                <package>org.bouncycastle.asn1.gm</package>
                 <package>org.bouncycastle.asn1.gnu</package>
                 <package>org.bouncycastle.asn1.iana</package>
                 <package>org.bouncycastle.asn1.icao</package>
@@ -33,6 +36,7 @@
                 <package>org.bouncycastle.asn1.misc</package>
                 <package>org.bouncycastle.asn1.mozilla</package>
                 <package>org.bouncycastle.asn1.nist</package>
+                <package>org.bouncycastle.asn1.nsri</package>
                 <package>org.bouncycastle.asn1.ntt</package>
                 <package>org.bouncycastle.asn1.ocsp</package>
                 <package>org.bouncycastle.asn1.oiw</package>
@@ -50,6 +54,25 @@
                 <package>org.bouncycastle.asn1.x509.qualified</package>
                 <package>org.bouncycastle.asn1.x509.sigi</package>
                 <package>org.bouncycastle.asn1.x9</package>
+                <package>org.bouncycastle.cert</package>
+                <package>org.bouncycastle.cert.bc</package>
+                <package>org.bouncycastle.cert.cmp</package>
+                <package>org.bouncycastle.cert.crmf</package>
+                <package>org.bouncycastle.cert.crmf.bc</package>
+                <package>org.bouncycastle.cert.crmf.jcajce</package>
+                <package>org.bouncycastle.cert.dane</package>
+                <package>org.bouncycastle.cert.dane.fetcher</package>
+                <package>org.bouncycastle.cert.jcajce</package>
+                <package>org.bouncycastle.cert.ocsp</package>
+                <package>org.bouncycastle.cert.ocsp.jcajce</package>
+                <package>org.bouncycastle.cert.path</package>
+                <package>org.bouncycastle.cert.path.validations</package>
+                <package>org.bouncycastle.cert.selector</package>
+                <package>org.bouncycastle.cert.selector.jcajce</package>
+                <package>org.bouncycastle.cmc</package>
+                <package>org.bouncycastle.cms</package>
+                <package>org.bouncycastle.cms.bc</package>
+                <package>org.bouncycastle.cms.jcajce</package>
                 <package>org.bouncycastle.crypto</package>
                 <package>org.bouncycastle.crypto.agreement</package>
                 <package>org.bouncycastle.crypto.agreement.jpake</package>
@@ -67,6 +90,7 @@
                 <package>org.bouncycastle.crypto.macs</package>
                 <package>org.bouncycastle.crypto.modes</package>
                 <package>org.bouncycastle.crypto.modes.gcm</package>
+                <package>org.bouncycastle.crypto.modes.kgcm</package>
                 <package>org.bouncycastle.crypto.paddings</package>
                 <package>org.bouncycastle.crypto.params</package>
                 <package>org.bouncycastle.crypto.parsers</package>
@@ -75,6 +99,13 @@
                 <package>org.bouncycastle.crypto.signers</package>
                 <package>org.bouncycastle.crypto.tls</package>
                 <package>org.bouncycastle.crypto.util</package>
+                <package>org.bouncycastle.dvcs</package>
+                <package>org.bouncycastle.eac</package>
+                <package>org.bouncycastle.eac.jcajce</package>
+                <package>org.bouncycastle.eac.operator</package>
+                <package>org.bouncycastle.eac.operator.jcajce</package>
+                <package>org.bouncycastle.est</package>
+                <package>org.bouncycastle.est.jcajce</package>
                 <package>org.bouncycastle.i18n</package>
                 <package>org.bouncycastle.i18n.filter</package>
                 <package>org.bouncycastle.iana</package>
@@ -86,6 +117,7 @@
                 <package>org.bouncycastle.jcajce.provider.asymmetric.dstu</package>
                 <package>org.bouncycastle.jcajce.provider.asymmetric.ec</package>
                 <package>org.bouncycastle.jcajce.provider.asymmetric.ecgost</package>
+                <package>org.bouncycastle.jcajce.provider.asymmetric.ecgost12</package>
                 <package>org.bouncycastle.jcajce.provider.asymmetric.elgamal</package>
                 <package>org.bouncycastle.jcajce.provider.asymmetric.gost</package>
                 <package>org.bouncycastle.jcajce.provider.asymmetric.ies</package>
@@ -94,8 +126,10 @@
                 <package>org.bouncycastle.jcajce.provider.asymmetric.x509</package>
                 <package>org.bouncycastle.jcajce.provider.config</package>
                 <package>org.bouncycastle.jcajce.provider.digest</package>
+                <package>org.bouncycastle.jcajce.provider.drbg</package>
                 <package>org.bouncycastle.jcajce.provider.keystore</package>
                 <package>org.bouncycastle.jcajce.provider.keystore.bc</package>
+                <package>org.bouncycastle.jcajce.provider.keystore.bcfks</package>
                 <package>org.bouncycastle.jcajce.provider.keystore.pkcs12</package>
                 <package>org.bouncycastle.jcajce.provider.symmetric</package>
                 <package>org.bouncycastle.jcajce.provider.symmetric.util</package>
@@ -111,11 +145,26 @@
                 <package>org.bouncycastle.math</package>
                 <package>org.bouncycastle.math.ec</package>
                 <package>org.bouncycastle.math.ec.custom.djb</package>
+                <package>org.bouncycastle.math.ec.custom.gm</package>
                 <package>org.bouncycastle.math.ec.custom.sec</package>
                 <package>org.bouncycastle.math.ec.endo</package>
+                <package>org.bouncycastle.math.ec.rfc7748</package>
                 <package>org.bouncycastle.math.ec.tools</package>
                 <package>org.bouncycastle.math.field</package>
                 <package>org.bouncycastle.math.raw</package>
+                <package>org.bouncycastle.mozilla</package>
+                <package>org.bouncycastle.mozilla.jcajce</package>
+                <package>org.bouncycastle.openssl</package>
+                <package>org.bouncycastle.openssl.bc</package>
+                <package>org.bouncycastle.openssl.jcajce</package>
+                <package>org.bouncycastle.operator</package>
+                <package>org.bouncycastle.operator.bc</package>
+                <package>org.bouncycastle.operator.jcajce</package>
+                <package>org.bouncycastle.pkcs</package>
+                <package>org.bouncycastle.pkcs.bc</package>
+                <package>org.bouncycastle.pkcs.jcajce</package>
+                <package>org.bouncycastle.pkix</package>
+                <package>org.bouncycastle.pkix.jcajce</package>
                 <package>org.bouncycastle.pqc.asn1</package>
                 <package>org.bouncycastle.pqc.crypto</package>
                 <package>org.bouncycastle.pqc.crypto.gmss</package>
@@ -126,6 +175,7 @@
                 <package>org.bouncycastle.pqc.crypto.rainbow</package>
                 <package>org.bouncycastle.pqc.crypto.rainbow.util</package>
                 <package>org.bouncycastle.pqc.crypto.sphincs</package>
+                <package>org.bouncycastle.pqc.crypto.xmss</package>
                 <package>org.bouncycastle.pqc.jcajce.interfaces</package>
                 <package>org.bouncycastle.pqc.jcajce.provider</package>
                 <package>org.bouncycastle.pqc.jcajce.provider.gmss</package>
@@ -134,31 +184,35 @@
                 <package>org.bouncycastle.pqc.jcajce.provider.rainbow</package>
                 <package>org.bouncycastle.pqc.jcajce.provider.sphincs</package>
                 <package>org.bouncycastle.pqc.jcajce.provider.util</package>
+                <package>org.bouncycastle.pqc.jcajce.provider.xmss</package>
                 <package>org.bouncycastle.pqc.jcajce.spec</package>
                 <package>org.bouncycastle.pqc.math.linearalgebra</package>
                 <package>org.bouncycastle.pqc.math.ntru.euclid</package>
                 <package>org.bouncycastle.pqc.math.ntru.polynomial</package>
                 <package>org.bouncycastle.pqc.math.ntru.util</package>
+                <package>org.bouncycastle.tsp</package>
+                <package>org.bouncycastle.tsp.cms</package>
                 <package>org.bouncycastle.util</package>
                 <package>org.bouncycastle.util.encoders</package>
                 <package>org.bouncycastle.util.io</package>
                 <package>org.bouncycastle.util.io.pem</package>
                 <package>org.bouncycastle.util.test</package>
+                <package>org.bouncycastle.voms</package>
                 <package>org.bouncycastle.x509</package>
                 <package>org.bouncycastle.x509.extension</package>
                 <package>org.bouncycastle.x509.util</package>
             </public-packages>
             <class-path-extension>
-                <runtime-relative-path>ext/bcprov-jdk15on-155.jar</runtime-relative-path>
-                <binary-origin>release/modules/ext/bcprov-jdk15on-155.jar</binary-origin>
+                <runtime-relative-path>ext/bcpkix-jdk15on-159.jar</runtime-relative-path>
+                <binary-origin>release/modules/ext/bcpkix-jdk15on-159.jar</binary-origin>
             </class-path-extension>
             <class-path-extension>
-                <runtime-relative-path>ext/bcpkix-jdk15on-155.jar</runtime-relative-path>
-                <binary-origin>release/modules/ext/bcpkix-jdk15on-155.jar</binary-origin>
+                <runtime-relative-path>ext/bcprov-jdk15on-159.jar</runtime-relative-path>
+                <binary-origin>release/modules/ext/bcprov-jdk15on-159.jar</binary-origin>
             </class-path-extension>
             <class-path-extension>
-                <runtime-relative-path>ext/bcprov-ext-jdk15on-155.jar</runtime-relative-path>
-                <binary-origin>release/modules/ext/bcprov-ext-jdk15on-155.jar</binary-origin>
+                <runtime-relative-path>ext/bcprov-ext-jdk15on-159.jar</runtime-relative-path>
+                <binary-origin>release/modules/ext/bcprov-ext-jdk15on-159.jar</binary-origin>
             </class-path-extension>
         </data>
     </configuration>

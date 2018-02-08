@@ -4,6 +4,7 @@
 *.jar
 *.war
 *.ear
+!bcp*.jar
 /NB-Use-System-Desktop/nbproject/private/
 /NB-Use-System-Desktop/build/
 /NB-Create-Archive/nbproject/private/

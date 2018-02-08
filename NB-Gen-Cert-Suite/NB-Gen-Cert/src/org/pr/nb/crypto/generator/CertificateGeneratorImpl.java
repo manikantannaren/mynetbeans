@@ -10,8 +10,6 @@ import java.security.KeyPair;
 import java.security.KeyPairGenerator;
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
-import org.bouncycastle.cert.X509v1CertificateBuilder;
-import org.bouncycastle.x509.X509V3CertificateGenerator;
 import org.openide.filesystems.FileObject;
 import org.openide.filesystems.FileUtil;
 import org.openide.util.Exceptions;
@@ -39,7 +37,6 @@ public class CertificateGeneratorImpl implements CertificateGenerator {
             keyPairGenerator.initialize(inputs.getKeySize());
             KeyPair keyPair = keyPairGenerator.generateKeyPair();
             
-            X509v1CertificateBuilder certBuilder = new X509v1CertificateBuilder
         } catch (IOException | NoSuchAlgorithmException |
             NoSuchProviderException ex) {
             Exceptions.printStackTrace(ex);
