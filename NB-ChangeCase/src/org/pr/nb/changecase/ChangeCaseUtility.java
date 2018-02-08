@@ -10,6 +10,8 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import javax.swing.text.JTextComponent;
 import javax.swing.text.StyledDocument;
+import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.WordUtils;
 import org.openide.awt.NotificationDisplayer;
 import org.openide.text.NbDocument;
 import org.openide.util.NbBundle;
@@ -27,6 +29,7 @@ public class ChangeCaseUtility {
     public enum CHANGE_CASE_TYPE {
         ALL_CAPS, ALL_LOWER, INVERT_CASE, CAMEL_CASE, INIT_CAPS
     }
+
     private ChangeCaseUtility() {
     }
 
@@ -66,8 +69,10 @@ public class ChangeCaseUtility {
     }
 
     private static class RunnableAction implements Runnable {
+
         private final CHANGE_CASE_TYPE changeType;
         private final JTextComponent component;
+
         public RunnableAction(JTextComponent component,
                 CHANGE_CASE_TYPE changeType) {
             this.component = component;
@@ -89,13 +94,16 @@ public class ChangeCaseUtility {
         private String convertCase(String text, CHANGE_CASE_TYPE changeType) {
             switch (changeType) {
                 case ALL_CAPS:
-                    text = text.toUpperCase(Locale.getDefault());
+                    text = StringUtils.upperCase(text);
                     break;
                 case ALL_LOWER:
-                    text = text.toLowerCase(Locale.getDefault());
+                    text = StringUtils.lowerCase(text);
                     break;
                 case INVERT_CASE:
-                    text = invertCase(text);
+                    text = WordUtils.swapCase(text);
+                    break;
+                case INIT_CAPS:
+                    text = WordUtils.capitalizeFully(text);
                     break;
                 default:
                     NotificationDisplayer.getDefault().
@@ -106,30 +114,5 @@ public class ChangeCaseUtility {
             }
             return text;
         }
-
-        private String invertCase(String text) {
-            StringBuilder builder = new StringBuilder();
-            char[] charsToInvert = text.toCharArray();
-            boolean whiteSpace = true;
-            for (char c : charsToInvert) {
-                char tmp = c;
-                if (Character.isUpperCase(c)) {
-                    tmp = Character.toLowerCase(c);
-                } else if (Character.isTitleCase(c)) {
-                    tmp = Character.toLowerCase(c);
-                } else if (Character.isLowerCase(c)) {
-                    if (whiteSpace) {
-                        tmp = Character.toTitleCase(c);
-                    } else {
-                        tmp = Character.toUpperCase(c);
-                    }
-                }
-                whiteSpace = Character.isWhitespace(c);
-                builder.append(tmp);
-            }
-
-            return builder.toString();
-        }
-
     }
 }
