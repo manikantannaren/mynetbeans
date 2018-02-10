@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?><module codename="org.pr.nb.plugins.MongoDBExplorer">
-    <module_version install_time="1478874381098" last="true" origin="installer" specification_version="1.0">
-        <file crc="2249119227" name="config/Modules/org-pr-nb-plugins-MongoDBExplorer.xml"/>
-        <file crc="1505365534" name="modules/ext/org.pr.nb.plugins.MongoDBExplorer/org-mongodb/bson.jar"/>
-        <file crc="1704096910" name="modules/ext/org.pr.nb.plugins.MongoDBExplorer/org-mongodb/mongodb-driver-core.jar"/>
-        <file crc="1621332318" name="modules/ext/org.pr.nb.plugins.MongoDBExplorer/org-mongodb/mongodb-driver.jar"/>
-        <file crc="653681770" name="modules/org-pr-nb-plugins-MongoDBExplorer.jar"/>
-    </module_version>
-</module>

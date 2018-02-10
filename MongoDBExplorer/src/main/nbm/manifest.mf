@@ -1,6 +1,0 @@
-Manifest-Version: 1.0
-OpenIDE-Module-Layer: org/pr/nb/plugins/mongodb/layer.xml
-OpenIDE-Module-Localizing-Bundle: org/pr/nb/plugins/mongodb/Bundle.properties
-OpenIDE-Module-Needs: org.netbeans.api.templates.wizard, javax.script.ScriptEngine.freemarker
-OpenIDE-Module-Requires: org.openide.windows.WindowManager
-
