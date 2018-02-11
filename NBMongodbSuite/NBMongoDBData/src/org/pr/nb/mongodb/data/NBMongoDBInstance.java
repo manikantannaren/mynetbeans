@@ -34,9 +34,11 @@ public class NBMongoDBInstance implements Serializable {
     private String hostName;
     private Integer portNumber;
     private String userName;
+    private String password;
     private String displayName;
 
     public NBMongoDBInstance() {
+        this("localhost",27017,"","localhost:27017");
     }
 
     NBMongoDBInstance(String id, String hostName, Integer portNumber, String userName, String displayName) {
@@ -91,6 +93,16 @@ public class NBMongoDBInstance implements Serializable {
     public void setDisplayName(String displayName) {
         this.displayName = displayName;
     }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+    
+    
 
     public static final String FIELD_HOSTNAME = "hostname";
     public static final String FIELD_PORT = "port";

@@ -7,20 +7,15 @@ package org.pr.nb.mongodb.nodes;
 
 import java.beans.PropertyChangeEvent;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import org.apache.commons.collections.CollectionUtils;
 import org.json.simple.parser.ParseException;
 import org.openide.filesystems.FileObject;
 import org.openide.filesystems.FileUtil;
 import org.openide.modules.Places;
 import org.openide.nodes.ChildFactory;
 import org.openide.nodes.NodeAdapter;
-import org.openide.nodes.NodeEvent;
-import org.openide.nodes.NodeMemberEvent;
-import org.openide.nodes.NodeReorderEvent;
 import org.openide.util.Exceptions;
 import org.pr.nb.mongodb.component.PropertiesNotifier;
 import org.pr.nb.mongodb.component.PropertyNames;
@@ -43,7 +38,7 @@ class NBMongoDBNodeFactory extends ChildFactory.Detachable<NBMongoDBInstance> {
 
     @Override
     protected boolean createKeys(List<NBMongoDBInstance> list) {
-        if (CollectionUtils.isEmpty(registeredInstances)) {
+        if (registeredInstances == null) {
             registeredInstances = loadStoredInstances();
         }
         list.addAll(registeredInstances);

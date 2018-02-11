@@ -20,6 +20,7 @@ import org.pr.nb.mongodb.component.PropertyNames;
 import org.pr.nb.mongodb.data.NBMongoDBInstance;
 import org.pr.nb.mongodb.nodes.wizard.NBMongoDBNewInstanceWizardPanel1;
 import org.pr.nb.mongodb.nodes.wizard.NBMongoDBNewInstanceWizardPanel2;
+import org.pr.nb.mongodb.nodes.wizard.WizardMessagingInterface;
 
 /**
  *
@@ -64,6 +65,7 @@ public class NBMongoDBInstanceType extends NewType {
             }
         }
         WizardDescriptor wiz = new WizardDescriptor(new WizardDescriptor.ArrayIterator<>(panels));
+        wiz.putProperty(WizardMessagingInterface.KEY_USER_SETTINGS, new NBMongoDBInstance());
         // {0} will be replaced by WizardDesriptor.Panel.getComponent().getName()
         wiz.setTitleFormat(new MessageFormat("{0} ({1})"));
         wiz.setTitle(Bundle.LBL_NEWTYPE_INSTANCE());

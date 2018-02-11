@@ -9,21 +9,8 @@
 /NB-Use-System-Desktop/build/
 /NB-Create-Archive/nbproject/private/
 /NB-Create-Archive/build/
-/NB-CSV-SUITE/NB-CSV-Filetype/target/
-/NB-CSV-SUITE/NB-CSV-UI/target/
-/NB-CSV-SUITE/NB-CSV-Handler/target/
 /NB-System-Properties/nbproject/private/
 /NB-System-Properties/build/
-/NB-CSV-SUITE/NB-CSV-FILETYPE/target/
-/NetBeans-CSV/nbproject/private/
-/NetBeans-CSV/NB-CSV-FileType/build/
-/NetBeans-CSV/build/
-/NetBeans-CSV/NB-CSV-Nodes/build/
-/NetBeans-CSV/NB-opencsv-Wrapper/build/
-/NetBeans-CSV/opencsv/nbproject/private/
-/NetBeans-CSV/NB-opencsv-Wrapper/nbproject/private/
-/NetBeans-CSV/NB-CSV-FileType/nbproject/private/
-/NetBeans-CSV/NB-CSV-Nodes/nbproject/private/
 /NB-CapsLock-Notifier/nbproject/private/
 /NB-CapsLock-Notifier/build/
 /NB-SUID-Generator/nbproject/private/
@@ -40,5 +27,6 @@
 /NB-ChangeCase/nbproject/private/
 /NB-ChangeCase/build/
 
-/NBMongoSuite/nbproject/private/
-/NBMongodbSuite/nbproject/private/
+**/nbproject/private/
+**/build
+NBMongodbSuite/NBMongoDBNodes/nbproject/private/

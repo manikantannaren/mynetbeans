@@ -23,7 +23,10 @@ import org.openide.WizardDescriptor;
  */
 public interface WizardMessagingInterface {
 
+    public static final String KEY_USER_SETTINGS = "KEY_USER_SETTINGS";
     public void readSettings(WizardDescriptor wiz);
 
     public void storeSettings(WizardDescriptor wiz);
+    
+    public boolean isPanelValid();
 }

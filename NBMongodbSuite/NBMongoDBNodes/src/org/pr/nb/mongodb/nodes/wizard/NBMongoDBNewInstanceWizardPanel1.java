@@ -15,16 +15,16 @@ public class NBMongoDBNewInstanceWizardPanel1 implements WizardDescriptor.Panel<
      * The visual component that displays this panel. If you need to access the
      * component from this class, just use getComponent().
      */
-    private NBMongoDBNewInstanceVisualPanel1 component;
+    private NBMongoDBNewInstanceSettingsVisualPanel component;
 
     // Get the visual component for the panel. In this template, the component
     // is kept separate. This can be more efficient: if the wizard is created
     // but never displayed, or not all panels are displayed, it is better to
     // create only those which really need to be visible.
     @Override
-    public NBMongoDBNewInstanceVisualPanel1 getComponent() {
+    public NBMongoDBNewInstanceSettingsVisualPanel getComponent() {
         if (component == null) {
-            component = new NBMongoDBNewInstanceVisualPanel1();
+            component = new NBMongoDBNewInstanceSettingsVisualPanel();
         }
         return component;
     }
@@ -40,7 +40,7 @@ public class NBMongoDBNewInstanceWizardPanel1 implements WizardDescriptor.Panel<
     @Override
     public boolean isValid() {
         // If it is always OK to press Next or Finish, then:
-        return true;
+        return getComponent().isPanelValid();
         // If it depends on some condition (form filled out...) and
         // this condition changes (last form field filled in...) then
         // use ChangeSupport to implement add/removeChangeListener below.
@@ -58,11 +58,13 @@ public class NBMongoDBNewInstanceWizardPanel1 implements WizardDescriptor.Panel<
     @Override
     public void readSettings(WizardDescriptor wiz) {
         // use wiz.getProperty to retrieve previous panel state
+        getComponent().readSettings(wiz);
     }
 
     @Override
     public void storeSettings(WizardDescriptor wiz) {
         // use wiz.putProperty to remember current panel state
+        getComponent().storeSettings(wiz);
     }
 
 }
