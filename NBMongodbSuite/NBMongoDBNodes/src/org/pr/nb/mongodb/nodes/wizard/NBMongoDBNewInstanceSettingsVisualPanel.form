@@ -145,6 +145,11 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="userNameTextField">
+      <Properties>
+        <Property name="editable" type="boolean" value="false"/>
+        <Property name="text" type="java.lang.String" value="user" noResource="true"/>
+        <Property name="enabled" type="boolean" value="false"/>
+      </Properties>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_allCodePost" type="java.lang.String" value="userNameTextField.getDocument().addDocumentListener(wizardDocumentListener);&#xa;"/>
       </AuxValues>
@@ -157,6 +162,13 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JPasswordField" name="passwordField">
+      <Properties>
+        <Property name="editable" type="boolean" value="false"/>
+        <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+          <ResourceString bundle="org/pr/nb/mongodb/nodes/wizard/Bundle.properties" key="NBMongoDBNewInstanceSettingsVisualPanel.passwordField.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+        </Property>
+        <Property name="enabled" type="boolean" value="false"/>
+      </Properties>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_allCodePost" type="java.lang.String" value="passwordField.getDocument().addDocumentListener(wizardDocumentListener);&#xa;"/>
       </AuxValues>

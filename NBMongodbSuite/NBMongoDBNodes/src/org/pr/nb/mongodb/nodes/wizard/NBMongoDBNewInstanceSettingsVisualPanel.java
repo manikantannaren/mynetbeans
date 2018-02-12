@@ -5,8 +5,10 @@
  */
 package org.pr.nb.mongodb.nodes.wizard;
 
-import java.util.logging.Logger;
+import com.mongodb.MongoClient;
+import com.mongodb.ServerAddress;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.text.Document;
@@ -79,7 +81,15 @@ public final class NBMongoDBNewInstanceSettingsVisualPanel extends JPanel implem
 
         org.openide.awt.Mnemonics.setLocalizedText(jLabel4, org.openide.util.NbBundle.getMessage(NBMongoDBNewInstanceSettingsVisualPanel.class, "NBMongoDBNewInstanceSettingsVisualPanel.jLabel4.text")); // NOI18N
 
+        userNameTextField.setEditable(false);
+        userNameTextField.setText("user"); // NOI18N
+        userNameTextField.setEnabled(false);
+
         org.openide.awt.Mnemonics.setLocalizedText(jLabel5, org.openide.util.NbBundle.getMessage(NBMongoDBNewInstanceSettingsVisualPanel.class, "NBMongoDBNewInstanceSettingsVisualPanel.jLabel5.text")); // NOI18N
+
+        passwordField.setEditable(false);
+        passwordField.setText(org.openide.util.NbBundle.getMessage(NBMongoDBNewInstanceSettingsVisualPanel.class, "NBMongoDBNewInstanceSettingsVisualPanel.passwordField.text")); // NOI18N
+        passwordField.setEnabled(false);
 
         org.openide.awt.Mnemonics.setLocalizedText(testButton, org.openide.util.NbBundle.getMessage(NBMongoDBNewInstanceSettingsVisualPanel.class, "NBMongoDBNewInstanceSettingsVisualPanel.testButton.text")); // NOI18N
         testButton.addActionListener(new java.awt.event.ActionListener() {
@@ -167,11 +177,27 @@ public final class NBMongoDBNewInstanceSettingsVisualPanel extends JPanel implem
 
     private void testButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_testButtonActionPerformed
         // TODO add your handling code here:
-        try{
-            showProgress(true);
-        }finally{
-            showProgress(false);
-        }
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    String host = hostTextField.getText();
+                    String prttext = portTextField.getText();
+                    int port = 0;
+                    try {
+                        port = Integer.parseInt(prttext);
+                    } catch (NumberFormatException e) {
+                        port = 27017;
+                    }
+                    ServerAddress address = new ServerAddress(host,port);
+                    MongoClient client = new MongoClient(address);
+                    client.listDatabases();
+                    showProgress(true);
+                } finally {
+                    showProgress(false);
+                }
+            }
+        });
     }//GEN-LAST:event_testButtonActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -193,14 +219,14 @@ public final class NBMongoDBNewInstanceSettingsVisualPanel extends JPanel implem
     private boolean connectionTested = false;
     private boolean connectionOK = false;
     private ChangeSupport changeSupport;
-    
+
     @Override
     public void readSettings(WizardDescriptor wiz) {
         this.settings = wiz;
         NBMongoDBInstance instance = (NBMongoDBInstance) wiz.getProperty(WizardMessagingInterface.KEY_USER_SETTINGS);
         setValuesInUI(instance);
         // use wiz.getProperty to retrieve previous panel state
-        
+
     }
 
     @Override
@@ -216,10 +242,10 @@ public final class NBMongoDBNewInstanceSettingsVisualPanel extends JPanel implem
         boolean retValue = connectionTested && connectionOK;
         if (retValue) {
             settings.putProperty(WizardDescriptor.PROP_ERROR_MESSAGE, null);
-        }else{
-            if(!connectionTested){
+        } else {
+            if (!connectionTested) {
                 settings.putProperty(WizardDescriptor.PROP_ERROR_MESSAGE, Bundle.ERROR_NOT_TESTED());
-            }else if(!connectionOK){
+            } else if (!connectionOK) {
                 settings.putProperty(WizardDescriptor.PROP_ERROR_MESSAGE, Bundle.ERROR_COULD_NOT_CONNECT(hostTextField.getText(), portTextField.getText()));
             }
         }
@@ -248,13 +274,14 @@ public final class NBMongoDBNewInstanceSettingsVisualPanel extends JPanel implem
         instance.setDisplayName(displayNameTextField.getText());
         instance.setPassword(new String(passwordField.getPassword()));
     }
-    
-    private void showProgress(boolean show){
+
+    private void showProgress(boolean show) {
         this.testProgressBar.setIndeterminate(show);
         this.testProgressBar.setVisible(show);
     }
-    
+
     private class DocumentListenerImpl implements DocumentListener {
+
         public DocumentListenerImpl() {
         }
 
@@ -277,13 +304,13 @@ public final class NBMongoDBNewInstanceSettingsVisualPanel extends JPanel implem
             //hostname -default = 127.0.0.1
             //Display name - default = hostname
             //port default = 27017
-            if(StringUtils.isEmpty(hostTextField.getText())){
+            if (StringUtils.isEmpty(hostTextField.getText())) {
                 hostTextField.setText("127.0.0.1");
             }
-            if(StringUtils.isEmpty(displayNameTextField.getText())){
+            if (StringUtils.isEmpty(displayNameTextField.getText())) {
                 displayNameTextField.setText(hostTextField.getText());
             }
-            if(StringUtils.isEmpty(portTextField.getText())){
+            if (StringUtils.isEmpty(portTextField.getText())) {
                 portTextField.setText("27017");
             }
             changeSupport.fireChange();

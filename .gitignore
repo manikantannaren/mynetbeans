@@ -31,4 +31,4 @@
 **/build
 NBMongodbSuite/NBMongoDBNodes/nbproject/private/
 !mongo*.jar
-
+!bson*.jar

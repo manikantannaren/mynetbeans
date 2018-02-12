@@ -6,9 +6,9 @@
             <folder name="Root">
                 <folder name="NodeProviders">
                     <file name="NBMongoDBNodeProvider.instance">
-                        <attr name="instanceCreate" methodvalue="org.pr.nb.plugins.mongodb.nodes.NBMongoDBNodeProvider.getFactory"/>
+                        <attr name="instanceCreate" methodvalue="org.pr.nb.mongodb.nodes.NBMongoDBNodeProvider.getFactory"/>
                         <attr name="instanceOf" stringvalue="org.netbeans.api.db.explorer.node.NodeProviderFactory"/>
-                        <attr name="position" intvalue="90"/>
+                        <attr name="position" intvalue="120"/>
                     </file>
                 </folder>
             </folder>

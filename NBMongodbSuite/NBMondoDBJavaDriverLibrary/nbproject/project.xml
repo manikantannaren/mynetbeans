@@ -8,17 +8,63 @@
             <module-dependencies/>
             <public-packages>
                 <package>com.mongodb</package>
+                <package>com.mongodb.annotations</package>
+                <package>com.mongodb.assertions</package>
+                <package>com.mongodb.async</package>
+                <package>com.mongodb.binding</package>
+                <package>com.mongodb.bulk</package>
                 <package>com.mongodb.client</package>
                 <package>com.mongodb.client.gridfs</package>
+                <package>com.mongodb.client.gridfs.codecs</package>
+                <package>com.mongodb.client.gridfs.model</package>
                 <package>com.mongodb.client.jndi</package>
                 <package>com.mongodb.client.model</package>
+                <package>com.mongodb.client.model.changestream</package>
+                <package>com.mongodb.client.model.geojson</package>
+                <package>com.mongodb.client.model.geojson.codecs</package>
+                <package>com.mongodb.client.result</package>
+                <package>com.mongodb.connection</package>
+                <package>com.mongodb.connection.netty</package>
+                <package>com.mongodb.diagnostics.logging</package>
+                <package>com.mongodb.event</package>
                 <package>com.mongodb.gridfs</package>
+                <package>com.mongodb.internal</package>
+                <package>com.mongodb.internal.async</package>
+                <package>com.mongodb.internal.authentication</package>
+                <package>com.mongodb.internal.connection</package>
+                <package>com.mongodb.internal.dns</package>
+                <package>com.mongodb.internal.event</package>
+                <package>com.mongodb.internal.management.jmx</package>
+                <package>com.mongodb.internal.session</package>
+                <package>com.mongodb.internal.thread</package>
+                <package>com.mongodb.internal.validator</package>
+                <package>com.mongodb.management</package>
+                <package>com.mongodb.operation</package>
+                <package>com.mongodb.selector</package>
+                <package>com.mongodb.session</package>
                 <package>com.mongodb.util</package>
                 <package>org.bson</package>
+                <package>org.bson.assertions</package>
+                <package>org.bson.codecs</package>
+                <package>org.bson.codecs.configuration</package>
+                <package>org.bson.codecs.pojo</package>
+                <package>org.bson.codecs.pojo.annotations</package>
+                <package>org.bson.conversions</package>
+                <package>org.bson.diagnostics</package>
+                <package>org.bson.internal</package>
                 <package>org.bson.io</package>
+                <package>org.bson.json</package>
                 <package>org.bson.types</package>
                 <package>org.bson.util</package>
             </public-packages>
+            <class-path-extension>
+                <runtime-relative-path>ext/bson-3.6.2.jar</runtime-relative-path>
+                <binary-origin>release/modules/ext/bson-3.6.2.jar</binary-origin>
+            </class-path-extension>
+            <class-path-extension>
+                <runtime-relative-path>ext/mongodb-driver-core-3.6.2.jar</runtime-relative-path>
+                <binary-origin>release/modules/ext/mongodb-driver-core-3.6.2.jar</binary-origin>
+            </class-path-extension>
             <class-path-extension>
                 <runtime-relative-path>ext/mongodb-driver-3.6.2.jar</runtime-relative-path>
                 <binary-origin>release/modules/ext/mongodb-driver-3.6.2.jar</binary-origin>
