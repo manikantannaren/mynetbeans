@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://www.netbeans.org/ns/project/1">
+    <type>org.netbeans.modules.apisupport.project</type>
+    <configuration>
+        <data xmlns="http://www.netbeans.org/ns/nb-module-project/3">
+            <code-name-base>org.pr.nb.nb.mongodb</code-name-base>
+            <suite-component/>
+            <module-dependencies/>
+            <public-packages>
+                <package>com.mongodb</package>
+                <package>com.mongodb.client</package>
+                <package>com.mongodb.client.gridfs</package>
+                <package>com.mongodb.client.jndi</package>
+                <package>com.mongodb.client.model</package>
+                <package>com.mongodb.gridfs</package>
+                <package>com.mongodb.util</package>
+                <package>org.bson</package>
+                <package>org.bson.io</package>
+                <package>org.bson.types</package>
+                <package>org.bson.util</package>
+            </public-packages>
+            <class-path-extension>
+                <runtime-relative-path>ext/mongodb-driver-3.6.2.jar</runtime-relative-path>
+                <binary-origin>release/modules/ext/mongodb-driver-3.6.2.jar</binary-origin>
+            </class-path-extension>
+        </data>
+    </configuration>
+</project>

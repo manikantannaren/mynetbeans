@@ -11,6 +11,7 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.text.Document;
 import javax.swing.text.PlainDocument;
+import org.apache.commons.lang.StringUtils;
 import org.openide.WizardDescriptor;
 import org.openide.util.ChangeSupport;
 import org.openide.util.NbBundle;
@@ -273,7 +274,18 @@ public final class NBMongoDBNewInstanceSettingsVisualPanel extends JPanel implem
         }
 
         private void checkAndSetDefaults() {
-            //hostname 
+            //hostname -default = 127.0.0.1
+            //Display name - default = hostname
+            //port default = 27017
+            if(StringUtils.isEmpty(hostTextField.getText())){
+                hostTextField.setText("127.0.0.1");
+            }
+            if(StringUtils.isEmpty(displayNameTextField.getText())){
+                displayNameTextField.setText(hostTextField.getText());
+            }
+            if(StringUtils.isEmpty(portTextField.getText())){
+                portTextField.setText("27017");
+            }
             changeSupport.fireChange();
         }
     }
