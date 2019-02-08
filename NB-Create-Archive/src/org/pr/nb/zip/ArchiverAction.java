@@ -45,7 +45,7 @@ import org.pr.nb.zip.wizard.ArchiverWizardIterator;
         displayName = "#CTL_ExportAction"
 )
 @ActionReferences({
-    @ActionReference(path = "Menu/BuildProject", position = 1200, separatorBefore = 1150),
+    @ActionReference(path = "Menu/File", position = 1200, separatorBefore = 1150),
     @ActionReference(path = "Toolbars/Build", position = 500),
     @ActionReference(path = "Loaders/folder/any/Actions", position = 500),
     @ActionReference(path = "Projects/Actions", position = 500),
