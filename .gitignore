@@ -10,3 +10,5 @@
 **/build
 !mongo*.jar
 !bson*.jar
+**/.gradle/
+**/.nb-gradle/

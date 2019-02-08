@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?><module codename="org.pr.nb.clocks">
-    <module_version install_time="1493359838712" last="true" origin="installer" specification_version="1.0">
-        <file crc="1385342439" name="config/Modules/org-pr-nb-clocks.xml"/>
-        <file crc="2680747960" name="modules/org-pr-nb-clocks.jar"/>
-        <file crc="4231672783" name="tz.xml"/>
-    </module_version>
-</module>

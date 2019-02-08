@@ -5,56 +5,70 @@
  */
 package org.pr.nb.clocks.model;
 
-import java.time.ZoneId;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.time.ZonedDateTime;
-import org.apache.commons.lang.StringUtils;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 /**
  *
- * @author manis
+ * @author msivasub
  */
 public class NBClock implements Comparable<NBClock> {
 
-    private ZoneId zoneId;
     private ZonedDateTime zoneDateTime;
-    private boolean homeZone;
+    private final NBClockZone zone;
+    private final List<PropertyChangeListener> listeners = new ArrayList<>();
 
-    public NBClock(String zoneId) {
-        this.zoneId = ZoneId.of(zoneId, ZoneId.SHORT_IDS);
-        zoneDateTime = ZonedDateTime.now(this.zoneId);
-        homeZone = StringUtils.equals(zoneId, ZoneId.systemDefault().getId());
+    public void addPropertyChangeListener(PropertyChangeListener pcl) {
+        listeners.add(pcl);
     }
 
-    public ZonedDateTime getZoneDateTime() {
+    public void removePropertyChangeListener(PropertyChangeListener pcl) {
+        listeners.remove(pcl);
+    }
+
+    public NBClock(NBClockZone zone) {
+        this.zone = zone;
+        zoneDateTime = ZonedDateTime.now(zone.getZone());
+    }
+
+    public ZonedDateTime getTime() {
         return zoneDateTime;
     }
 
     public void setZoneDateTime(ZonedDateTime zoneDateTime) {
-        this.zoneDateTime = zoneDateTime;
+        ZonedDateTime old = this.zoneDateTime;
+        this.zoneDateTime = zoneDateTime.withZoneSameInstant(old.getZone());
+//        this.zoneDateTime = zoneDateTime;
+        fire("dateTime", old, this.zoneDateTime);
     }
 
-    public boolean isHomeZone() {
-        return homeZone;
+    public NBClockZone getZone() {
+        return zone;
     }
 
-    public void setHomeZone(boolean homeZone) {
-        this.homeZone = homeZone;
-    }
-
-    public ZoneId getZoneId() {
-        return zoneId;
-    }
-
-    public void setZoneId(ZoneId zoneId) {
-        this.zoneId = zoneId;
+    public void changeTime(Date dt) {
+        setZoneDateTime(ZonedDateTime.ofInstant(dt.toInstant(), getZone().getZone()));
     }
 
     @Override
     public int compareTo(NBClock o) {
-        if (this.homeZone) {
-            return Integer.MIN_VALUE;
-        }
-        return this.zoneId.getId().compareTo(o.zoneId.getId());
+        return this.zone.compareTo(o.zone);
     }
 
+    private void fire(String propertyName, Object old, Object nue) {
+        //Passing 0 below on purpose, so you only synchronize for one atomic call:
+        listeners.forEach((listener) -> {
+            listener.propertyChange(new PropertyChangeEvent(this, propertyName, old, nue));
+        });
+    }
+
+    @Override
+    public String toString() {
+        return "NBClock{" + "zone=" + zone + '}';
+    }
+    
 }
