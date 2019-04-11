@@ -1,0 +1,6 @@
+Manifest-Version: 1.0
+AutoUpdate-Show-In-Client: true
+OpenIDE-Module: org.pr.nb.sqlite3.nodes
+OpenIDE-Module-Localizing-Bundle: org/pr/nb/sqlite3/nodes/Bundle.properties
+OpenIDE-Module-Specification-Version: 1.0
+
