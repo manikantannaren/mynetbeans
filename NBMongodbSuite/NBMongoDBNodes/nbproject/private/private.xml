@@ -3,7 +3,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/home/mahakaal/NetBeansProjects/mynetbeans/NBMongodbSuite/NBMongoDBNodes/src/org/pr/nb/mongodb/nodes/wizard/NBMongoDBNewInstanceSettingsVisualPanel.java</file>
+            <file>file:/Users/msivasub/dev/mynetbeans/NBMongodbSuite/NBMongoDBNodes/src/org/pr/nb/mongodb/nodes/NBMongoDBRootNode.java</file>
+            <file>file:/Users/msivasub/dev/mynetbeans/NBMongodbSuite/NBMongoDBNodes/src/org/pr/nb/mongodb/nodes/newtypes/NBMongoDBInstanceType.java</file>
+            <file>file:/Users/msivasub/dev/mynetbeans/NBMongodbSuite/NBMongoDBNodes/src/org/pr/nb/mongodb/nodes/MongoDBInstanceNode.java</file>
+            <file>file:/Users/msivasub/dev/mynetbeans/NBMongodbSuite/NBMongoDBNodes/src/org/pr/nb/mongodb/nodes/NBMongoDBNodeFactory.java</file>
         </group>
     </open-files>
 </project-private>
