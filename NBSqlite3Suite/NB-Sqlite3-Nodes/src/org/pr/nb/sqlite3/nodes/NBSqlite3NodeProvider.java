@@ -21,7 +21,7 @@ public class NBSqlite3NodeProvider extends NodeProvider {
         super(lookup);
     }
 
-    public static NodeProviderFactory getInstance() {
+    public static NodeProviderFactory getFactory() {
         return NBSqlite3NodeProviderHolder.INSTANCE;
     }
 

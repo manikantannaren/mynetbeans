@@ -6,10 +6,13 @@
 package org.pr.nb.sqlite3.nodes;
 
 import java.awt.Image;
+import javax.swing.Action;
+import org.openide.actions.NewAction;
 import org.openide.nodes.AbstractNode;
 import org.openide.nodes.Children;
 import org.openide.util.ImageUtilities;
 import org.openide.util.NbBundle;
+import org.openide.util.actions.SystemAction;
 import org.openide.util.datatransfer.NewType;
 import org.pr.nb.sqlite3.nodes.newtypes.NBSqlite3NewType;
 
@@ -65,5 +68,12 @@ public class NBSqlite3RootNode extends AbstractNode {
         };
     }
 
-    
+    @Override
+    public Action[] getActions(boolean context) {
+        Action[] retValue = new Action[]{
+            SystemAction.get(NewAction.class)
+        };
+        return retValue;
+    }
+
 }
