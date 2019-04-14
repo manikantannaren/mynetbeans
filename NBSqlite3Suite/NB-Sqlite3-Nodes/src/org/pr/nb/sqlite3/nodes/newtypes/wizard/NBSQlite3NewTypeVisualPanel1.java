@@ -124,7 +124,7 @@ public final class NBSQlite3NewTypeVisualPanel1 extends JPanel {
             }
         });
         builder.setFilesOnly(true);
-        File _selFile = builder.showOpenDialog();
+        File _selFile = builder.showSaveDialog();
         
         if(_selFile !=null){
             this.selFile = _selFile;
