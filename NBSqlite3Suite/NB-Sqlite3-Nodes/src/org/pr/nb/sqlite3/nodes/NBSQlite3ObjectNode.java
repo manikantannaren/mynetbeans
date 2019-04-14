@@ -10,17 +10,17 @@ import java.beans.IntrospectionException;
 import java.io.IOException;
 import org.openide.nodes.BeanNode;
 import org.openide.util.ImageUtilities;
-import org.pr.nb.sqlite3.data.Sqlite3Object;
+import org.pr.nb.sqlite3.data.NBSqlite3Object;
 
 /**
  *
  * @author msivasub
  */
-public class NBSQlite3ObjectNode extends BeanNode<Sqlite3Object>{
+public class NBSQlite3ObjectNode extends BeanNode<NBSqlite3Object>{
 
-    private final Sqlite3Object key;
+    private final NBSqlite3Object key;
 
-    public NBSQlite3ObjectNode(Sqlite3Object bean) throws IntrospectionException {
+    public NBSQlite3ObjectNode(NBSqlite3Object bean) throws IntrospectionException {
         super(bean);
         this.key = bean;
     }

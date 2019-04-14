@@ -8,7 +8,7 @@ package org.pr.nb.sqlite3.nodes.newtypes.wizard;
 import javax.swing.event.ChangeListener;
 import org.openide.WizardDescriptor;
 import org.openide.util.HelpCtx;
-import org.pr.nb.sqlite3.data.Sqlite3Object;
+import org.pr.nb.sqlite3.data.NBSqlite3Object;
 
 public class NBSQlite3NewTypeWizardPanel1 implements WizardDescriptor.Panel<WizardDescriptor> {
 
@@ -59,7 +59,7 @@ public class NBSQlite3NewTypeWizardPanel1 implements WizardDescriptor.Panel<Wiza
     @Override
     public void readSettings(WizardDescriptor wiz) {
         // use wiz.getProperty to retrieve previous panel state
-        getComponent().setData((Sqlite3Object) wiz.getProperty("data"));
+        getComponent().setData((NBSqlite3Object) wiz.getProperty("data"));
     }
 
     @Override

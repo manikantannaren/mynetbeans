@@ -8,7 +8,9 @@ package org.pr.nb.sqlite3.data;
 import java.io.Reader;
 import java.io.Serializable;
 import java.io.StringReader;
+import java.util.Map;
 import java.util.Objects;
+import java.util.WeakHashMap;
 import org.apache.commons.lang.StringUtils;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -21,21 +23,22 @@ import org.json.simple.parser.JSONParser;
     "# {0} - DB file user has selected",
     "ERR_INVALID_DB_PATH=Invalid path {0}. Path is null or is a directory"
 })
-class Sqlite3InstanceImpl implements Serializable, Sqlite3Object {
+final class Sqlite3InstanceImpl implements Serializable, NBSqlite3Object {
 
     private static final long serialVersionUID = 1L;
 
-    private final String name;
+    private String name;
     private final String dbPath;
 
     private Sqlite3InstanceImpl(String name, String dbPath) {
         this.dbPath = dbPath;
-        this.name = name;
+        this.name = name;   
     }
 
     @Override
     public String getName() {
-        return StringUtils.isEmpty(name)?dbPath:name;
+        this.name = NBSQlite3NamingManager.getImplementation().getName(this);
+        return this.name;
     }
 
     @Override
@@ -48,6 +51,15 @@ class Sqlite3InstanceImpl implements Serializable, Sqlite3Object {
         return "Sqlite3InstanceImpl{" + "name=" + name + ", dbPath=" + dbPath + '}';
     }
 
+    @Override
+    public String toExternalForm() {
+        //return json string
+        Map<String, String> data =  new WeakHashMap<>();
+        data.put("name",getName());
+        data.put("dbPath",getDbPath());
+        JSONObject json = new JSONObject(data);
+        return json.toJSONString();
+    }
     
     public static class BuilderWithJson {
 

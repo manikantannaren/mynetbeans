@@ -28,15 +28,15 @@ public class NBSqlite3InstanceFactory {
     private NBSqlite3InstanceFactory() {
     }
 
-    public List<Sqlite3Object> getExistingConfigs() {
-        List<Sqlite3Object> retValue = new ArrayList<>();
+    public List<NBSqlite3Object> getExistingConfigs() {
+        List<NBSqlite3Object> retValue = new ArrayList<>();
         try {
 
             FileObject[] configs = getConfigStore().getChildren();
             Arrays.stream(configs).forEach(configFile->{
                 try {
                     Reader in = new InputStreamReader(configFile.getInputStream());
-                    Sqlite3Object data = new Sqlite3InstanceImpl.BuilderWithJson().withReader(in).build();
+                    NBSqlite3Object data = new Sqlite3InstanceImpl.BuilderWithJson().withReader(in).build();
                     retValue.add(data);
                 } catch (Exception ex) {
                     Exceptions.printStackTrace(ex);
@@ -48,10 +48,14 @@ public class NBSqlite3InstanceFactory {
         return retValue;
     }
     
-    public Sqlite3Object fromUserInput(String name, String path){
+    public NBSqlite3Object fromUserInput(String name, String path){
         return new Sqlite3InstanceImpl.Builder().withName(name).withPath(path).build();
     }
 
+    public NBSqlite3Object save(NBSqlite3Object data){
+      throw new UnsupportedOperationException();
+    }
+    
     private FileObject getConfigStore() throws IOException {
         File userDir = Places.getUserDirectory();
         FileObject userDirFileObject = FileUtil.toFileObject(FileUtil.normalizeFile(userDir));

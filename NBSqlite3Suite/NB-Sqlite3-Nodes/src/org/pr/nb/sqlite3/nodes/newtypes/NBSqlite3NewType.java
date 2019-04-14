@@ -17,8 +17,8 @@ import org.openide.DialogDisplayer;
 import org.openide.WizardDescriptor;
 import org.openide.util.NbBundle;
 import org.openide.util.datatransfer.NewType;
-import org.pr.nb.sqlite3.data.Sqlite3Object;
 import org.pr.nb.sqlite3.nodes.newtypes.wizard.NBSQlite3NewTypeWizardPanel1;
+import org.pr.nb.sqlite3.data.NBSqlite3Object;
 
 /**
  *
@@ -54,7 +54,7 @@ public class NBSqlite3NewType extends NewType{
         wiz.setTitleFormat(new MessageFormat("{0}"));
         wiz.setTitle("...dialog title...");
         if (DialogDisplayer.getDefault().notify(wiz) == WizardDescriptor.FINISH_OPTION) {
-            Sqlite3Object data= (Sqlite3Object) wiz.getProperty("data");
+            NBSqlite3Object data= (NBSqlite3Object) wiz.getProperty("data");
             LOG.log(Level.FINE, "USer selected sqlite db {0}", data);
             
         }

@@ -8,19 +8,19 @@ package org.pr.nb.sqlite3.nodes;
 import java.util.List;
 import org.openide.nodes.ChildFactory;
 import org.pr.nb.sqlite3.data.NBSqlite3InstanceFactory;
-import org.pr.nb.sqlite3.data.Sqlite3Object;
+import org.pr.nb.sqlite3.data.NBSqlite3Object;
 
 /**
  *
  * @author msivasub
  */
-class NBSQlite3Nodefactory extends ChildFactory.Detachable<Sqlite3Object> {
+class NBSQlite3Nodefactory extends ChildFactory.Detachable<NBSqlite3Object> {
 
     public NBSQlite3Nodefactory() {
     }
 
     @Override
-    protected boolean createKeys(List<Sqlite3Object> list) {
+    protected boolean createKeys(List<NBSqlite3Object> list) {
         list.addAll(NBSqlite3InstanceFactory.getInstance().getExistingConfigs());
         addNotify();
         return true;

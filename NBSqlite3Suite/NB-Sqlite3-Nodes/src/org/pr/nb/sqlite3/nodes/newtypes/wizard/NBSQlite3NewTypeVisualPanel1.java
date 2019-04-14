@@ -14,7 +14,7 @@ import org.openide.filesystems.FileChooserBuilder;
 import org.openide.filesystems.FileUtil;
 import org.openide.util.NbBundle;
 import org.pr.nb.sqlite3.data.NBSqlite3InstanceFactory;
-import org.pr.nb.sqlite3.data.Sqlite3Object;
+import org.pr.nb.sqlite3.data.NBSqlite3Object;
 
 @NbBundle.Messages({
     "# {0} - Step number in wizard",
@@ -132,12 +132,12 @@ public final class NBSQlite3NewTypeVisualPanel1 extends JPanel {
         }
     }//GEN-LAST:event_fileChooserButtonActionPerformed
 
-    public Sqlite3Object getData() {
+    public NBSqlite3Object getData() {
         if(selFile == null ) return null;
         return NBSqlite3InstanceFactory.getInstance().fromUserInput(dbNameTextField.getText(), FileUtil.toFileObject(FileUtil.normalizeFile(selFile)).getPath());
     }
 
-    public void setData(Sqlite3Object data) {
+    public void setData(NBSqlite3Object data) {
         if(data == null) return;
         
         this.dbNameTextField.setText(Objects.toString(data.getName(), ""));

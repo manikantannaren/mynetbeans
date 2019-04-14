@@ -5,12 +5,15 @@
  */
 package org.pr.nb.sqlite3.data;
 
+import java.io.Externalizable;
+
 /**
  *
  * @author msivasub
  */
-public interface Sqlite3Object {
+public interface NBSqlite3Object {
     
     public String getName();
     public String getDbPath();
+    public String toExternalForm();
 }
