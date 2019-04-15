@@ -6,20 +6,25 @@
 package org.pr.nb.sqlite3.nodes;
 
 import java.beans.IntrospectionException;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.List;
 import org.openide.nodes.ChildFactory;
 import org.openide.nodes.Node;
 import org.openide.util.Exceptions;
 import org.pr.nb.sqlite3.data.NBSqlite3InstanceFactory;
 import org.pr.nb.sqlite3.data.NBSqlite3Object;
+import org.pr.nb.sqlite3.nodes.listeners.NBSQliteEventType;
+import org.pr.nb.sqlite3.nodes.listeners.Notifier;
 
 /**
  *
  * @author msivasub
  */
-class NBSQlite3Nodefactory extends ChildFactory.Detachable<NBSqlite3Object> {
+class NBSQlite3Nodefactory extends ChildFactory.Detachable<NBSqlite3Object> implements PropertyChangeListener {
 
     public NBSQlite3Nodefactory() {
+        Notifier.getInstance().addPropertyChangeListener(this);
     }
 
     @Override
@@ -38,6 +43,13 @@ class NBSQlite3Nodefactory extends ChildFactory.Detachable<NBSqlite3Object> {
             return null;
         }
     }
-    
-    
+
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+        if (NBSQliteEventType.REFRESH.equals(NBSQliteEventType.fromName(evt.getPropertyName()))) {
+            refresh(true);
+        }
+    }
+
+
 }

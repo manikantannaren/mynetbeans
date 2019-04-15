@@ -5,6 +5,8 @@
  */
 package org.pr.nb.sqlite3.data;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -16,12 +18,14 @@ import org.openide.filesystems.FileObject;
 import org.openide.filesystems.FileUtil;
 import org.openide.modules.Places;
 import org.openide.util.Exceptions;
+import org.pr.nb.sqlite3.nodes.listeners.NBSQliteEventType;
+import org.pr.nb.sqlite3.nodes.listeners.Notifier;
 
 /**
  *
  * @author msivasub
  */
-public class NBSqlite3InstanceFactory {
+public class NBSqlite3InstanceFactory implements PropertyChangeListener{
 
     private final String CONFIG_DATABASES_SQLITE3 = "config/Databases/sqlite3";
 
@@ -55,6 +59,9 @@ public class NBSqlite3InstanceFactory {
     public NBSqlite3Object save(NBSqlite3Object data){
       throw new UnsupportedOperationException();
     }
+    public void delete(NBSqlite3Object data){
+        throw new UnsupportedOperationException();
+    }
     
     private FileObject getConfigStore() throws IOException {
         File userDir = Places.getUserDirectory();
@@ -65,6 +72,34 @@ public class NBSqlite3InstanceFactory {
 
     public static NBSqlite3InstanceFactory getInstance() {
         return NBSqlite3InstanceFactoryHolder.INSTANCE;
+    }
+
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+        NBSQliteEventType eventType = NBSQliteEventType.fromName(evt.getPropertyName());
+        switch(eventType){
+            case ADD_INSTANCE:
+                doAdd(evt);
+                break;
+            case DELETE_INSTANCE:
+                doDelete(evt);
+                break;
+        }
+    }
+
+    private void doAdd(PropertyChangeEvent evt) {
+        NBSqlite3Object data = (NBSqlite3Object) evt.getNewValue();
+        save(data);
+        sendRefresh();
+    }
+
+    private void doDelete(PropertyChangeEvent evt) {
+        NBSqlite3Object data = (NBSqlite3Object) evt.getNewValue();
+        delete(data);
+        sendRefresh();
+    }
+    private void sendRefresh(){
+        Notifier.getInstance().dispatchEvent(NBSQliteEventType.REFRESH, this,null,null);
     }
 
     private static class NBSqlite3InstanceFactoryHolder {
