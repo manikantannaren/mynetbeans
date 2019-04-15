@@ -6,7 +6,6 @@
 package org.pr.nb.sqlite3.data;
 
 import java.io.Reader;
-import java.io.Serializable;
 import java.io.StringReader;
 import java.util.Map;
 import java.util.Objects;
@@ -23,7 +22,7 @@ import org.json.simple.parser.JSONParser;
     "# {0} - DB file user has selected",
     "ERR_INVALID_DB_PATH=Invalid path {0}. Path is null or is a directory"
 })
-final class Sqlite3InstanceImpl implements Serializable, NBSqlite3Object {
+final class Sqlite3InstanceImpl implements NBSqlite3Object {
 
     private static final long serialVersionUID = 1L;
 

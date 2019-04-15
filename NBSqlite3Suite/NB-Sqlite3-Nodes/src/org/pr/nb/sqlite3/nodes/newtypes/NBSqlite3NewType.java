@@ -56,7 +56,6 @@ public class NBSqlite3NewType extends NewType{
         if (DialogDisplayer.getDefault().notify(wiz) == WizardDescriptor.FINISH_OPTION) {
             NBSqlite3Object data= (NBSqlite3Object) wiz.getProperty("data");
             LOG.log(Level.FINE, "USer selected sqlite db {0}", data);
-            
         }
     }
     private static final Logger LOG = Logger.getLogger(NBSqlite3NewType.class.getName());

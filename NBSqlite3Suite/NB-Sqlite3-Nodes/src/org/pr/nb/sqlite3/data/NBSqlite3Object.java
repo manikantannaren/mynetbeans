@@ -5,13 +5,13 @@
  */
 package org.pr.nb.sqlite3.data;
 
-import java.io.Externalizable;
+import java.io.Serializable;
 
 /**
  *
  * @author msivasub
  */
-public interface NBSqlite3Object {
+public interface NBSqlite3Object extends Serializable{
     
     public String getName();
     public String getDbPath();

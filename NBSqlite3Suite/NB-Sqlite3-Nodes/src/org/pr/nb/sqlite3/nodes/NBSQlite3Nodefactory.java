@@ -5,8 +5,11 @@
  */
 package org.pr.nb.sqlite3.nodes;
 
+import java.beans.IntrospectionException;
 import java.util.List;
 import org.openide.nodes.ChildFactory;
+import org.openide.nodes.Node;
+import org.openide.util.Exceptions;
 import org.pr.nb.sqlite3.data.NBSqlite3InstanceFactory;
 import org.pr.nb.sqlite3.data.NBSqlite3Object;
 
@@ -24,6 +27,16 @@ class NBSQlite3Nodefactory extends ChildFactory.Detachable<NBSqlite3Object> {
         list.addAll(NBSqlite3InstanceFactory.getInstance().getExistingConfigs());
         addNotify();
         return true;
+    }
+
+    @Override
+    protected Node createNodeForKey(NBSqlite3Object key) {
+        try {
+            return new NBSQlite3ObjectNode(key);
+        } catch (IntrospectionException ex) {
+            Exceptions.printStackTrace(ex);
+            return null;
+        }
     }
     
     
