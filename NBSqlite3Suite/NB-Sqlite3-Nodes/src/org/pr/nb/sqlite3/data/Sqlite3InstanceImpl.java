@@ -26,17 +26,22 @@ final class Sqlite3InstanceImpl implements NBSqlite3Object {
 
     private static final long serialVersionUID = 1L;
 
-    private String name;
+    private final String name;
     private final String dbPath;
+    private String id;
 
     private Sqlite3InstanceImpl(String name, String dbPath) {
         this.dbPath = dbPath;
-        this.name = name;   
+
+        if (StringUtils.isEmpty(name)) {
+            this.name = dbPath;
+        } else {
+            this.name = name;
+        }
     }
 
     @Override
     public String getName() {
-        this.name = NBSQlite3NamingManager.getImplementation().getName(this);
         return this.name;
     }
 
@@ -53,13 +58,22 @@ final class Sqlite3InstanceImpl implements NBSqlite3Object {
     @Override
     public String toExternalForm() {
         //return json string
-        Map<String, String> data =  new WeakHashMap<>();
-        data.put("name",getName());
-        data.put("dbPath",getDbPath());
+        Map<String, String> data = new WeakHashMap<>();
+        data.put("id", id);
+        data.put("name", getName());
+        data.put("dbPath", getDbPath());
         JSONObject json = new JSONObject(data);
         return json.toJSONString();
     }
-    
+
+    @Override
+    public String getId() {
+        if(StringUtils.isEmpty(id)){
+            id = ConfigFileUtils.getInstance().generateId(this);
+        }
+        return id;
+    }
+
     public static class BuilderWithJson {
 
         private Reader in;

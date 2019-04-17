@@ -11,7 +11,6 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JComponent;
 import org.openide.DialogDisplayer;
 import org.openide.WizardDescriptor;
@@ -19,13 +18,15 @@ import org.openide.util.NbBundle;
 import org.openide.util.datatransfer.NewType;
 import org.pr.nb.sqlite3.nodes.newtypes.wizard.NBSQlite3NewTypeWizardPanel1;
 import org.pr.nb.sqlite3.data.NBSqlite3Object;
+import org.pr.nb.sqlite3.logger.Logger;
 
 /**
  *
  * @author msivasub
  */
 @NbBundle.Messages({
-    "LB_NEWTYPE_NAME=New SQLite3 database"
+    "LB_NEWTYPE_NAME=New SQLite3 database",
+    "DIALOG_TITLE=Select a Sqlite3 Db file"
 })
 
 public class NBSqlite3NewType extends NewType{
@@ -52,13 +53,12 @@ public class NBSqlite3NewType extends NewType{
         WizardDescriptor wiz = new WizardDescriptor(new WizardDescriptor.ArrayIterator<WizardDescriptor>(panels));
         // {0} will be replaced by WizardDesriptor.Panel.getComponent().getName()
         wiz.setTitleFormat(new MessageFormat("{0}"));
-        wiz.setTitle("...dialog title...");
+        wiz.setTitle(Bundle.DIALOG_TITLE());
         if (DialogDisplayer.getDefault().notify(wiz) == WizardDescriptor.FINISH_OPTION) {
             NBSqlite3Object data= (NBSqlite3Object) wiz.getProperty("data");
-            LOG.log(Level.FINE, "USer selected sqlite db {0}", data);
+            Logger.getDefaultLogger().log(NBSqlite3NewType.class, Level.FINE, "USer selected sqlite db {0}",null, data);
         }
     }
-    private static final Logger LOG = Logger.getLogger(NBSqlite3NewType.class.getName());
 
     @Override
     public String getName() {

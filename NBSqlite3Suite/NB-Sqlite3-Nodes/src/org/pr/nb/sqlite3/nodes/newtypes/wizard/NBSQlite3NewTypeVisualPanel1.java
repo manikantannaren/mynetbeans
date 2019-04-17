@@ -6,12 +6,16 @@
 package org.pr.nb.sqlite3.nodes.newtypes.wizard;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.Objects;
 import javax.swing.JPanel;
+import javax.swing.event.ChangeListener;
 import javax.swing.filechooser.FileFilter;
 import org.apache.commons.lang.StringUtils;
 import org.openide.filesystems.FileChooserBuilder;
 import org.openide.filesystems.FileUtil;
+import org.openide.util.ChangeSupport;
+import org.openide.util.Exceptions;
 import org.openide.util.NbBundle;
 import org.pr.nb.sqlite3.data.NBSqlite3InstanceFactory;
 import org.pr.nb.sqlite3.data.NBSqlite3Object;
@@ -23,7 +27,7 @@ import org.pr.nb.sqlite3.data.NBSqlite3Object;
     "LBL_FILE_CHOOSER_FILTER_DESC=SQLite3 DB files",
     "LBL_STEP_NAME1=Choose Sqlite3 DB file"
 })
-public final class NBSQlite3NewTypeVisualPanel1 extends JPanel {
+public final class NBSQlite3NewTypeVisualPanel1 extends JPanel{
 
     
     /**
@@ -38,6 +42,13 @@ public final class NBSQlite3NewTypeVisualPanel1 extends JPanel {
         return Bundle.LBL_STEP_NAME(1, Bundle.LBL_STEP_NAME1());
     }
 
+
+    public void addChangeListener(ChangeListener l){
+        changeSupport.addChangeListener(l);
+    }
+    public void removeChangeListener(ChangeListener l){
+        changeSupport.removeChangeListener(l);
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -115,7 +126,7 @@ public final class NBSQlite3NewTypeVisualPanel1 extends JPanel {
         builder.addFileFilter(new FileFilter() {
             @Override
             public boolean accept(File f) {
-                return f.getName().equalsIgnoreCase("db");
+                return StringUtils.endsWithAny(f.getName(), new String[]{"db","DB","dB","Db"});
             }
 
             @Override
@@ -128,7 +139,15 @@ public final class NBSQlite3NewTypeVisualPanel1 extends JPanel {
         
         if(_selFile !=null){
             this.selFile = _selFile;
+            if(!selFile.exists()){
+                try {
+                    selFile.createNewFile();
+                } catch (IOException ex) {
+                    Exceptions.printStackTrace(ex);
+                }
+            }
             this.dbPathTextField.setText(FileUtil.toFileObject(FileUtil.normalizeFile(selFile)).getPath());
+            changeSupport.fireChange();
         }
     }//GEN-LAST:event_fileChooserButtonActionPerformed
 
@@ -161,5 +180,6 @@ public final class NBSQlite3NewTypeVisualPanel1 extends JPanel {
 
     //Non - Desginer fields
     private File selFile;
+    private ChangeSupport changeSupport = new ChangeSupport(this);
 
 }

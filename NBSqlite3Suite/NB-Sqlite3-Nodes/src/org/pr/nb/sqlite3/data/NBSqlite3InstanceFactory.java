@@ -7,17 +7,11 @@ package org.pr.nb.sqlite3.data;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.io.File;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.Reader;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import org.openide.filesystems.FileObject;
-import org.openide.filesystems.FileUtil;
-import org.openide.modules.Places;
+import java.util.logging.Level;
 import org.openide.util.Exceptions;
+import org.pr.nb.sqlite3.logger.Logger;
 import org.pr.nb.sqlite3.nodes.listeners.NBSQliteEventType;
 import org.pr.nb.sqlite3.nodes.listeners.Notifier;
 
@@ -25,49 +19,25 @@ import org.pr.nb.sqlite3.nodes.listeners.Notifier;
  *
  * @author msivasub
  */
-public class NBSqlite3InstanceFactory implements PropertyChangeListener{
-
-    private final String CONFIG_DATABASES_SQLITE3 = "config/Databases/sqlite3";
+public class NBSqlite3InstanceFactory implements PropertyChangeListener {
 
     private NBSqlite3InstanceFactory() {
     }
 
     public List<NBSqlite3Object> getExistingConfigs() {
-        List<NBSqlite3Object> retValue = new ArrayList<>();
-        try {
-
-            FileObject[] configs = getConfigStore().getChildren();
-            Arrays.stream(configs).forEach(configFile->{
-                try {
-                    Reader in = new InputStreamReader(configFile.getInputStream());
-                    NBSqlite3Object data = new Sqlite3InstanceImpl.BuilderWithJson().withReader(in).build();
-                    retValue.add(data);
-                } catch (Exception ex) {
-                    Exceptions.printStackTrace(ex);
-                }
-            });
-        } catch (IOException ex) {
-            Exceptions.printStackTrace(ex);
-        }
-        return retValue;
+        return ConfigFileUtils.getInstance().getExistingConfigs();
     }
-    
-    public NBSqlite3Object fromUserInput(String name, String path){
+
+    public NBSqlite3Object fromUserInput(String name, String path) {
         return new Sqlite3InstanceImpl.Builder().withName(name).withPath(path).build();
     }
 
-    public NBSqlite3Object save(NBSqlite3Object data){
-      throw new UnsupportedOperationException();
+    public void save(NBSqlite3Object data) throws IOException {
+        ConfigFileUtils.getInstance().save(data);
     }
-    public void delete(NBSqlite3Object data){
-        throw new UnsupportedOperationException();
-    }
-    
-    private FileObject getConfigStore() throws IOException {
-        File userDir = Places.getUserDirectory();
-        FileObject userDirFileObject = FileUtil.toFileObject(FileUtil.normalizeFile(userDir));
-        FileObject retValue = FileUtil.createFolder(userDirFileObject, CONFIG_DATABASES_SQLITE3);
-        return retValue;
+
+    public void delete(NBSqlite3Object data) throws IOException{
+        ConfigFileUtils.getInstance().delete(data);
     }
 
     public static NBSqlite3InstanceFactory getInstance() {
@@ -77,29 +47,41 @@ public class NBSqlite3InstanceFactory implements PropertyChangeListener{
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         NBSQliteEventType eventType = NBSQliteEventType.fromName(evt.getPropertyName());
-        switch(eventType){
+        switch (eventType) {
             case ADD_INSTANCE:
                 doAdd(evt);
                 break;
             case DELETE_INSTANCE:
                 doDelete(evt);
                 break;
+            default:
+                Logger.getDefaultLogger().log(NBSqlite3InstanceFactory.class, Level.FINE, "Ignoring event {0}", null, eventType);
+                break;
         }
     }
 
     private void doAdd(PropertyChangeEvent evt) {
         NBSqlite3Object data = (NBSqlite3Object) evt.getNewValue();
-        save(data);
-        sendRefresh();
+        try {
+            save(data);
+            sendRefresh();
+        } catch (IOException ex) {
+            Exceptions.printStackTrace(ex);
+        }
     }
 
     private void doDelete(PropertyChangeEvent evt) {
-        NBSqlite3Object data = (NBSqlite3Object) evt.getNewValue();
-        delete(data);
-        sendRefresh();
+        try {
+            NBSqlite3Object data = (NBSqlite3Object) evt.getNewValue();
+            delete(data);
+            sendRefresh();
+        } catch (IOException ex) {
+            Exceptions.printStackTrace(ex);
+        }
     }
-    private void sendRefresh(){
-        Notifier.getInstance().dispatchEvent(NBSQliteEventType.REFRESH, this,null,null);
+
+    private void sendRefresh() {
+        Notifier.getInstance().dispatchEvent(NBSQliteEventType.REFRESH, this, null, null);
     }
 
     private static class NBSqlite3InstanceFactoryHolder {

@@ -12,7 +12,7 @@ import java.io.Serializable;
  * @author msivasub
  */
 public interface NBSqlite3Object extends Serializable{
-    
+    public String getId();
     public String getName();
     public String getDbPath();
     public String toExternalForm();

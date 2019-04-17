@@ -5,13 +5,19 @@
  */
 package org.pr.nb.sqlite3.nodes.newtypes.wizard;
 
+import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import org.openide.WizardDescriptor;
+import org.openide.util.ChangeSupport;
 import org.openide.util.HelpCtx;
 import org.pr.nb.sqlite3.data.NBSqlite3Object;
 
-public class NBSQlite3NewTypeWizardPanel1 implements WizardDescriptor.Panel<WizardDescriptor> {
+public class NBSQlite3NewTypeWizardPanel1 implements WizardDescriptor.Panel<WizardDescriptor>, ChangeListener {
 
+    public NBSQlite3NewTypeWizardPanel1() {
+    }
+
+    
     /**
      * The visual component that displays this panel. If you neesd to access the
      * component from this class, just use getComponent().
@@ -26,6 +32,7 @@ public class NBSQlite3NewTypeWizardPanel1 implements WizardDescriptor.Panel<Wiza
     public NBSQlite3NewTypeVisualPanel1 getComponent() {
         if (component == null) {
             component = new NBSQlite3NewTypeVisualPanel1();
+            component.addChangeListener(this);
         }
         return component;
     }
@@ -48,13 +55,17 @@ public class NBSQlite3NewTypeWizardPanel1 implements WizardDescriptor.Panel<Wiza
         // WizardDescriptor.ERROR/WARNING/INFORMATION_MESSAGE will also be useful.
     }
 
+    ChangeSupport changeSupport = new ChangeSupport(this);
     @Override
     public void addChangeListener(ChangeListener l) {
+        changeSupport.addChangeListener(l);
     }
 
     @Override
     public void removeChangeListener(ChangeListener l) {
+        changeSupport.addChangeListener(l);
     }
+    
 
     @Override
     public void readSettings(WizardDescriptor wiz) {
@@ -66,6 +77,11 @@ public class NBSQlite3NewTypeWizardPanel1 implements WizardDescriptor.Panel<Wiza
     public void storeSettings(WizardDescriptor wiz) {
         // use wiz.putProperty to remember current panel state
         wiz.putProperty("data", getComponent().getData());
+    }
+
+    @Override
+    public void stateChanged(ChangeEvent e) {
+        changeSupport.fireChange();
     }
 
 }
