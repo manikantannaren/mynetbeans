@@ -64,7 +64,7 @@ public class NBClocksNodeFactory extends ChildFactory<NBClock> {
         if (Objects.nonNull(nbclockZone.getZone())) {
             toPopulate.add(new NBClock(nbclockZone));
         }else{
-            Logger.getLogger(NBClocksNodeFactory.class.getName()).log(Level.WARNING, "Could not find zone for {0}",nbclockZone);
+            Logger.getLogger(NBClocksNodeFactory.class.getName()).log(Level.WARNING, "Could not find zone for {0}", new Object[]{nbclockZone});
         }
     }
 
