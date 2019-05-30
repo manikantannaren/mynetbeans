@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 AutoUpdate-Show-In-Client: true
-OpenIDE-Module: org.pr.nb.capslock
+OpenIDE-Module: org.pr.nb.capslock/1
 OpenIDE-Module-Localizing-Bundle: org/pr/nb/capslock/Bundle.properties
-OpenIDE-Module-Specification-Version: 1.0
+OpenIDE-Module-Specification-Version: 1.1
 
