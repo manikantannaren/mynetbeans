@@ -37,7 +37,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.prefs.Preferences;
 import org.apache.tools.ant.module.api.support.ActionUtils;
@@ -223,7 +222,7 @@ public class ArchiveCreator implements Runnable {
     }
 
     private void log(String message, boolean done) {
-        Boolean logOutput = prefs.getBoolean(ArchiverPreferencesKeys.LOG_OUTPUT.name(), true);
+        Boolean logOutput = prefs.getBoolean(ArchiverPreferencesKeys.LOG_OUTPUT.name(), false);
         if (logOutput) {
             String outputTabName = getIOTabName();
             InputOutput io = IOProvider.getDefault().getIO(outputTabName, false);
