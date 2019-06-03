@@ -17,12 +17,8 @@
 package org.pr.nb.zip;
 
 import java.util.prefs.Preferences;
-import org.openide.DialogDescriptor;
-import org.openide.DialogDisplayer;
 import org.openide.execution.ExecutorTask;
 import org.openide.filesystems.FileObject;
-import org.openide.loaders.DataObjectNotFoundException;
-import org.openide.util.Exceptions;
 import org.openide.util.NbPreferences;
 import org.openide.util.Task;
 import org.openide.util.TaskListener;
