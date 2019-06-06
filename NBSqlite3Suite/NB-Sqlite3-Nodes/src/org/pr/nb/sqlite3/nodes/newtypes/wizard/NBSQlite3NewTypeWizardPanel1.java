@@ -10,7 +10,7 @@ import javax.swing.event.ChangeListener;
 import org.openide.WizardDescriptor;
 import org.openide.util.ChangeSupport;
 import org.openide.util.HelpCtx;
-import org.pr.nb.sqlite3.data.NBSqlite3Object;
+import org.pr.nb.sqlite3.common.NBSqlite3Object;
 
 public class NBSQlite3NewTypeWizardPanel1 implements WizardDescriptor.Panel<WizardDescriptor>, ChangeListener {
 

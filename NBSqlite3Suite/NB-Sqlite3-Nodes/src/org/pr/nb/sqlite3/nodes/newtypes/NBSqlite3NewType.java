@@ -10,15 +10,16 @@ import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
 import javax.swing.JComponent;
 import org.openide.DialogDisplayer;
 import org.openide.WizardDescriptor;
 import org.openide.util.NbBundle;
 import org.openide.util.datatransfer.NewType;
 import org.pr.nb.sqlite3.nodes.newtypes.wizard.NBSQlite3NewTypeWizardPanel1;
-import org.pr.nb.sqlite3.data.NBSqlite3Object;
-import org.pr.nb.sqlite3.logger.Logger;
+import org.pr.nb.sqlite3.common.NBSqlite3Object;
+import org.pr.nb.sqlite3.common.Logger;
+import org.pr.nb.sqlite3.nodes.listeners.NBSQliteEventType;
+import org.pr.nb.sqlite3.nodes.listeners.Notifier;
 
 /**
  *
@@ -34,7 +35,7 @@ public class NBSqlite3NewType extends NewType{
     @Override
     public void create() throws IOException {
         
-        List<WizardDescriptor.Panel<WizardDescriptor>> panels = new ArrayList<WizardDescriptor.Panel<WizardDescriptor>>();
+        List<WizardDescriptor.Panel<WizardDescriptor>> panels = new ArrayList<>();
         panels.add(new NBSQlite3NewTypeWizardPanel1());
         String[] steps = new String[panels.size()];
         for (int i = 0; i < panels.size(); i++) {
@@ -50,13 +51,14 @@ public class NBSqlite3NewType extends NewType{
                 jc.putClientProperty(WizardDescriptor.PROP_CONTENT_NUMBERED, true);
             }
         }
-        WizardDescriptor wiz = new WizardDescriptor(new WizardDescriptor.ArrayIterator<WizardDescriptor>(panels));
+        WizardDescriptor wiz = new WizardDescriptor(new WizardDescriptor.ArrayIterator<>(panels));
         // {0} will be replaced by WizardDesriptor.Panel.getComponent().getName()
         wiz.setTitleFormat(new MessageFormat("{0}"));
         wiz.setTitle(Bundle.DIALOG_TITLE());
         if (DialogDisplayer.getDefault().notify(wiz) == WizardDescriptor.FINISH_OPTION) {
             NBSqlite3Object data= (NBSqlite3Object) wiz.getProperty("data");
-            Logger.getDefaultLogger().log(NBSqlite3NewType.class, Level.FINE, "USer selected sqlite db {0}",null, data);
+            Logger.getDefaultLogger().info(NBSqlite3NewType.class, "USer selected sqlite db {0}", data);
+            Notifier.getInstance().dispatchEvent(NBSQliteEventType.ADD_INSTANCE, this, null, data);
         }
     }
 

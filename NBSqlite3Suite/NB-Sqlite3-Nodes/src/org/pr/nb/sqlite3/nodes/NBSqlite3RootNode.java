@@ -26,7 +26,7 @@ import org.pr.nb.sqlite3.nodes.newtypes.NBSqlite3NewType;
 public class NBSqlite3RootNode extends AbstractNode {
 
     public NBSqlite3RootNode() {
-        super(Children.create(new NBSQlite3Nodefactory(), true));
+        super(Children.create(new NBSQlite3DBNodefactory(), true));
         setDisplayName(Bundle.LBL_ROOT_NODE());
         setName("SQLite3");
     }

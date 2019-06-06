@@ -3,16 +3,20 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.pr.nb.sqlite3.data;
+package org.pr.nb.sqlite3.jdbc;
 
+import org.pr.nb.sqlite3.common.NBSqlite3Object;
+import java.io.File;
 import java.io.Reader;
 import java.io.StringReader;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.WeakHashMap;
 import org.apache.commons.lang.StringUtils;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+import org.pr.nb.sqlite3.common.NBSqlite3Exception;
 
 /**
  *
@@ -22,15 +26,18 @@ import org.json.simple.parser.JSONParser;
     "# {0} - DB file user has selected",
     "ERR_INVALID_DB_PATH=Invalid path {0}. Path is null or is a directory"
 })
-final class Sqlite3InstanceImpl implements NBSqlite3Object {
+public final class Sqlite3DB implements NBSqlite3Object {
 
     private static final long serialVersionUID = 1L;
+    private static final String ID = "id";
+    private static final String DB_NAME = "dbName";
+    private static final String DB_PATH = "dbPath";
 
     private final String name;
     private final String dbPath;
     private String id;
 
-    private Sqlite3InstanceImpl(String name, String dbPath) {
+    private Sqlite3DB(String name, String dbPath) {
         this.dbPath = dbPath;
 
         if (StringUtils.isEmpty(name)) {
@@ -45,7 +52,6 @@ final class Sqlite3InstanceImpl implements NBSqlite3Object {
         return this.name;
     }
 
-    @Override
     public String getDbPath() {
         return dbPath;
     }
@@ -59,21 +65,49 @@ final class Sqlite3InstanceImpl implements NBSqlite3Object {
     public String toExternalForm() {
         //return json string
         Map<String, String> data = new WeakHashMap<>();
-        data.put("id", id);
-        data.put("name", getName());
-        data.put("dbPath", getDbPath());
+        data.put(ID, getId());
+        data.put(DB_NAME, getName());
+        data.put(DB_PATH, getDbPath());
         JSONObject json = new JSONObject(data);
         return json.toJSONString();
     }
 
     @Override
     public String getId() {
-        if(StringUtils.isEmpty(id)){
-            id = ConfigFileUtils.getInstance().generateId(this);
+        if (StringUtils.isEmpty(id)) {
+            id = generateId();
         }
         return id;
     }
 
+    @Override
+    public List<Sqlite3Table> getChildren() throws NBSqlite3Exception {
+        NBSqlite3Client dbClient = new NBSqlite3Client();
+        dbClient.connect(dbPath);
+        return dbClient.getTables();
+    }
+
+    @Override
+    public Types getType() {
+        return Types.DB;
+    }
+    private String generateId() {
+        String id = getName();
+        if (StringUtils.isEmpty(id)) {
+            //construct name from path
+            id = getDbPath();
+        }
+        //replace all path separators with _
+        //replace all whitespaces with -
+        id = StringUtils.replaceChars(id, ' ', '-');
+        id = StringUtils.replaceChars(id, File.pathSeparatorChar, '_');
+        return id + "-" + System.currentTimeMillis();
+    }
+
+    @Override
+    public <E extends NBSqlite3Object> E getParent() {
+        throw new UnsupportedOperationException("No parent for database");
+    }
     public static class BuilderWithJson {
 
         private Reader in;
@@ -90,9 +124,10 @@ final class Sqlite3InstanceImpl implements NBSqlite3Object {
         private Builder build() throws Exception {
             JSONParser parser = new JSONParser();
             JSONObject registeredInstance = (JSONObject) parser.parse(in);
-            String dbName = Objects.toString(registeredInstance.get("dbname"), "").trim();
-            String dbPath = Objects.toString(registeredInstance.get("dbpath"), "").trim();
-            return new Builder().withName(dbName).withPath(dbPath);
+            String dbName = Objects.toString(registeredInstance.get(DB_NAME), "").trim();
+            String dbPath = Objects.toString(registeredInstance.get(DB_PATH), "").trim();
+            String id = Objects.toString(registeredInstance.get(ID), "").trim();
+            return new Builder().withId(id).withName(dbName).withPath(dbPath);
         }
     }
 
@@ -100,6 +135,12 @@ final class Sqlite3InstanceImpl implements NBSqlite3Object {
 
         private String name;
         private String path;
+        private String id;
+
+        public Builder withId(String id) {
+            this.id = id;
+            return this;
+        }
 
         public Builder withName(String name) {
             this.name = name;
@@ -114,8 +155,8 @@ final class Sqlite3InstanceImpl implements NBSqlite3Object {
             return this;
         }
 
-        public Sqlite3InstanceImpl build() {
-            return new Sqlite3InstanceImpl(this.name, this.path);
+        public Sqlite3DB build() {
+            return new Sqlite3DB(this.name, this.path);
         }
     }
 }

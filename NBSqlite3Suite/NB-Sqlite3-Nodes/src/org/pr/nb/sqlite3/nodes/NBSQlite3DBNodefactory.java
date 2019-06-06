@@ -12,8 +12,7 @@ import java.util.List;
 import org.openide.nodes.ChildFactory;
 import org.openide.nodes.Node;
 import org.openide.util.Exceptions;
-import org.pr.nb.sqlite3.data.NBSqlite3InstanceFactory;
-import org.pr.nb.sqlite3.data.NBSqlite3Object;
+import org.pr.nb.sqlite3.common.NBSqlite3Object;
 import org.pr.nb.sqlite3.nodes.listeners.NBSQliteEventType;
 import org.pr.nb.sqlite3.nodes.listeners.Notifier;
 
@@ -21,15 +20,15 @@ import org.pr.nb.sqlite3.nodes.listeners.Notifier;
  *
  * @author msivasub
  */
-class NBSQlite3Nodefactory extends ChildFactory.Detachable<NBSqlite3Object> implements PropertyChangeListener {
+class NBSQlite3DBNodefactory extends ChildFactory.Detachable<NBSqlite3Object> implements PropertyChangeListener {
 
-    public NBSQlite3Nodefactory() {
+    public NBSQlite3DBNodefactory() {
         Notifier.getInstance().addPropertyChangeListener(this);
     }
 
     @Override
     protected boolean createKeys(List<NBSqlite3Object> list) {
-        list.addAll(NBSqlite3InstanceFactory.getInstance().getExistingConfigs());
+        list.addAll(NBSqlite3DBInstanceFactory.getInstance().getExistingConfigs());
         addNotify();
         return true;
     }
@@ -37,7 +36,7 @@ class NBSQlite3Nodefactory extends ChildFactory.Detachable<NBSqlite3Object> impl
     @Override
     protected Node createNodeForKey(NBSqlite3Object key) {
         try {
-            return new NBSQlite3ObjectNode(key);
+            return new NBSQlite3DBNode(key);
         } catch (IntrospectionException ex) {
             Exceptions.printStackTrace(ex);
             return null;

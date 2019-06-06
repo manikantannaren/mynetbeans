@@ -17,8 +17,8 @@ import org.openide.filesystems.FileUtil;
 import org.openide.util.ChangeSupport;
 import org.openide.util.Exceptions;
 import org.openide.util.NbBundle;
-import org.pr.nb.sqlite3.data.NBSqlite3InstanceFactory;
-import org.pr.nb.sqlite3.data.NBSqlite3Object;
+import org.pr.nb.sqlite3.common.NBSqlite3Object;
+import org.pr.nb.sqlite3.nodes.NBSqlite3DBInstanceFactory;
 
 @NbBundle.Messages({
     "# {0} - Step number in wizard",
@@ -153,7 +153,7 @@ public final class NBSQlite3NewTypeVisualPanel1 extends JPanel{
 
     public NBSqlite3Object getData() {
         if(selFile == null ) return null;
-        return NBSqlite3InstanceFactory.getInstance().fromUserInput(dbNameTextField.getText(), FileUtil.toFileObject(FileUtil.normalizeFile(selFile)).getPath());
+        return NBSqlite3DBInstanceFactory.getInstance().fromUserInput(dbNameTextField.getText(), FileUtil.toFileObject(FileUtil.normalizeFile(selFile)).getPath());
     }
 
     public void setData(NBSqlite3Object data) {
