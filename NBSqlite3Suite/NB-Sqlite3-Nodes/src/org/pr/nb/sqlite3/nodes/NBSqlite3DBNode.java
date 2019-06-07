@@ -5,17 +5,23 @@
  */
 package org.pr.nb.sqlite3.nodes;
 
+import org.pr.nb.sqlite3.nodes.newtypes.NBSqlite3NewTableType;
 import java.awt.Image;
 import java.beans.IntrospectionException;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
-import org.openide.nodes.BeanNode;
+import javax.swing.Action;
+import org.openide.actions.NewAction;
+import org.openide.nodes.AbstractNode;
+import org.openide.nodes.Children;
 import org.openide.nodes.PropertySupport;
 import org.openide.nodes.Sheet;
 import org.openide.util.ImageUtilities;
 import org.openide.util.NbBundle;
 import org.openide.util.actions.SystemAction;
-import org.pr.nb.sqlite3.common.NBSqlite3Object;
+import org.openide.util.datatransfer.NewType;
+import org.openide.util.lookup.Lookups;
+import org.pr.nb.sqlite3.jdbc.Sqlite3DB;
 
 /**
  *
@@ -28,12 +34,12 @@ import org.pr.nb.sqlite3.common.NBSqlite3Object;
     "LBL_DBPATH_PROP_NAME=DB path",
     "LBL_DBPATH_PROP_DESC=Location of SQLite3 db file"
 })
-public class NBSQlite3DBNode extends BeanNode<NBSqlite3Object> {
+public class NBSqlite3DBNode extends AbstractNode {
 
-    private final NBSqlite3Object key;
+    private final Sqlite3DB key;
 
-    public NBSQlite3DBNode(NBSqlite3Object bean) throws IntrospectionException {
-        super(bean);
+    public NBSqlite3DBNode(Sqlite3DB bean) throws IntrospectionException {
+        super(Children.create(new NBSqlite3TableNodeFactory(bean), true), Lookups.singleton(bean));
         this.key = bean;
         setName(bean.getName());
         setDisplayName(bean.getName());
@@ -64,8 +70,6 @@ public class NBSQlite3DBNode extends BeanNode<NBSqlite3Object> {
         fireNodeDestroyed();
     }
 
-    
-    
     @Override
     protected Sheet createSheet() {
         Sheet retValue = super.createSheet();
@@ -76,7 +80,7 @@ public class NBSQlite3DBNode extends BeanNode<NBSqlite3Object> {
     private Sheet.Set createProperties() {
         Sheet.Set propSet = new Sheet.Set();
         propSet.setDisplayName(Bundle.LBL_PROP_SHEET_DISPLAY_NAME());
-        PropertySupport.ReadOnly<String> nameProp = new PropertySupport.ReadOnly<String>("DB Name", String.class, 
+        PropertySupport.ReadOnly<String> nameProp = new PropertySupport.ReadOnly<String>("DB Name", String.class,
                 Bundle.LBL_NAME_PROP_NAME(), Bundle.LBL_NAME_PROP_DESC()) {
             @Override
             public String getValue() throws IllegalAccessException, InvocationTargetException {
@@ -84,8 +88,8 @@ public class NBSQlite3DBNode extends BeanNode<NBSqlite3Object> {
             }
         };
         propSet.put(nameProp);
-        
-        PropertySupport.ReadOnly<String> pathProp = new PropertySupport.ReadOnly<String>("DB path", String.class, 
+
+        PropertySupport.ReadOnly<String> pathProp = new PropertySupport.ReadOnly<String>("DB path", String.class,
                 Bundle.LBL_DBPATH_PROP_NAME(), Bundle.LBL_DBPATH_PROP_DESC()) {
             @Override
             public String getValue() throws IllegalAccessException, InvocationTargetException {
@@ -93,8 +97,23 @@ public class NBSQlite3DBNode extends BeanNode<NBSqlite3Object> {
             }
         };
         propSet.put(pathProp);
-                
+
         return propSet;
+    }
+
+    @Override
+    public NewType[] getNewTypes() {
+        return new NewType[]{
+          new NBSqlite3NewTableType()  
+        };
+    }
+
+    @Override
+    public Action[] getActions(boolean context) {
+        Action[] retValue = new Action[]{
+            SystemAction.get(NewAction.class)
+        };
+        return retValue;
     }
 
 }

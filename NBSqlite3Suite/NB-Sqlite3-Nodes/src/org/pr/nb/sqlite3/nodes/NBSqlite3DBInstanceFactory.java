@@ -17,7 +17,6 @@ import org.openide.util.Exceptions;
 import org.pr.nb.sqlite3.common.ConfigFileUtils;
 import org.pr.nb.sqlite3.common.Logger;
 import org.pr.nb.sqlite3.common.NBSqlite3Exception;
-import org.pr.nb.sqlite3.common.NBSqlite3Object;
 import org.pr.nb.sqlite3.common.TraversalException;
 import org.pr.nb.sqlite3.jdbc.Sqlite3DB;
 import org.pr.nb.sqlite3.nodes.listeners.NBSQliteEventType;
@@ -33,7 +32,7 @@ public class NBSqlite3DBInstanceFactory implements PropertyChangeListener {
         Notifier.getInstance().addPropertyChangeListener(this);
     }
 
-    public List<NBSqlite3Object> getExistingConfigs() {
+    public List<Sqlite3DB> getExistingConfigs() {
         try {
             List<Reader> readers = ConfigFileUtils.getInstance().getExistingConfigs();
             
@@ -52,15 +51,15 @@ public class NBSqlite3DBInstanceFactory implements PropertyChangeListener {
         return Collections.EMPTY_LIST;
     }
 
-    public NBSqlite3Object fromUserInput(String name, String path) {
+    public Sqlite3DB fromUserInput(String name, String path) {
         return new Sqlite3DB.Builder().withName(name).withPath(path).build();
     }
 
-    public void save(NBSqlite3Object data) throws IOException {
+    public void save(Sqlite3DB data) throws IOException {
         ConfigFileUtils.getInstance().save(data);
     }
 
-    public void delete(NBSqlite3Object data) throws IOException {
+    public void delete(Sqlite3DB data) throws IOException {
         ConfigFileUtils.getInstance().delete(data);
     }
 
@@ -85,7 +84,7 @@ public class NBSqlite3DBInstanceFactory implements PropertyChangeListener {
     }
 
     private void doAdd(PropertyChangeEvent evt) {
-        NBSqlite3Object data = (NBSqlite3Object) evt.getNewValue();
+        Sqlite3DB data = (Sqlite3DB) evt.getNewValue();
         try {
             save(data);
             sendRefresh();
@@ -96,7 +95,7 @@ public class NBSqlite3DBInstanceFactory implements PropertyChangeListener {
 
     private void doDelete(PropertyChangeEvent evt) {
         try {
-            NBSqlite3Object data = (NBSqlite3Object) evt.getNewValue();
+            Sqlite3DB data = (Sqlite3DB) evt.getNewValue();
             delete(data);
             sendRefresh();
         } catch (IOException ex) {

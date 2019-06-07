@@ -28,11 +28,13 @@ public class NBSqlite3Client {
     private static final String DRIVER = "org.sqlite.JDBC";
     private static final String CONNECTIONURISTRING = "jdbc:sqlite3:%s";
     private Connection jdbcConnection;
+    private final Sqlite3DB db;
 
-    public NBSqlite3Client() {
+    NBSqlite3Client(Sqlite3DB db) {
+        this.db = db;
     }
 
-    public void connect(String dbPath) throws NBSqlite3Exception {
+    public void connect() throws NBSqlite3Exception {
         if (connected()) {
             return;
         }
@@ -43,10 +45,9 @@ public class NBSqlite3Client {
             throw new NBSqlite3Exception(ex);
         }
 
-        String uri = String.format(CONNECTIONURISTRING, dbPath);
+        String uri = String.format(CONNECTIONURISTRING, db.getDbPath());
         try {
-            NBSqlite3Client client = new NBSqlite3Client();
-            client.jdbcConnection = DriverManager.getConnection(uri);
+            jdbcConnection = DriverManager.getConnection(uri);
         } catch (SQLException ex) {
             throw new NBSqlite3Exception(ex);
         }
@@ -71,18 +72,36 @@ public class NBSqlite3Client {
     }
 
     public List<Sqlite3Table> getTables() throws NBSqlite3Exception {
-        if (!connected()) {
-            throw new NBSqlite3Exception(new IllegalStateException("DB not connected. Use connect first"));
-        }
+        checkConnection();
         try {
             DatabaseMetaData dbmd = jdbcConnection.getMetaData();
             ResultSet rs = dbmd.getTables(null, null, null, null);
-            ResultSetIterator<Sqlite3Table> iterator = new ResultSetIterator<>(rs, NBSqlite3Object.Types.TABLE);
+            ResultSetIterator<Sqlite3Table, Sqlite3DB> iterator = new ResultSetIterator<>(db,rs, NBSqlite3Object.Types.TABLE);
             Stream<Sqlite3Table> dataStream = StreamSupport.stream(Spliterators.spliteratorUnknownSize(iterator, 0), false);
             return dataStream.collect(Collectors.toList());
         } catch (SQLException ex) {
             throw new NBSqlite3Exception(ex);
         }
+    }
+
+    public List<Sqlite3Column> getColumns(Sqlite3Table table) throws NBSqlite3Exception {
+        try {
+            checkConnection();
+            DatabaseMetaData dbmd = jdbcConnection.getMetaData();
+            ResultSet rs = dbmd.getColumns(table.getCatalog(), table.getSchema(), table.getName(), null);
+            ResultSetIterator<Sqlite3Column, Sqlite3Table> iterator = new ResultSetIterator<>(table,rs, NBSqlite3Object.Types.COLUMN);
+            Stream<Sqlite3Column> dataStream = StreamSupport.stream(Spliterators.spliteratorUnknownSize(iterator, 0), false);
+            return dataStream.collect(Collectors.toList());
+        } catch (SQLException ex) {
+            throw new NBSqlite3Exception(ex);
+        }
+    }
+
+    private boolean checkConnection() throws NBSqlite3Exception {
+        if (!connected()) {
+            throw new NBSqlite3Exception(new IllegalStateException("DB not connected. Use connect first"));
+        }
+        return true;
     }
 
 }

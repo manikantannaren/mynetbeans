@@ -18,15 +18,18 @@ import org.pr.nb.sqlite3.common.TraversalException;
  * @author msivasub
  * @param <E> type of Object expected in next call. The iterator should return
  * fully constructed data;
+ * @param <P> Type of parent object
  */
-public class ResultSetIterator<E> implements Iterator {
+public class ResultSetIterator<E,P extends NBSqlite3Object> implements Iterator {
     
     private final ResultSet rs;
     private final NBSqlite3Object.Types type;
+    private final P parent;
     
-    public ResultSetIterator(ResultSet rs, NBSqlite3Object.Types type) {
+    public ResultSetIterator(P parent, ResultSet rs, NBSqlite3Object.Types type) {
         this.rs = rs;
         this.type = type;
+        this.parent = parent;
     }
     
     @Override
@@ -46,8 +49,8 @@ public class ResultSetIterator<E> implements Iterator {
     @Override
     public E next() {
         try {
-            TypesFactory<E> factory = TypesFactory.getFactory(type, rs);
-            return factory.build();
+            TypesFactory<E,P> factory = TypesFactory.getFactory(type);
+            return factory.build(parent,rs);
         } catch (NBSqlite3Exception ex) {
             Throwable cause = ex.getCause();
             cause = cause != null? cause:ex;

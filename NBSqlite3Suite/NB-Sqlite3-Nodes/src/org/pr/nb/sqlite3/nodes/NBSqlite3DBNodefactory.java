@@ -13,6 +13,7 @@ import org.openide.nodes.ChildFactory;
 import org.openide.nodes.Node;
 import org.openide.util.Exceptions;
 import org.pr.nb.sqlite3.common.NBSqlite3Object;
+import org.pr.nb.sqlite3.jdbc.Sqlite3DB;
 import org.pr.nb.sqlite3.nodes.listeners.NBSQliteEventType;
 import org.pr.nb.sqlite3.nodes.listeners.Notifier;
 
@@ -20,23 +21,23 @@ import org.pr.nb.sqlite3.nodes.listeners.Notifier;
  *
  * @author msivasub
  */
-class NBSQlite3DBNodefactory extends ChildFactory.Detachable<NBSqlite3Object> implements PropertyChangeListener {
+class NBSqlite3DBNodefactory extends ChildFactory.Detachable<Sqlite3DB> implements PropertyChangeListener {
 
-    public NBSQlite3DBNodefactory() {
+    public NBSqlite3DBNodefactory() {
         Notifier.getInstance().addPropertyChangeListener(this);
     }
 
     @Override
-    protected boolean createKeys(List<NBSqlite3Object> list) {
+    protected boolean createKeys(List<Sqlite3DB> list) {
         list.addAll(NBSqlite3DBInstanceFactory.getInstance().getExistingConfigs());
         addNotify();
         return true;
     }
 
     @Override
-    protected Node createNodeForKey(NBSqlite3Object key) {
+    protected Node createNodeForKey(Sqlite3DB key) {
         try {
-            return new NBSQlite3DBNode(key);
+            return new NBSqlite3DBNode(key);
         } catch (IntrospectionException ex) {
             Exceptions.printStackTrace(ex);
             return null;

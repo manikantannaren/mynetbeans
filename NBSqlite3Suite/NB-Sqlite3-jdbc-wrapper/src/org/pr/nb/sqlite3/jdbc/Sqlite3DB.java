@@ -36,6 +36,7 @@ public final class Sqlite3DB implements NBSqlite3Object {
     private final String name;
     private final String dbPath;
     private String id;
+    private NBSqlite3Client client;
 
     private Sqlite3DB(String name, String dbPath) {
         this.dbPath = dbPath;
@@ -82,8 +83,7 @@ public final class Sqlite3DB implements NBSqlite3Object {
 
     @Override
     public List<Sqlite3Table> getChildren() throws NBSqlite3Exception {
-        NBSqlite3Client dbClient = new NBSqlite3Client();
-        dbClient.connect(dbPath);
+        NBSqlite3Client dbClient = getClient();
         return dbClient.getTables();
     }
 
@@ -91,22 +91,36 @@ public final class Sqlite3DB implements NBSqlite3Object {
     public Types getType() {
         return Types.DB;
     }
+    
     private String generateId() {
-        String id = getName();
-        if (StringUtils.isEmpty(id)) {
+        String _id = getName();
+        if (StringUtils.isEmpty(_id)) {
             //construct name from path
-            id = getDbPath();
+            _id = getDbPath();
         }
         //replace all path separators with _
         //replace all whitespaces with -
-        id = StringUtils.replaceChars(id, ' ', '-');
-        id = StringUtils.replaceChars(id, File.pathSeparatorChar, '_');
-        return id + "-" + System.currentTimeMillis();
+        _id = StringUtils.replaceChars(_id, ' ', '-');
+        _id = StringUtils.replaceChars(_id, File.pathSeparatorChar, '_');
+        return _id + "-" + System.currentTimeMillis();
     }
 
     @Override
     public <E extends NBSqlite3Object> E getParent() {
         throw new UnsupportedOperationException("No parent for database");
+    }
+
+    private NBSqlite3Client getClient() throws NBSqlite3Exception {
+        if(client == null){
+            client = new NBSqlite3Client(this);
+            client.connect();
+        }
+        return client;
+    }
+
+    public List<Sqlite3Column> getColumns(Sqlite3Table table) throws NBSqlite3Exception {
+        NBSqlite3Client client = getClient();
+        return client.getColumns(table);
     }
     public static class BuilderWithJson {
 

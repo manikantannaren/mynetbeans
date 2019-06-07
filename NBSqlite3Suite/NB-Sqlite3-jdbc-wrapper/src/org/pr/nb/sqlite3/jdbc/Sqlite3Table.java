@@ -63,7 +63,7 @@ public class Sqlite3Table implements NBSqlite3Object {
 
     @Override
     public List<Sqlite3Column> getChildren() throws NBSqlite3Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return database.getColumns(this);
     }
 
     @Override
