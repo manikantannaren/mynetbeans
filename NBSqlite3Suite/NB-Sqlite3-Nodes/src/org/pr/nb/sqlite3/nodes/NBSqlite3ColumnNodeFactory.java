@@ -10,7 +10,7 @@ import java.beans.PropertyChangeListener;
 import java.util.List;
 import org.openide.nodes.ChildFactory;
 import org.openide.util.Exceptions;
-import org.pr.nb.sqlite3.common.NBSqlite3Exception;
+import org.pr.nb.sqlite3.utils.NBSqlite3Exception;
 import org.pr.nb.sqlite3.jdbc.Sqlite3Column;
 import org.pr.nb.sqlite3.jdbc.Sqlite3Table;
 

@@ -13,7 +13,11 @@ import java.util.Arrays;
  */
 public enum NBSQliteEventType {
     ADD_INSTANCE,
-    DELETE_INSTANCE,
+    ADD_TABLE,
+    ADD_COLUMN,
+    DROP_INSTANCE,
+    DROP_TABLE,
+    DROP_COLUMN,
     REFRESH;
     
     public static NBSQliteEventType fromName(String name){

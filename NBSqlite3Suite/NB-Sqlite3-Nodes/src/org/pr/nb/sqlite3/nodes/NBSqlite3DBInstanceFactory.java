@@ -14,10 +14,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import org.openide.util.Exceptions;
-import org.pr.nb.sqlite3.common.ConfigFileUtils;
-import org.pr.nb.sqlite3.common.Logger;
-import org.pr.nb.sqlite3.common.NBSqlite3Exception;
-import org.pr.nb.sqlite3.common.TraversalException;
+import org.pr.nb.sqlite3.utils.ConfigFileUtils;
+import org.pr.nb.sqlite3.utils.Logger;
+import org.pr.nb.sqlite3.utils.NBSqlite3Exception;
+import org.pr.nb.sqlite3.utils.TraversalException;
 import org.pr.nb.sqlite3.jdbc.Sqlite3DB;
 import org.pr.nb.sqlite3.nodes.listeners.NBSQliteEventType;
 import org.pr.nb.sqlite3.nodes.listeners.Notifier;
@@ -26,6 +26,7 @@ import org.pr.nb.sqlite3.nodes.listeners.Notifier;
  *
  * @author msivasub
  */
+@SuppressWarnings({"unchecked", "rawtypes"})
 public class NBSqlite3DBInstanceFactory implements PropertyChangeListener {
 
     private NBSqlite3DBInstanceFactory() {
@@ -35,13 +36,13 @@ public class NBSqlite3DBInstanceFactory implements PropertyChangeListener {
     public List<Sqlite3DB> getExistingConfigs() {
         try {
             List<Reader> readers = ConfigFileUtils.getInstance().getExistingConfigs();
-            
-            Stream<Sqlite3DB> dataStream = readers.stream().map(reader->{
+
+            Stream<Sqlite3DB> dataStream = readers.stream().map(reader -> {
                 try {
                     Sqlite3DB db = new Sqlite3DB.BuilderWithJson().withReader(reader).build();
                     return db;
                 } catch (Exception ex) {
-                    throw new TraversalException("coudl not read config",ex);
+                    throw new TraversalException("coudl not read config", ex);
                 }
             });
             return dataStream.collect(Collectors.toList());
@@ -74,7 +75,7 @@ public class NBSqlite3DBInstanceFactory implements PropertyChangeListener {
             case ADD_INSTANCE:
                 doAdd(evt);
                 break;
-            case DELETE_INSTANCE:
+            case DROP_INSTANCE:
                 doDelete(evt);
                 break;
             default:

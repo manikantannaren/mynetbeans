@@ -14,7 +14,7 @@ import org.openide.util.ImageUtilities;
 import org.openide.util.NbBundle;
 import org.openide.util.actions.SystemAction;
 import org.openide.util.datatransfer.NewType;
-import org.pr.nb.sqlite3.nodes.newtypes.NBSqlite3NewType;
+import org.pr.nb.sqlite3.nodes.newtypes.NBSqlite3NewDBType;
 
 /**
  *
@@ -64,7 +64,7 @@ public class NBSqlite3RootNode extends AbstractNode {
     @Override
     public NewType[] getNewTypes() {
         return new NewType[]{
-            new NBSqlite3NewType()
+            new NBSqlite3NewDBType()
         };
     }
 

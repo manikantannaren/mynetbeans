@@ -12,7 +12,7 @@ import java.util.List;
 import org.openide.nodes.ChildFactory;
 import org.openide.nodes.Node;
 import org.openide.util.Exceptions;
-import org.pr.nb.sqlite3.common.NBSqlite3Object;
+import org.pr.nb.sqlite3.jdbc.NBSqlite3Object;
 import org.pr.nb.sqlite3.jdbc.Sqlite3DB;
 import org.pr.nb.sqlite3.nodes.listeners.NBSQliteEventType;
 import org.pr.nb.sqlite3.nodes.listeners.Notifier;

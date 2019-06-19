@@ -15,6 +15,7 @@ import org.openide.util.Lookup;
  *
  * @author msivasub
  */
+@SuppressWarnings({"unchecked", "rawtypes"})
 public class NBSqlite3NodeProvider extends NodeProvider {
 
     private NBSqlite3NodeProvider(Lookup lookup) {
@@ -33,6 +34,7 @@ public class NBSqlite3NodeProvider extends NodeProvider {
     }
 
     private static class NBSqlite3NodeProviderHolder {
+
         private static final NodeProviderFactory INSTANCE = NBSqlite3NodeProvider::new;
     }
 }
