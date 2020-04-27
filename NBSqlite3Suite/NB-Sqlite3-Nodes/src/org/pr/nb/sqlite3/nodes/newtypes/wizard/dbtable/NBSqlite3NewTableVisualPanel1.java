@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.pr.nb.sqlite3.nodes.newtypes.wizard.table;
+package org.pr.nb.sqlite3.nodes.newtypes.wizard.dbtable;
 
 import javax.swing.JPanel;
 import javax.swing.event.ChangeListener;
@@ -15,6 +15,7 @@ import org.openide.util.ChangeSupport;
 import org.openide.util.NbBundle;
 import org.pr.nb.sqlite3.nodes.newtypes.wizard.WizardPanel;
 import org.pr.nb.sqlite3.jdbc.Sqlite3DB;
+import org.pr.nb.sqlite3.jdbc.Sqlite3Table;
 
 @NbBundle.Messages({
     "NEWTABLEVISUAL_PANEL1_NAME=Step #1 : Table Name",
@@ -84,7 +85,7 @@ public final class NBSqlite3NewTableVisualPanel1 extends JPanel implements Wizar
 
     @Override
     public void save(WizardDescriptor wiz) {
-        wiz.putProperty("tableName", tableNameTextField.getText());
+        wiz.putProperty("table", createBareTable());
     }
 
     /**
@@ -155,5 +156,12 @@ public final class NBSqlite3NewTableVisualPanel1 extends JPanel implements Wizar
     @Override
     public void removeChangeListener(ChangeListener l) {
         changeSupport.removeChangeListener(l);
+    }
+
+    private Sqlite3Table createBareTable() {
+        return new Sqlite3Table.Builder()
+                .withTableName(tableNameTextField.getText())
+                .withDatabase((Sqlite3DB) this.descriptor.getProperty("database"))
+                .build();
     }
 }

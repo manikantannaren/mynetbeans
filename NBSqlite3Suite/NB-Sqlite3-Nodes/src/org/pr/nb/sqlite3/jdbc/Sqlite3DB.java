@@ -90,6 +90,10 @@ public final class Sqlite3DB implements NBSqlite3Object {
     public Types getType() {
         return Types.DB;
     }
+
+    void createTable(String name, List<Sqlite3Column> columns) {
+        
+    }
     
     private String generateId() {
         String _id = getName();
@@ -109,6 +113,11 @@ public final class Sqlite3DB implements NBSqlite3Object {
         throw new UnsupportedOperationException("No parent for database");
     }
 
+    public List<Sqlite3Column> getColumns(Sqlite3Table table) throws NBSqlite3Exception {
+        NBSqlite3Client dbClient = getClient();
+        return dbClient.getColumns(table);
+    }
+    
     private NBSqlite3Client getClient() throws NBSqlite3Exception {
         if(client == null){
             client = new NBSqlite3Client(this);
@@ -117,10 +126,6 @@ public final class Sqlite3DB implements NBSqlite3Object {
         return client;
     }
 
-    public List<Sqlite3Column> getColumns(Sqlite3Table table) throws NBSqlite3Exception {
-        NBSqlite3Client client = getClient();
-        return client.getColumns(table);
-    }
     public static class BuilderWithJson {
 
         private Reader in;

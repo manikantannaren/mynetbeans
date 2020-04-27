@@ -21,7 +21,7 @@ public class Sqlite3Table implements NBSqlite3Object {
     private final String catalog;
     private final Sqlite3DB database;
     
-    public Sqlite3Table(String name, String schema,  String catalog,String tableType, Sqlite3DB db) {
+    private Sqlite3Table(String name, String schema,  String catalog,String tableType, Sqlite3DB db) {
         this.name = name;
         this.schema = schema;
         this.tableType = tableType;
@@ -71,6 +71,9 @@ public class Sqlite3Table implements NBSqlite3Object {
         return database;
     }
 
+    public void createTable(List<Sqlite3Column> columns) throws NBSqlite3Exception{
+        database.createTable(this.getName(), columns);
+    }
     public static class Builder {
 
         private String name;

@@ -16,10 +16,12 @@ import org.openide.WizardDescriptor;
 import org.openide.util.NbBundle;
 import org.openide.util.Utilities;
 import org.openide.util.datatransfer.NewType;
-import org.pr.nb.sqlite3.nodes.newtypes.wizard.table.NBSqlite3NewTableWizardPanel1;
-import org.pr.nb.sqlite3.nodes.newtypes.wizard.table.NBSqlite3NewTableWizardPanel2;
-import org.pr.nb.sqlite3.nodes.newtypes.wizard.table.NBSqlite3NewTableWizardPanel3;
+import org.pr.nb.sqlite3.jdbc.Sqlite3Column;
+import org.pr.nb.sqlite3.nodes.newtypes.wizard.dbtable.NBSqlite3NewTableWizardPanel1;
+import org.pr.nb.sqlite3.nodes.newtypes.wizard.dbtable.NBSqlite3NewTableWizardPanel2;
+import org.pr.nb.sqlite3.nodes.newtypes.wizard.dbtable.NBSqlite3NewTableWizardPanel3;
 import org.pr.nb.sqlite3.jdbc.Sqlite3DB;
+import org.pr.nb.sqlite3.jdbc.Sqlite3Table;
 /**
  *
  * @author msivasub
@@ -56,12 +58,17 @@ public class NBSqlite3NewTableType extends NewType {
             }
         }
         WizardDescriptor wiz = new WizardDescriptor(new WizardDescriptor.ArrayIterator<>(panels));
+        wiz.putProperty("database", database);
         wiz.createNotificationLineSupport();
         // {0} will be replaced by WizardDesriptor.Panel.getComponent().getName()
         wiz.setTitleFormat(new MessageFormat("{0}"));
         wiz.setTitle(Bundle.NEW_TABLE_DIALOG_TITLE());
         if (DialogDisplayer.getDefault().notify(wiz) == WizardDescriptor.FINISH_OPTION) {
             // do something
+            Sqlite3Table table = (Sqlite3Table) wiz.getProperty("table");
+            List<Sqlite3Column> columns = (List<Sqlite3Column>) wiz.getProperty("columns");
+            
+            
         }
     }
 

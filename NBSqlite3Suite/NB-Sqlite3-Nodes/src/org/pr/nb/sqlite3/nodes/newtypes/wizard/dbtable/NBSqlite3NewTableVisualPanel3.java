@@ -3,9 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.pr.nb.sqlite3.nodes.newtypes.wizard.table;
+package org.pr.nb.sqlite3.nodes.newtypes.wizard.dbtable;
 
 import java.awt.Color;
+import java.sql.JDBCType;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JPanel;
@@ -15,27 +16,76 @@ import org.openide.WizardDescriptor;
 import org.openide.util.ChangeSupport;
 import org.openide.util.NbBundle;
 import org.pr.nb.sqlite3.jdbc.Sqlite3Column;
+import org.pr.nb.sqlite3.jdbc.Sqlite3DB;
+import org.pr.nb.sqlite3.jdbc.Sqlite3Table;
 import org.pr.nb.sqlite3.nodes.newtypes.wizard.WizardPanel;
+import org.pr.nb.sqlite3.nodes.newtypes.wizard.dbtable.components.DBColumnCellRenderer;
+import org.pr.nb.sqlite3.nodes.newtypes.wizard.dbtable.components.DBColumnsTableModel;
 
 @NbBundle.Messages({
-    "NEWTABLEVISUAL_PANEL2_NAME=Step #2 : Define columns",
-    "DBCOLUMNS_TABLE_COLUMN_1_NAME=Column name",
-    "DBCOLUMNS_TABLE_COLUMN_2_NAME=Column type",
-    "DBCOLUMNS_TABLE_COLUMN_3_NAME=Column size"
-})
+    "NEWTABLEVISUAL_PANEL3_NAME=Step #3 : Summary",})
 @SuppressWarnings("UseOfObsoleteCollectionType")
-public final class NBSqlite3NewTableVisualPanel2 extends JPanel implements WizardPanel {
+public final class NBSqlite3NewTableVisualPanel3 extends JPanel implements WizardPanel {
 
     /**
      * Creates new form NBSqlite3NewTableVisualPanel2
      */
-    public NBSqlite3NewTableVisualPanel2() {
+    public NBSqlite3NewTableVisualPanel3() {
         initComponents();
     }
-    
+
     @Override
     public String getName() {
-        return Bundle.NEWTABLEVISUAL_PANEL2_NAME();
+        return Bundle.NEWTABLEVISUAL_PANEL3_NAME();
+    }
+
+    @Override
+    public boolean isPanelValid() {
+        descriptor.getNotificationLineSupport().clearMessages();
+
+        return true;
+    }
+
+    @Override
+    public void readAndSet(WizardDescriptor wiz) {
+        this.descriptor = wiz;
+        
+        List<Sqlite3Column> createdColumns = (List<Sqlite3Column>) wiz.getProperty("columns");
+        if (createdColumns == null) {
+            createdColumns = new ArrayList<>();
+            createdColumns.add(createBlankColumn());
+        }
+        prepareDBColumnsTable(createdColumns);
+        
+        Sqlite3Table dbTable = (Sqlite3Table) wiz.getProperty("table");
+        Sqlite3DB db = (Sqlite3DB) wiz.getProperty("database");
+        databaseTextField.setText(db.getName());
+        tableNameTextField.setText(dbTable.getName());
+    }
+
+    private void prepareDBColumnsTable(List<Sqlite3Column> createdColumns) {
+        TableModel model = new DBColumnsTableModel(createdColumns, false);
+        dbColumnsTable.setModel(model);
+        
+        DBColumnCellRenderer renderer = new DBColumnCellRenderer();
+        dbColumnsTable.setDefaultRenderer(Sqlite3Column.class, renderer);
+        dbColumnsTable.setDefaultRenderer(JDBCType.class, renderer);
+        dbColumnsTable.setDefaultRenderer(Integer.class, renderer);
+    }
+
+    @Override
+    public void save(WizardDescriptor wiz) {
+        wiz.putProperty("columns", ((DBColumnsTableModel) dbColumnsTable.getModel()).getData());
+    }
+
+    @Override
+    public void addChangeListener(ChangeListener l) {
+        changeSupport.addChangeListener(l);
+    }
+
+    @Override
+    public void removeChangeListener(ChangeListener l) {
+        changeSupport.removeChangeListener(l);
     }
 
     /**
@@ -52,16 +102,12 @@ public final class NBSqlite3NewTableVisualPanel2 extends JPanel implements Wizar
         tableNameTextField = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         dbColumnsTable = new javax.swing.JTable();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
 
-        org.openide.awt.Mnemonics.setLocalizedText(jLabel1, org.openide.util.NbBundle.getMessage(NBSqlite3NewTableVisualPanel2.class, "NBSqlite3NewTableVisualPanel2.jLabel1.text")); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(jLabel1, org.openide.util.NbBundle.getMessage(NBSqlite3NewTableVisualPanel3.class, "NBSqlite3NewTableVisualPanel3.jLabel1.text")); // NOI18N
 
         databaseTextField.setEditable(false);
 
-        org.openide.awt.Mnemonics.setLocalizedText(jLabel2, org.openide.util.NbBundle.getMessage(NBSqlite3NewTableVisualPanel2.class, "NBSqlite3NewTableVisualPanel2.jLabel2.text")); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(jLabel2, org.openide.util.NbBundle.getMessage(NBSqlite3NewTableVisualPanel3.class, "NBSqlite3NewTableVisualPanel3.jLabel2.text")); // NOI18N
 
         tableNameTextField.setEditable(false);
 
@@ -75,15 +121,9 @@ public final class NBSqlite3NewTableVisualPanel2 extends JPanel implements Wizar
 
             }
         ));
+        dbColumnsTable.setRowHeight(32);
+        dbColumnsTable.setShowGrid(true);
         jScrollPane1.setViewportView(dbColumnsTable);
-
-        org.openide.awt.Mnemonics.setLocalizedText(jButton1, org.openide.util.NbBundle.getMessage(NBSqlite3NewTableVisualPanel2.class, "NBSqlite3NewTableVisualPanel2.jButton1.text")); // NOI18N
-
-        org.openide.awt.Mnemonics.setLocalizedText(jButton2, org.openide.util.NbBundle.getMessage(NBSqlite3NewTableVisualPanel2.class, "NBSqlite3NewTableVisualPanel2.jButton2.text")); // NOI18N
-
-        org.openide.awt.Mnemonics.setLocalizedText(jButton3, org.openide.util.NbBundle.getMessage(NBSqlite3NewTableVisualPanel2.class, "NBSqlite3NewTableVisualPanel2.jButton3.text")); // NOI18N
-
-        org.openide.awt.Mnemonics.setLocalizedText(jButton4, org.openide.util.NbBundle.getMessage(NBSqlite3NewTableVisualPanel2.class, "NBSqlite3NewTableVisualPanel2.jButton4.text")); // NOI18N
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -100,19 +140,9 @@ public final class NBSqlite3NewTableVisualPanel2 extends JPanel implements Wizar
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(databaseTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 243, Short.MAX_VALUE)
                             .addComponent(tableNameTextField)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButton1)
-                            .addComponent(jButton2)
-                            .addComponent(jButton3)
-                            .addComponent(jButton4))))
-                .addContainerGap(46, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 0, 0))
         );
-
-        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jButton1, jButton2, jButton3, jButton4});
-
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
@@ -125,60 +155,24 @@ public final class NBSqlite3NewTableVisualPanel2 extends JPanel implements Wizar
                     .addComponent(jLabel2)
                     .addComponent(tableNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jButton1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton4)))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(12, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    @Override
-    public boolean isPanelValid() {
-        descriptor.getNotificationLineSupport().clearMessages();
-        
-        return true;
+    private Sqlite3Column createBlankColumn() {
+        Sqlite3Column blankColumn = new Sqlite3Column.Builder()
+                .withJDBCType(JDBCType.VARCHAR)
+                .withColumnSize(255)
+                .withName(DBColumnCellRenderer.getRendererText(dbColumnsTable, 0, null))
+                .build();
+        return blankColumn;
     }
-    
-    @Override
-    public void readAndSet(WizardDescriptor wiz) {
-        this.descriptor = wiz;
-        List<Sqlite3Column> createdColumns = (List<Sqlite3Column>) wiz.getProperty("columns");
-        if (createdColumns == null) {
-            createdColumns = new ArrayList<>();
-        }
-        TableModel model = new DBColumnsTableModel(createdColumns);
-        dbColumnsTable.setModel(model);
-    }
-    
-    @Override
-    public void save(WizardDescriptor wiz) {
-        wiz.putProperty("columns", ((DBColumnsTableModel)dbColumnsTable.getModel()).getData());
-    }
-    
-    @Override
-    public void addChangeListener(ChangeListener l) {
-        changeSupport.addChangeListener(l);
-    }
-    
-    @Override
-    public void removeChangeListener(ChangeListener l) {
-        changeSupport.removeChangeListener(l);
-    }
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField databaseTextField;
     private javax.swing.JTable dbColumnsTable;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
@@ -187,5 +181,5 @@ public final class NBSqlite3NewTableVisualPanel2 extends JPanel implements Wizar
 
     private WizardDescriptor descriptor;
     private final ChangeSupport changeSupport = new ChangeSupport(this);
-    
+
 }

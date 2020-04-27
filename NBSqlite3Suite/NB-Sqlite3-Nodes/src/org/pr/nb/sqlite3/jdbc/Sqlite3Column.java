@@ -77,7 +77,7 @@ public class Sqlite3Column implements NBSqlite3Object{
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    static class Builder {
+    public static class Builder {
 
         private String columnName;
         private String autoIncremented;
@@ -91,45 +91,45 @@ public class Sqlite3Column implements NBSqlite3Object{
             
         }
 
-        Sqlite3Column build() {
+        public Sqlite3Column build() {
             return new Sqlite3Column(columnName, autoIncremented, generated, nullable, columnSize, jdbcType, columnType, table);
         }
 
-        Builder withName(String columnName) {
+        public Builder withName(String columnName) {
             this.columnName = columnName;
             return this;
         }
 
-        Builder withColumnType(String columnType) {
+        public Builder withColumnType(String columnType) {
             this.columnType = columnType;
             return this;
         }
 
-        Builder withJDBCType(JDBCType jdbcType) {
+        public Builder withJDBCType(JDBCType jdbcType) {
             this.jdbcType = jdbcType;
             return this;
         }
 
-        Builder withColumnSize(int columnSize) {
+        public Builder withColumnSize(int columnSize) {
             this.columnSize = columnSize;
             return this;
         }
 
-        Builder withNullable(String nullable) {
+        public Builder withNullable(String nullable) {
             this.nullable = nullable;
             return this;
         }
 
-        Builder withGenerated(String generated) {
+        public Builder withGenerated(String generated) {
             this.generated = generated;
             return this;
         }
 
-        Builder withAutoIncrement(String autoIncremented) {
+        public Builder withAutoIncrement(String autoIncremented) {
             this.autoIncremented = autoIncremented;
             return this;
         }
-        Builder withTable(Sqlite3Table table){
+        public Builder withTable(Sqlite3Table table){
             this.table = table;
             return this;
         }

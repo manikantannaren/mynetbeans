@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.pr.nb.sqlite3.nodes.newtypes.wizard.table;
+package org.pr.nb.sqlite3.nodes.newtypes.wizard.dbtable;
 
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
