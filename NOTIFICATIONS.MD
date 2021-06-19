@@ -11,3 +11,7 @@ Following plugins have been verified and approved and are available in Tools|Plu
 1. Fixed issue with installing NetBeans Create Archive.
 2. NB Change Case is now available in Plugin manager
 3. NB use System Desktop now available in Plugin manager
+
+
+## 19th June 2021
+1. Fixed issue#36 NB-Generate-SUID Netbeans 11.1 java.lang.LinkageError when using NetBeans Generate SUID along with nb-javac plugin
