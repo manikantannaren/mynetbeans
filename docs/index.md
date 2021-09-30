@@ -22,3 +22,5 @@ Coming to Today, some of my favorite NetBeans features are
         I learnt a few things about the IDE,
         Learnt some new Java Cool features (Lambda for example)
         Got to know some people with infectious enthusiasm
+
+[Maintained plugins](plugins.md)
