@@ -2,10 +2,9 @@
  * Balloon Icon by Yusuke Kamiyamane (http://p.yusukekamiyamane.com/). 
  * Licensed under a Creative Commons Attribution 3.0 License.
  */
-package org.pr.nb.capslock.balloon;
+package io.github.manikantannaren.nb.capslock.balloon;
 
 import javax.swing.Icon;
-import javax.swing.ImageIcon;
 import org.openide.awt.Notification;
 import org.openide.awt.NotificationDisplayer;
 import org.openide.util.*;
@@ -25,7 +24,7 @@ public class BallonDisplayer {
 
     private BallonDisplayer() {
         warningIcon = ImageUtilities.loadImageIcon(
-            "org/pr/nb/capslock/balloon/light_bulb_exclamation.png", true);
+            "io/github/manikantannaren/nb/capslock/balloon/light_bulb_exclamation.png", true);
     }
 
     public static BallonDisplayer getInstance() {

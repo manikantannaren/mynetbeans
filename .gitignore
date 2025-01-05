@@ -12,3 +12,4 @@
 !bson*.jar
 **/.gradle/
 **/.nb-gradle/
+**/target/

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.pr.nb.capslock;
+package io.github.manikantannaren.nb.capslock;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -18,7 +18,7 @@ import org.openide.awt.StatusLineElementProvider;
 import org.openide.modules.OnStart;
 import org.openide.util.NbBundle;
 import org.openide.util.lookup.ServiceProvider;
-import org.pr.nb.capslock.balloon.BallonDisplayer;
+import io.github.manikantannaren.nb.capslock.balloon.BallonDisplayer;
 
 /**
  *
