@@ -4,6 +4,7 @@
     <groupId>io.github.manikantannaren</groupId>
     <artifactId>NetBeansCapsLockNotifier</artifactId>
     <version>2.0</version>
+    <name>NetBeansCapsLockNotifier</name>
     <description>Shows CAPS on status bar when Caps is switch on</description>
     <packaging>nbm</packaging>
     <url>https://github.com/manikantannaren/mynetbeans/tree/master/NB-CapsLock-Notifier</url>
@@ -11,7 +12,7 @@
         <license>
             <name>Apache License, Version 2.0</name>
             <url>https://www.apache.org/licenses/LICENSE-2.0</url>
-            <distribution>repo, manual</distribution>
+            <distribution>repo</distribution>
         </license>
     </licenses>
     <developers>
@@ -19,6 +20,7 @@
             <id>manikantannaren</id>
             <email>manikantannaren+nb@gmail.com</email>
             <name>Manikantan S</name>
+            <url>https://github.com/manikantannaren/mynetbeans</url>
         </developer>
     </developers>
     <scm>
@@ -43,6 +45,13 @@
                 <artifactId>nbm-maven-plugin</artifactId>
                 <version>14.2</version>
                 <extensions>true</extensions>
+<!--                <configuration>
+                    <codeNameBase>io.github.manikantannaren.nb.capslock</codeNameBase>
+                    <author>Manikantan N N S S</author>
+                    <homePageUrl>https://github.com/manikantannaren/mynetbeans/tree/master/NB-CapsLock-Notifier</homePageUrl>
+                    <keystore>../../nbcerts.jks</keystore>
+                    <keystorealias>nbcerts</keystorealias>
+                </configuration>-->
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -69,7 +78,16 @@
                     <nexusUrl>https://oss.sonatype.org/</nexusUrl>
                     <autoReleaseAfterClose>true</autoReleaseAfterClose>
                 </configuration>
-            </plugin>        
+            </plugin>
+            <plugin>
+                <groupId>org.sonatype.central</groupId>
+                <artifactId>central-publishing-maven-plugin</artifactId>
+                <version>0.6.0</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <publishingServerId>central</publishingServerId>
+                </configuration>
+            </plugin>                 
         </plugins>
     </build>
     <dependencies>
@@ -113,5 +131,4 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.release>17</maven.compiler.release>
     </properties>
-    <name>NetBeans Capslock Notifier</name>
 </project>
