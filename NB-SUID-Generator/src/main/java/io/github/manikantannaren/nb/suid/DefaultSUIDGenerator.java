@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package org.pr.nb.suid;
+package io.github.manikantannaren.nb.suid;
 
 import java.io.IOException;
 import javax.swing.text.Document;
