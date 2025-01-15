@@ -43,3 +43,5 @@ mvn clean package install nbm:nbm  -Dkeystore=<jks location> -Dkeystorepass=<key
 
 #Publish plugin in NetBeans plugin portal
 
+
+More details https://cwiki.apache.org/confluence/display/NETBEANS/Step+by+step+guide+for+upload+NBM+to+Maven+Central
